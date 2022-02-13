@@ -1,29 +1,29 @@
-<mxfile host="app.diagrams.net" modified="2022-02-13T22:39:56.446Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" etag="B5Yh6_LjMbU34gDwAHjv" version="16.5.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-02-13T22:47:20.804Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" etag="nbN6i5PK8vyXLiYtjj4w" version="16.5.6" type="github">
   <diagram id="kgpKYQtTHZ0yAKxKKP6v" name="Page-1">
-    <mxGraphModel dx="1673" dy="896" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#D5E8D4" math="0" shadow="0">
+    <mxGraphModel dx="1673" dy="829" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#D5E8D4" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <mxCell id="3nuBFxr9cyL0pnOWT2aG-1" value=":Object" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="170" y="430" width="100" height="300" as="geometry" />
+          <mxGeometry x="160" y="30" width="100" height="300" as="geometry" />
         </mxCell>
         <mxCell id="3nuBFxr9cyL0pnOWT2aG-2" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="3nuBFxr9cyL0pnOWT2aG-1" vertex="1">
           <mxGeometry x="45" y="70" width="10" height="190" as="geometry" />
         </mxCell>
         <mxCell id="3nuBFxr9cyL0pnOWT2aG-5" value=":Object" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="350" y="430" width="100" height="300" as="geometry" />
+          <mxGeometry x="340" y="30" width="100" height="300" as="geometry" />
         </mxCell>
         <mxCell id="3nuBFxr9cyL0pnOWT2aG-6" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="3nuBFxr9cyL0pnOWT2aG-5" vertex="1">
           <mxGeometry x="45" y="80" width="10" height="160" as="geometry" />
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-1" value="Steve " style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="170" y="430" width="100" height="330" as="geometry" />
+          <mxGeometry x="160" y="30" width="100" height="330" as="geometry" />
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-2" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="FQ0F1-FjqKV5PCn2Tg_A-1">
           <mxGeometry x="45" y="70" width="10" height="260" as="geometry" />
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-5" value="Mobile Application" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="350" y="430" width="100" height="340" as="geometry" />
+          <mxGeometry x="340" y="30" width="100" height="340" as="geometry" />
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-6" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="FQ0F1-FjqKV5PCn2Tg_A-5">
           <mxGeometry x="45" y="80" width="10" height="260" as="geometry" />
@@ -68,46 +68,43 @@
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-8" value="1- Open app and login" style="verticalAlign=bottom;endArrow=block;entryX=0;entryY=0;shadow=0;strokeWidth=1;" edge="1" parent="1" source="FQ0F1-FjqKV5PCn2Tg_A-2" target="FQ0F1-FjqKV5PCn2Tg_A-6">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="325" y="510" as="sourcePoint" />
+            <mxPoint x="315" y="110" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-11" value="Firebase" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-          <mxGeometry x="630" y="430" width="100" height="340" as="geometry" />
+          <mxGeometry x="620" y="30" width="100" height="340" as="geometry" />
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-12" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="FQ0F1-FjqKV5PCn2Tg_A-11">
           <mxGeometry x="45" y="80" width="10" height="260" as="geometry" />
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-22" value="Items get saved in database" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" edge="1" parent="1" target="FQ0F1-FjqKV5PCn2Tg_A-12">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="410" y="620.0000000000003" as="sourcePoint" />
-            <mxPoint x="580" y="620.0000000000003" as="targetPoint" />
+            <mxPoint x="400" y="220.00000000000034" as="sourcePoint" />
+            <mxPoint x="570" y="220.00000000000034" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="495" y="620" />
-              <mxPoint x="620" y="620" />
+              <mxPoint x="485" y="220" />
+              <mxPoint x="610" y="220" />
             </Array>
           </mxGeometry>
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-25" value="Call for recipe recommendation from existing items" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" edge="1" parent="1" target="FQ0F1-FjqKV5PCn2Tg_A-11">
           <mxGeometry x="-0.0814" relative="1" as="geometry">
-            <mxPoint x="410" y="690.0000000000003" as="sourcePoint" />
-            <mxPoint x="595" y="680" as="targetPoint" />
+            <mxPoint x="400" y="290.00000000000034" as="sourcePoint" />
+            <mxPoint x="585" y="280" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="495" y="690" />
+              <mxPoint x="485" y="290" />
             </Array>
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
         <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-29" value="Recipe get saved in database" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" edge="1" parent="1">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="410" y="760.0000000000003" as="sourcePoint" />
-            <mxPoint x="675" y="760" as="targetPoint" />
+            <mxPoint x="400" y="360.00000000000034" as="sourcePoint" />
+            <mxPoint x="665" y="360" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="495" y="760" />
+              <mxPoint x="485" y="360" />
             </Array>
           </mxGeometry>
-        </mxCell>
-        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-30" value="&lt;b style=&quot;font-weight: normal&quot; id=&quot;docs-internal-guid-3b4e3c44-7fff-01d4-9af1-9efc62a6b92f&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.2 ; text-align: justify ; margin-top: 12pt ; margin-bottom: 12pt&quot;&gt;&lt;span style=&quot;font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 700 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;&lt;span style=&quot;white-space: pre&quot;&gt;	&lt;/span&gt;Use Case 1&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.2 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;span style=&quot;font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;Steve wants to a recipe&amp;nbsp; recommendation and for his existing groceries.&lt;/span&gt;&lt;/p&gt;&lt;br&gt;&lt;ol style=&quot;margin-top: 0 ; margin-bottom: 0&quot;&gt;&lt;li dir=&quot;ltr&quot; style=&quot;list-style-type: decimal ; font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.2 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;span style=&quot;font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;Steve creates an account and logs into Kinder Kitchen.&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li dir=&quot;ltr&quot; style=&quot;list-style-type: decimal ; font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.2 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;span style=&quot;font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;He clicks the categorization button to have his fridge and pantry displayed&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li dir=&quot;ltr&quot; style=&quot;list-style-type: decimal ; font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.2 ; margin-top: 0pt ; margin-bottom: 0pt&quot;&gt;&lt;span style=&quot;font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;He enters some of his existing items with no barcode manually&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li dir=&quot;ltr&quot; style=&quot;list-style-type: decimal ; font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.2 ; margin-top: 0pt ; margin-bottom: 16pt&quot;&gt;&lt;span style=&quot;font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;He utilizes an in-app recipe searcher after selecting his desired ingredients&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li dir=&quot;ltr&quot; style=&quot;list-style-type: decimal ; font-size: 12pt ; font-family: &amp;#34;times new roman&amp;#34; ; color: rgb(39 , 39 , 39) ; background-color: transparent ; font-weight: 400 ; font-style: normal ; font-variant: normal ; text-decoration: none ; vertical-align: baseline&quot;&gt;&lt;p dir=&quot;ltr&quot; style=&quot;line-height: 1.2 ; margin-top: 0pt ; margin-bottom: 16pt&quot;&gt;&lt;span style=&quot;background-color: transparent ; font-size: 12pt&quot;&gt;He like the recipes and saved for later use&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ol&gt;&lt;/b&gt;" style="text;whiteSpace=wrap;html=1;" vertex="1" parent="1">
-          <mxGeometry x="170" y="90" width="550" height="320" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
