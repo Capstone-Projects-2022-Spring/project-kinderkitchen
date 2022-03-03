@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Wellcome to Kinder Kitchen app!!!</Text>
+      <Text>Wellcome to Kinderrr Kitchen app!!!</Text>
       <StatusBar style="auto" />
     </View>
   );
