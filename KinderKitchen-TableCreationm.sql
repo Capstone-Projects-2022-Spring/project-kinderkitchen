@@ -38,3 +38,16 @@ ADD CONSTRAINT `Items-Categoties`
   ON UPDATE NO ACTION;
 
 
+INSERT INTO `sp22_4398_tug61809`.`Accounts` (`account_email`, `account_password`) VALUES ('test@kinderkitchen.com', 'abc123');
+
+INSERT INTO `sp22_4398_tug61809`.`Categories` (`category_name`) VALUES ('Fridge');
+INSERT INTO `sp22_4398_tug61809`.`Categories` (`category_name`) VALUES ('Pantry');
+
+INSERT INTO `sp22_4398_tug61809`.`Items` (`item_name`, `expiration_date`, `category_id`, `account_id`) VALUES ('Milk', '2022-03-06', '1', '1');
+INSERT INTO `sp22_4398_tug61809`.`Items` (`item_name`, `expiration_date`, `category_id`, `account_id`) VALUES ('Lucky Charms', '2022-03-17', '2', '1');
+INSERT INTO `sp22_4398_tug61809`.`Items` (`item_name`, `expiration_date`, `category_id`, `account_id`) VALUES ('Eggs', '2022-04-20', '1', '1');
+INSERT INTO `sp22_4398_tug61809`.`Items` (`item_name`, `expiration_date`, `category_id`, `account_id`) VALUES ('Goldfish', '2022-02-28', '2', '1');
+
+
+
+
