@@ -1,0 +1,127 @@
+<mxfile host="app.diagrams.net" modified="2022-02-13T22:57:40.037Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" etag="YowY-GqQ01UevLZWpHsb" version="16.5.6" type="github">
+  <diagram id="kgpKYQtTHZ0yAKxKKP6v" name="Page-1">
+    <mxGraphModel dx="1673" dy="829" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" background="#D5E8D4" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="3nuBFxr9cyL0pnOWT2aG-1" value=":Object" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="3nuBFxr9cyL0pnOWT2aG-2" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="3nuBFxr9cyL0pnOWT2aG-1" vertex="1">
+          <mxGeometry x="45" y="70" width="10" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="3nuBFxr9cyL0pnOWT2aG-5" value=":Object" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
+          <mxGeometry x="230" y="120" width="100" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="3nuBFxr9cyL0pnOWT2aG-6" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" parent="3nuBFxr9cyL0pnOWT2aG-5" vertex="1">
+          <mxGeometry x="45" y="80" width="10" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-1" value="Steve " style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="100" height="330" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-2" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="FQ0F1-FjqKV5PCn2Tg_A-1">
+          <mxGeometry x="45" y="70" width="10" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-5" value="Mobile Application" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="120" width="100" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-6" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="FQ0F1-FjqKV5PCn2Tg_A-5">
+          <mxGeometry x="45" y="80" width="10" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-15" value="2- Categorization button" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;entryX=1;entryY=0;" edge="1" parent="FQ0F1-FjqKV5PCn2Tg_A-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="55" y="90" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="85" y="90" />
+            </Array>
+            <mxPoint x="60" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-18" value="3- Enter items in a category" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;entryX=1;entryY=0;" edge="1" parent="FQ0F1-FjqKV5PCn2Tg_A-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="135" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="90" y="135" />
+            </Array>
+            <mxPoint x="55" y="155" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-24" value="4- Recipe searcher" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;" edge="1" parent="FQ0F1-FjqKV5PCn2Tg_A-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="60" y="210" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="90" y="210" />
+              <mxPoint x="90" y="229" />
+              <mxPoint x="54" y="229" />
+            </Array>
+            <mxPoint x="54" y="229" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-27" value="5- Save recipe button" style="edgeStyle=orthogonalEdgeStyle;html=1;align=left;spacingLeft=2;endArrow=block;rounded=0;entryX=1;entryY=0;" edge="1" parent="FQ0F1-FjqKV5PCn2Tg_A-5">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="45" y="280" as="sourcePoint" />
+            <Array as="points">
+              <mxPoint x="75" y="280" />
+            </Array>
+            <mxPoint x="50" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-8" value="1- Open app and login" style="verticalAlign=bottom;endArrow=block;entryX=0;entryY=0;shadow=0;strokeWidth=1;" edge="1" parent="1" source="FQ0F1-FjqKV5PCn2Tg_A-2" target="FQ0F1-FjqKV5PCn2Tg_A-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="205" y="200" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-11" value="Database" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="120" width="100" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-12" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="FQ0F1-FjqKV5PCn2Tg_A-11">
+          <mxGeometry x="45" y="80" width="10" height="260" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-53" value="Call API for recipe" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" edge="1" parent="FQ0F1-FjqKV5PCn2Tg_A-11" target="FQ0F1-FjqKV5PCn2Tg_A-50">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="55" y="260.00000000000045" as="sourcePoint" />
+            <mxPoint x="210" y="260" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="90" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-22" value="Items get saved in database" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" edge="1" parent="1" target="FQ0F1-FjqKV5PCn2Tg_A-12">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="310.00000000000034" as="sourcePoint" />
+            <mxPoint x="460" y="310.00000000000034" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="375" y="310" />
+              <mxPoint x="500" y="310" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-25" value="Call for recipe recommendation from existing items" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" edge="1" parent="1" target="FQ0F1-FjqKV5PCn2Tg_A-11">
+          <mxGeometry x="-0.0814" relative="1" as="geometry">
+            <mxPoint x="290" y="380.00000000000034" as="sourcePoint" />
+            <mxPoint x="475" y="370" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="375" y="380" />
+            </Array>
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-29" value="Recipe get saved in database" style="verticalAlign=bottom;endArrow=block;shadow=0;strokeWidth=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="450.00000000000034" as="sourcePoint" />
+            <mxPoint x="555" y="450" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="375" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-49" value="Recipe API" style="shape=umlLifeline;perimeter=lifelinePerimeter;container=1;collapsible=0;recursiveResize=0;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+          <mxGeometry x="690" y="120" width="100" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="FQ0F1-FjqKV5PCn2Tg_A-50" value="" style="points=[];perimeter=orthogonalPerimeter;rounded=0;shadow=0;strokeWidth=1;" vertex="1" parent="FQ0F1-FjqKV5PCn2Tg_A-49">
+          <mxGeometry x="45" y="80" width="10" height="260" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
