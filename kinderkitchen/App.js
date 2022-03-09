@@ -9,54 +9,54 @@ import {
 
 
 export default function App() {
-  return (
-      <View style={styles.container}>
-          <StatusBar
-              backgroundColor="#1e90ff"
-              barStyle="light-content"
-          />
+    return (
+        <View style={styles.container}>
+            <StatusBar
+                backgroundColor="#1e90ff"
+                barStyle="light-content"
+            />
 
-          <Text style={styles.welcome}>Welcome to Kinder Kitchen</Text>
-          <TextInput
-              style={styles.input}
-              placeholder="Username"
-          />
-          <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-          />
-          <View style={styles.btnContainer}>
-              <TouchableOpacity
-                  style={styles.userBtn}
+            <Text style={styles.welcome}>Welcome to Kinder Kitchen</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Username"
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+            />
+            <View style={styles.btnContainer}>
+                <TouchableOpacity
+                    style={styles.userBtn}
 
-              >
-                  <Text style={styles.btnTxt}>Login</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                  style={styles.userBtn}
-              >
-                  <Text style={styles.btnTxt}>Signup</Text>
-              </TouchableOpacity>
-          </View>
-    </View>
-  );
+                >
+                    <Text style={styles.btnTxt}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.userBtn}
+                >
+                    <Text style={styles.btnTxt}>Signup</Text>
+                </TouchableOpacity>
+            </View>
+        </View>
+    );
 }
-          
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#1e90ff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    container: {
+        flex: 1,
+        backgroundColor: '#1e90ff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     welcome: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
         color: "#fff",
-        
+
     },
     input: {
         width: "90%",
