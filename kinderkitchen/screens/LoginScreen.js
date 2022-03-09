@@ -1,13 +1,11 @@
+import React from "react";
 import {
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  Button,
 } from "react-native";
-
-import React from "react";
 
 const LoginScreen = ({ navigation }) => {
   return (
@@ -16,7 +14,9 @@ const LoginScreen = ({ navigation }) => {
       <TextInput style={styles.input} placeholder="Username" />
       <TextInput style={styles.input} placeholder="Password" secureTextEntry />
       <View style={styles.btnContainer}>
-        {/* Edit this for when login functionality is working */}
+        {/*
+         * Edit this for when login functionality is working
+         */}
         <TouchableOpacity style={styles.userBtn}>
           <Text
             style={styles.btnTxt}
@@ -25,6 +25,7 @@ const LoginScreen = ({ navigation }) => {
             Login
           </Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.userBtn}>
           <Text style={styles.btnTxt}>Signup</Text>
         </TouchableOpacity>

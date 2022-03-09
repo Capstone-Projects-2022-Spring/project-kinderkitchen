@@ -1,23 +1,29 @@
 import React from "react";
-import { View, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 
-const Test2 = ({ navigation }) => {
+import MyNavMenu from "../nav-bar/MyNavMenu";
+
+const Test2 = () => {
   return (
     <View style={styles.container}>
-      <Button title="Test2" onPress={() => navigation.navigate("Test2")} />
-      <Button title="Test1" onPress={() => navigation.navigate("Test1")} />
+      <View style={styles.body}>
+        <Text>Hello, I'm page 2</Text>
+      </View>
+      <MyNavMenu />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: "gold",
+  body: {
     flex: 1,
-    flexDirection: "row",
-
-    justifyContent: "space-evenly",
-    alignItems: "flex-end",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  container: {
+    backgroundColor: "seagreen",
+    flex: 1,
+    justifyContent: "center",
   },
 });
 

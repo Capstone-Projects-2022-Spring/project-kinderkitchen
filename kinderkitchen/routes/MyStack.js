@@ -1,8 +1,10 @@
-import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+
 import LoginScreen from "../screens/LoginScreen";
 import Test1 from "../screens/Test1";
 import Test2 from "../screens/Test2";
+
 const Stack = createStackNavigator();
 
 const MyStack = () => {
