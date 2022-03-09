@@ -1,14 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    TouchableOpacity
-} from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
 
+import MyStack from "./routes/MyStack";
 
+//from kk-12
 export default function App() {
+  return (
+    <NavigationContainer>
+      <MyStack />
+    </NavigationContainer>
+  );
+}
+
+//From kk-79
+function LoginButtonMergeConflict(){
     return (
         <View style={styles.container}>
             <StatusBar

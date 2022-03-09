@@ -1,3 +1,4 @@
+### project-kinderkitchen
 # Project Abstract:
 
 It's a mobile application, Kinder Kitchen, to help users combat food waste in their own homes. Kinder Kitchen allows users to track the expiration dates of their food to lower the amount of food waste they produce. Users will be able to scan the barcode located on the food’s packaging or enter the information manually. The app will help the user categorize the food they enter and show when each food expires. Users can receive notifications on food that is expiring soon within a set amount of time. Kinder Kitchen will also search the internet for recipes that utilize the food you have entered so that users can get creative with what they have on hand. In addition, Kinder Kitchen will help users locate local food banks to donate unused food if they are unable to use it in time
@@ -23,3 +24,36 @@ Kinder Kitchen will be developed using React Native and JavaScript so that it ca
 5- Ricky Zhou
 
 6- Matt Stasiak
+
+
+
+## Client Install
+- 
+
+## Developer Install
+*Work In Progress to get docker to handle a container with all installations*
+
+- Install Node JS 16.13.0 LTS ([External Site](https://nodejs.org/en/))
+- Install Android Studio [External Site](https://developer.android.com/studio)
+  - Create Virtual Device
+- Install XCode
+- Download Dependencies ([More Details])
+*Command Line*
+```
+npm install -g expo-cli
+```
+- Clone Repo
+```
+cd Desktop
+git clone https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen
+```
+## Open & Run 
+- Recommemded IDE: [Visual Studio Code](https://code.visualstudio.com/download)
+### Open Source Code
+- Navigate to Cloned Repository Direcctory
+- Utilize VS Code 
+```
+cd prj-01-typingtest/typing-test
+code .
+```
+Go to view in VS Code, open CMD and run ```npm start```
