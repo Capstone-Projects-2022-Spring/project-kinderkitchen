@@ -10,7 +10,7 @@ import {
 const CreateAccountScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to Kinder Kitchen</Text>
+      <Text style={styles.welcome}>Account Creation</Text>
       <TextInput style={styles.input} placeholder="Username" />
       <TextInput style={styles.input} placeholder="Password" secureTextEntry />
       <View style={styles.btnContainer}>
@@ -23,6 +23,14 @@ const CreateAccountScreen = ({ navigation }) => {
             onPress={() => navigation.navigate("Test1")}
           >
             Signup
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.userBtn}>
+          <Text
+            style={styles.btnTxt}
+            onPress={() => navigation.navigate("LoginScreen")}
+          >
+            Cancel
           </Text>
         </TouchableOpacity>
       </View>

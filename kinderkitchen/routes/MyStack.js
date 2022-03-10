@@ -14,7 +14,10 @@ const MyStack = () => {
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="Test1" component={Test1} />
       <Stack.Screen name="Test2" component={Test2} />
-      <CreateAccountScreen name="CreateAccountScreen" component={CreateAccountScreen}/>
+      <Stack.Screen
+        name="CreateAccountScreen"
+        component={CreateAccountScreen}
+      />
     </Stack.Navigator>
   );
 };
