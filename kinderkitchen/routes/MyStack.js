@@ -5,6 +5,7 @@ import LoginScreen from "../screens/LoginScreen";
 import Test1 from "../screens/Test1";
 import Test2 from "../screens/Test2";
 import ItemScreen from "../screens/ItemScreen";
+import CreateAccountScreen from "../screens/CreateAccountScreen";
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ const MyStack = () => {
       <Stack.Screen name="Test1" component={Test1} />
       <Stack.Screen name="Test2" component={Test2} />
       <Stack.Screen name="ItemScreen" component={ItemScreen} />
+      <CreateAccountScreen name="CreateAccountScreen" component={CreateAccountScreen}/>
     </Stack.Navigator>
   );
 };

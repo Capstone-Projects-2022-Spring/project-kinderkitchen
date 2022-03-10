@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const LoginScreen = ({ navigation }) => {
+const CreateAccountScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome to Kinder Kitchen</Text>
@@ -22,17 +22,8 @@ const LoginScreen = ({ navigation }) => {
             style={styles.btnTxt}
             onPress={() => navigation.navigate("Test1")}
           >
-            Login
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.userBtn}>
-          <Text 
-            style={styles.btnTxt}
-            onPress={() => navigation.navigate("CreateAccountScreen")}
-          >
             Signup
-            </Text>
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -74,4 +65,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default CreateAccountScreen;
