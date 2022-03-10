@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-const CreateAccountScreen = ({ navigation }) => {
+const SignUpScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Account Creation</Text>
@@ -74,4 +74,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateAccountScreen;
+export default SignUpScreen;

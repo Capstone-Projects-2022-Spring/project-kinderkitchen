@@ -3,8 +3,11 @@ import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
+import Test1 from "../screens/Test1";
+import Test2 from "../screens/Test2";
 import LoginScreen from "../screens/LoginScreen";
 import ItemScreen from "../screens/ItemScreen";
+import AccountScreen from "../screens/AccountScreen";
 
 const MyNavMenu = () => {
   const navigation = useNavigation();
@@ -13,7 +16,7 @@ const MyNavMenu = () => {
     <View style={styles.navmenu}>
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate("Test1")}
+        onPress={() => navigation.navigate(Test1)}
         underlayColor="limegreen"
       >
         <Text>Test1</Text>
@@ -21,7 +24,7 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate("Test2")}
+        onPress={() => navigation.navigate(Test2)}
         underlayColor="limegreen"
       >
         <Text>Test2</Text>
@@ -37,10 +40,10 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => alert("I am a placeholder")}
+        onPress={() => navigation.navigate(AccountScreen)}
         underlayColor="limegreen"
       >
-        <Text>Test3</Text>
+        <Text>Account</Text>
       </TouchableHighlight>
 
       <TouchableHighlight
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgray",
     justifyContent: "center",
     alignItems: "center",
-    width: 50,
+    width: 75,
   },
 });
 
