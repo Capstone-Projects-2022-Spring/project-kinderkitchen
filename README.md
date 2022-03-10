@@ -41,6 +41,7 @@ Kinder Kitchen will be developed using React Native and JavaScript so that it ca
 *Command Line*
 ```
 npm install -g expo-cli
+npm install react-native-gesture-handler
 ```
 - Clone Repo
 ```
