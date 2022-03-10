@@ -1,4 +1,3 @@
-import { Header } from "@react-navigation/stack";
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
 
@@ -8,7 +7,7 @@ const ItemScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <Text>This is where the user will see thier items!</Text>
+        <Text>This is where the user will see their items!</Text>
       </View>
       <MyNavMenu />
     </View>
