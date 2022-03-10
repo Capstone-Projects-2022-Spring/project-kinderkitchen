@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
 import LoginScreen from "../screens/LoginScreen";
+import ItemScreen from "../screens/ItemScreen";
+
 
 const MyNavMenu = () => {
   const navigation = useNavigation();
@@ -24,6 +26,14 @@ const MyNavMenu = () => {
         underlayColor="limegreen"
       >
         <Text>Test2</Text>
+      </TouchableHighlight>
+
+      <TouchableHighlight
+        style={styles.touchable}
+        onPress={() => navigation.navigate(ItemScreen)}
+        underlayColor="limegreen"
+      >
+        <Text>Items</Text>
       </TouchableHighlight>
 
       <TouchableHighlight

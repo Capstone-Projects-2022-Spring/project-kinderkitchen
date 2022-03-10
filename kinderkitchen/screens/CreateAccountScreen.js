@@ -25,6 +25,7 @@ const CreateAccountScreen = ({ navigation }) => {
             Signup
           </Text>
         </TouchableOpacity>
+
         <TouchableOpacity style={styles.userBtn}>
           <Text
             style={styles.btnTxt}
