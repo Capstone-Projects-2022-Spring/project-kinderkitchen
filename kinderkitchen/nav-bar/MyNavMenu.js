@@ -42,7 +42,7 @@ const MyNavMenu = () => {
         }}
         underlayColor="limegreen"
       >
-        <Text>Test4</Text>
+        <Text>Logout</Text>
       </TouchableHighlight>
     </View>
   );
