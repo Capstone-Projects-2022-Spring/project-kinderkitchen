@@ -6,7 +6,6 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 import LoginScreen from "../screens/LoginScreen";
 import ItemScreen from "../screens/ItemScreen";
 
-
 const MyNavMenu = () => {
   const navigation = useNavigation();
 
