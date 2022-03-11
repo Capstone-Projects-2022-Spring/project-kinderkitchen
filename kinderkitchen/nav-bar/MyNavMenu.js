@@ -3,25 +3,18 @@ import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-import Test1 from "../screens/Test1";
+
 import Test2 from "../screens/Test2";
 import LoginScreen from "../screens/LoginScreen";
 import ItemScreen from "../screens/ItemScreen";
 import AccountScreen from "../screens/AccountScreen";
 import CategoryScreen from "../screens/CategoryScreen";
+
 const MyNavMenu = () => {
   const navigation = useNavigation();
 
   return (
     <View style={styles.navmenu}>
-      <TouchableHighlight
-        style={styles.touchable}
-        onPress={() => navigation.navigate(Test1)}
-        underlayColor="limegreen"
-      >
-        <Text>Test1</Text>
-      </TouchableHighlight>
-
       <TouchableHighlight
         style={styles.touchable}
         onPress={() => navigation.navigate(CategoryScreen)}

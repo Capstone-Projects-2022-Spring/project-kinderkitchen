@@ -3,7 +3,7 @@ import { View, StyleSheet, Text } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
-const Category = () => {
+const CategoryScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Category;
+export default CategoryScreen;
