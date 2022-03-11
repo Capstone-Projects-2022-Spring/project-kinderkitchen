@@ -1,3 +1,7 @@
+//My need to conver to default Prop Values
+//https://stackoverflow.com/questions/44419650/react-js-set-a-default-value-into-a-prop
+
+
 /*This will get from database once synched, for now dummy data*/
 const defaultCategories = [{
     category_id: 1,
