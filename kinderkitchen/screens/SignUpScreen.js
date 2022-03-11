@@ -20,7 +20,7 @@ const SignUpScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.userBtn}>
           <Text
             style={styles.btnTxt}
-            onPress={() => navigation.navigate("Test1")}
+            onPress={() => navigation.navigate("CategoryScreen")}
           >
             Signup
           </Text>
