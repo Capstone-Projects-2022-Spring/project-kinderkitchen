@@ -27,11 +27,11 @@ const AccountScreen = ({ navigation }) => {
         <TouchableOpacity
           title="1"
           style={styles.achievementsButton}
-          {/*onPress={() =>
+          onPress={() =>
             navigation.navigate('AchievementScreen')
-          } */}
+          } 
         >
-        {/*  <Text>{titleAch}</Text> */}
+        <Text>{titleAch}</Text>
         </TouchableOpacity>
       </View>
       <MyNavMenu />
