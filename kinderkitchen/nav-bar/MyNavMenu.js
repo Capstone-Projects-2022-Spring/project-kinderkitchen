@@ -8,7 +8,7 @@ import Test2 from "../screens/Test2";
 import LoginScreen from "../screens/LoginScreen";
 import ItemScreen from "../screens/ItemScreen";
 import AccountScreen from "../screens/AccountScreen";
-
+import CategoryScreen from "../screens/CategoryScreen";
 const MyNavMenu = () => {
   const navigation = useNavigation();
 
@@ -20,6 +20,14 @@ const MyNavMenu = () => {
         underlayColor="limegreen"
       >
         <Text>Test1</Text>
+      </TouchableHighlight>
+
+      <TouchableHighlight
+        style={styles.touchable}
+        onPress={() => navigation.navigate(CategoryScreen)}
+        underlayColor="limegreen"
+      >
+        <Text>Category</Text>
       </TouchableHighlight>
 
       <TouchableHighlight

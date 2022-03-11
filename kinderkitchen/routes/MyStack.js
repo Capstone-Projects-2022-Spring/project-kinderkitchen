@@ -7,6 +7,7 @@ import Test1 from "../screens/Test1";
 import Test2 from "../screens/Test2";
 import ItemScreen from "../screens/ItemScreen";
 import AccountScreen from "../screens/AccountScreen";
+import CategoryScreen from "../screens/CategoryScreen";
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ const MyStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="LoginScreen" component={LoginScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+      <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
       <Stack.Screen name="Test1" component={Test1} />
       <Stack.Screen name="Test2" component={Test2} />
       <Stack.Screen name="ItemScreen" component={ItemScreen} />
