@@ -1,6 +1,3 @@
-import React from "react";
-import AccountScreen from "./AccountScreen";
-
 /*This will get from database once synched, for now dummy data*/
 const defaultCategories = [{
     category_id: 1,
