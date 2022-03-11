@@ -1,18 +1,19 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { SafeAreaView, StyleSheet, Text, Platform, StatusBar} from "react-native";
 
 export default function HeaderComponent(props) {
     if (props.title){
-    return (<View style={styles.header}>
+    return (
+    <SafeAreaView style={styles.header}>
         <Text style={styles.title}>{props.title}</Text>
-    </View>);
+    </SafeAreaView>);
     }
 }
 
 const styles = StyleSheet.create({
     header: {
-        height: 80,
-        paddingTop: 40,
+        marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        padding: 10,
         paddingHorizontal: 20,
         backgroundColor: 'coral'
     },

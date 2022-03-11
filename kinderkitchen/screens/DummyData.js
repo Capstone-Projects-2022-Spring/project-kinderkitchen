@@ -5,11 +5,11 @@
 /*This will get from database once synched, for now dummy data*/
 const defaultCategories = [{
     category_id: 1,
-    name: "Fridge"
+    category_name: "Fridge"
 },
 {
-    category_id: 1,
-    name: "Fridge"
+    category_id: 2,
+    category_name: "Pantry"
 }]
 
 /*For date formating later import date-fns (npm install date-fns --save)
