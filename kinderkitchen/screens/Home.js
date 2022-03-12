@@ -10,7 +10,7 @@ const Home = () => {
                 <Text style={styles.title}>Categories</Text>
             </View>
             <View style={styles.body}>
-                <Text>Hello, I'm page 1</Text>
+                <Text>Hello, I'm pagge 1</Text>
             </View>
             <MyNavMenu />
         </View>
