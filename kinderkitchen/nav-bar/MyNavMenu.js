@@ -3,7 +3,6 @@ import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-
 import Test2 from "../screens/Test2";
 import LoginScreen from "../screens/LoginScreen";
 import ItemScreen from "../screens/ItemScreen";
