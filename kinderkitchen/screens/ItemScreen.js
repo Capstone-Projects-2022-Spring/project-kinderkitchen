@@ -1,5 +1,5 @@
-import React from "react";
-import { View, StyleSheet, ScrollView, Button, Alert } from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, ScrollView, Text, Alert, Pressable } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import Item from "../Components/Item"
@@ -9,7 +9,9 @@ import HeaderComponent from "../Components/HeaderComponent";
 
 
 const ItemScreen = (props) => {
-
+  //Props should contain a ItemsObj
+  const [numItems, setNumItems] = useState(4);
+  const[status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
   var itemList = [];
 
   //props.category name
@@ -17,21 +19,16 @@ const ItemScreen = (props) => {
   //props.obj?
   //props.item_name
 
-  let NumITEMS = 5; //TEMP until Obj is functional to get item name
 
   //For Loop to get all Items from (CATEGORY)
   function showItems() {
-    for (let i = 1; i <= NumITEMS; i++) {
+    for (let i = 1; i <= numItems; i++) {
       itemList.push(
         <View key={i}>
           <Item item_name={i} />
         </View>)
-      console.log("Item: " + "DummyThicc" + i + " added");
+      console.log("Item: "  + i + " added");
     };
-  }
-  function addItems(){
-    NumITEMS += 1;
-    showItems();
   }
 
 
@@ -42,7 +39,9 @@ const ItemScreen = (props) => {
       <ScrollView style={{ flex: 1, margin: 5 }}>
         {itemList}
       </ScrollView>
-      <Button title=" + Add Item" onPress={()=>addItems()}/*needs Styling, Not sure how to Update the page*//>
+      <Pressable style = {styles.button} onPress={()=>{setNumItems(numItems + 1 ); console.log("Button Press")}}>
+        <Text style = {{textAlign: "center"}}>+ Add Item</Text>
+      </Pressable >
       <MyNavMenu />
     </View>
   );
@@ -54,6 +53,19 @@ const styles = StyleSheet.create(
       backgroundColor: "#56ff9f",
       flex: 1,
       justifyContent: "center",
+    },
+    button: {
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      marginTop:10,
+      margin: 20
+    },
+    buttonOpen: {
+      backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+      backgroundColor: "#2196F3",
     },
   });
 
