@@ -7,6 +7,8 @@ import Home from "../screens/Home";
 import Test2 from "../screens/Test2";
 import ItemScreen from "../screens/ItemScreen";
 import AccountScreen from "../screens/AccountScreen";
+import NotificationScreen from "../screens/NotificationScreen";
+{/*import AchievementScreen from "../screens/AchievementScreen";*/}
 
 const Stack = createStackNavigator();
 
@@ -19,6 +21,8 @@ const MyStack = () => {
       <Stack.Screen name="Test2" component={Test2} />
       <Stack.Screen name="ItemScreen" component={ItemScreen} />
       <Stack.Screen name="AccountScreen" component={AccountScreen} />
+      <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
+     {/* <Stack.Screen name="AchievementScreen" component={AchievementScreen} />*/}
     </Stack.Navigator>
   );
 };
