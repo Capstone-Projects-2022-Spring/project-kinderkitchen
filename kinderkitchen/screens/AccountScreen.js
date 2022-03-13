@@ -18,14 +18,20 @@ const AccountScreen = ({ navigation }) => {
         <TouchableOpacity
           title="Notifications"
           style={styles.notificationButton}
+          onPress={() =>
+            navigation.navigate('NotificationScreen')
+          }
         >
-          <Text>{titleAch}</Text>
+        <Text>{titleNot}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          title="Achievements"
+          title="1"
           style={styles.achievementsButton}
+          onPress={() =>
+            navigation.navigate('AchievementScreen')
+          } 
         >
-          <Text>{titleNot}</Text>
+        <Text>{titleAch}</Text>
         </TouchableOpacity>
       </View>
       <MyNavMenu />
@@ -88,7 +94,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFD700",
     position: "absolute",
     top: 220,
-    right: 220,
+    right: 238,
     justifyContent: "space-evenly",
   },
   achievementsButton: {

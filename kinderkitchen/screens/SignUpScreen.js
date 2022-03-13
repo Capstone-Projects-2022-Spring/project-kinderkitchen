@@ -10,9 +10,12 @@ import {
 const SignUpScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Account Creation</Text>
+      <Text style={styles.welcome}>New Account</Text>
       <TextInput style={styles.input} placeholder="Username" />
       <TextInput style={styles.input} placeholder="Password" secureTextEntry />
+      <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry />
+      <TextInput style={styles.input} placeholder="Email" />
+      <TextInput style={styles.input} placeholder="Zip Code" />
       <View style={styles.btnContainer}>
         {/*
          * Edit this for when login functionality is working
