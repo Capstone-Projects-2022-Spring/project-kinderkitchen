@@ -5,9 +5,9 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 
 import Test2 from "../screens/Test2";
 import LoginScreen from "../screens/LoginScreen";
-import ItemScreen from "../screens/ItemScreen";
 import AccountScreen from "../screens/AccountScreen";
 import CategoryScreen from "../screens/CategoryScreen";
+import DonateScreen from "../screens/DonateScreen";
 
 const MyNavMenu = () => {
   const navigation = useNavigation();
@@ -32,10 +32,10 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(ItemScreen)}
+        onPress={() => navigation.navigate(DonateScreen)}
         underlayColor="limegreen"
       >
-        <Text>Items</Text>
+        <Text>Donate</Text>
       </TouchableHighlight>
 
       <TouchableHighlight

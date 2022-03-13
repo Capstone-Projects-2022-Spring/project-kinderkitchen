@@ -1,9 +1,10 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableHighlight } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
+import ItemScreen from "./ItemScreen";
 
-const CategoryScreen = () => {
+const CategoryScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -11,6 +12,12 @@ const CategoryScreen = () => {
       </View>
       <View style={styles.body}>
         <Text>Hello, I'm page 1</Text>
+        <TouchableHighlight
+          style={styles.touchable}
+          onPress={() => navigation.navigate(ItemScreen)}
+        >
+          <Text>Items</Text>
+        </TouchableHighlight>
       </View>
       <MyNavMenu />
     </View>
@@ -38,6 +45,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 22,
     fontWeight: "bold",
+  },
+  touchable: {
+    backgroundColor: "skyblue",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 30,
+    width: 75,
   },
 });
 

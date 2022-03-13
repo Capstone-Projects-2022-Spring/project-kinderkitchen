@@ -23,87 +23,89 @@ const Test2 = () => {
   ]);
 
   return (
-    <View style={styles.centeredView}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            {/*Header*/}
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalText}>Add Item</Text>
-            </View>
-
-            {/*Item Name*/}
-            <View style={styles.inputView}>
-              <View style={styles.inputTitle}>
-                <Text>Item Name:</Text>
+    <View style={styles.container}>
+      <View style={styles.body}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            Alert.alert("Modal has been closed.");
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              {/*Header*/}
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalText}>Add Item</Text>
               </View>
-              <TextInput style={styles.input} /*Make CharacterLimit*/ />
-            </View>
 
-            {/*Expiration Date*/}
-            <View style={styles.inputView}>
-              <View style={styles.inputTitle}>
-                <Text>Expiration Date:</Text>
+              {/*Item Name*/}
+              <View style={styles.inputView}>
+                <View style={styles.inputTitle}>
+                  <Text>Item Name:</Text>
+                </View>
+                <TextInput style={styles.input} /*Make CharacterLimit*/ />
               </View>
-              <TextInput style={styles.input} /*Make CharacterLimit*/ />
-            </View>
 
-            {/*Category:*/}
-            <View style={styles.inputView}>
-              <View style={styles.inputTitle}>
-                <Text>Category:</Text>
+              {/*Expiration Date*/}
+              <View style={styles.inputView}>
+                <View style={styles.inputTitle}>
+                  <Text>Expiration Date:</Text>
+                </View>
+                <TextInput style={styles.input} /*Make CharacterLimit*/ />
               </View>
-              <DropDownPicker
-                style={{ width: "40%" }}
-                dropDownContainerStyle={{ width: "40%" }}
-                open={open}
-                value={value}
-                items={items}
-                setOpen={setOpen}
-                setValue={setValue}
-                setItems={setItems}
-              />
-            </View>
 
-            {/*ButtonField*/}
-            <View style={styles.submissionField}>
-              {/*Submit Button*/}
-              <Pressable
-                style={[styles.button, styles.buttonSubmit]}
-                onPress={() => setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Submit</Text>
-              </Pressable>
+              {/*Category:*/}
+              <View style={styles.inputView}>
+                <View style={styles.inputTitle}>
+                  <Text>Category:</Text>
+                </View>
+                <DropDownPicker
+                  style={{ width: "40%" }}
+                  dropDownContainerStyle={{ width: "40%" }}
+                  open={open}
+                  value={value}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setValue}
+                  setItems={setItems}
+                />
+              </View>
 
-              {/*Scan Button*/}
-              <Pressable
-                style={[
-                  styles.button,
-                  styles.buttonScan,
-                  { marginLeft: 60, paddingHorizontal: 20 },
-                ]}
-                onPress={() => console.log("ScanButtonPressed")}
-              >
-                <Text style={styles.textStyle}>Scan</Text>
-              </Pressable>
+              {/*ButtonField*/}
+              <View style={styles.submissionField}>
+                {/*Submit Button*/}
+                <Pressable
+                  style={[styles.button, styles.buttonSubmit]}
+                  onPress={() => setModalVisible(!modalVisible)}
+                >
+                  <Text style={styles.textStyle}>Submit</Text>
+                </Pressable>
+
+                {/*Scan Button*/}
+                <Pressable
+                  style={[
+                    styles.button,
+                    styles.buttonScan,
+                    { marginLeft: 60, paddingHorizontal: 20 },
+                  ]}
+                  onPress={() => console.log("ScanButtonPressed")}
+                >
+                  <Text style={styles.textStyle}>Scan</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>Show Modal</Text>
-      </Pressable>
+        </Modal>
+        <Pressable
+          style={[styles.button, styles.buttonOpen]}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.textStyle}>Show Modal</Text>
+        </Pressable>
+      </View>
       <MyNavMenu />
     </View>
   );
@@ -212,7 +214,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    backgroundColor: "seagreen",
     flex: 1,
     justifyContent: "center",
   },
