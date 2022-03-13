@@ -180,19 +180,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginTop: 10,
-    //margin: 20
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -266,6 +253,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    //marginTop: 10,
+    //margin: 20
   },
   buttonSubmit: {
     width: "33%",
