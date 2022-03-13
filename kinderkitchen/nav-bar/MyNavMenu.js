@@ -3,11 +3,11 @@ import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-import Home from "../screens/Home";
 import Test2 from "../screens/Test2";
 import LoginScreen from "../screens/LoginScreen";
-import ItemScreen from "../screens/ItemScreen";
 import AccountScreen from "../screens/AccountScreen";
+import CategoryScreen from "../screens/CategoryScreen";
+import DonateScreen from "../screens/DonateScreen";
 
 const MyNavMenu = () => {
   const navigation = useNavigation();
@@ -16,10 +16,10 @@ const MyNavMenu = () => {
     <View style={styles.navmenu}>
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(Home)}
+        onPress={() => navigation.navigate(CategoryScreen)}
         underlayColor="limegreen"
       >
-        <Text>Home</Text>
+        <Text>Category</Text>
       </TouchableHighlight>
 
       <TouchableHighlight
@@ -32,10 +32,10 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(ItemScreen)}
+        onPress={() => navigation.navigate(DonateScreen)}
         underlayColor="limegreen"
       >
-        <Text>Items</Text>
+        <Text>Donate</Text>
       </TouchableHighlight>
 
       <TouchableHighlight
