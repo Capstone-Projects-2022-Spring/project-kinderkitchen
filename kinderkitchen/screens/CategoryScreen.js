@@ -12,10 +12,9 @@ import AddTodo from "../Components/addTodo";
 
 const CategoryScreen = (props) => {
 
+    {/*   This array for defult category name */ }
     const [todos, setTodos] = useState([
         { text: 'Pantry', key: '1' },
-        { text: 'Fridge', key: '2' },
-        { text: 'Fruit', key: '3' }
     ]);
 
     {/*   This is a function that does the deleting from the list by long pressing on the item */ }
@@ -25,6 +24,7 @@ const CategoryScreen = (props) => {
         })
     }
 
+    {/*   This is a function that does the adding*/ }
     const submitHandler = (text) => {
         setTodos((prevTodos) => {
             return [
@@ -40,12 +40,12 @@ const CategoryScreen = (props) => {
         <View style={styles.container}>
             {/*   This is the Header */}
             {props.category_name ? <HeaderComponent title={props.category_name} /> : <HeaderComponent title="Categories" />/*If no title provided*/}
+
             
+
             <View style={styles.content}>
                 {/*   Content   */}
                 <AddTodo submitHandler={submitHandler}/>
-
-
                 <View style={styles.list}>
                     {/*   this list thru array and display   */}
 

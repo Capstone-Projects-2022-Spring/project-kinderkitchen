@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput, Button,TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TextInput, Button, TouchableOpacity } from "react-native";
 
 
 
-export default function AddTodo({submitHandler}) {
+export default function AddTodo({ submitHandler }) {
 
     const [text, setText] = useState('');
-    
+
     const changeHandler = (val) => {
         setText(val)
 
@@ -14,40 +14,29 @@ export default function AddTodo({submitHandler}) {
 
     return (
 
-
-
         <View style={styles.footer}>
-
             <TextInput
                 style={styles.TextInput}
                 placeholder='Enter Category Name'
                 onChangeText={changeHandler}
-                placeholderTextColor='#fff'
+                placeholderTextColor='#252525'
                 underlineColorAndroid='transparent'>
-                
             </TextInput>
 
-            <Button onPress={() => submitHandler(text) }  title='add'  style={styles.button} />
-                
-            
-
-
+            <Button onPress={() => submitHandler(text)} title='add' style={styles.button} />
 
         </View>
 
-      
-
-
-        )
+    )
 
 }
 
 const styles = StyleSheet.create({
     TextInput: {
         alignSelf: 'stretch',
-        color: '#fff',
+        color: '#252525',
         padding: 10,
-        backgroundColor: '#252525',
+        backgroundColor: '#ddd',
         borderTopWidth: 2,
         borderTopColor: '#ededed'
     },
