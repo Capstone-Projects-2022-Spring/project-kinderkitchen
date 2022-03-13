@@ -1,25 +1,55 @@
 
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, Text, Alert, TouchableOpacity } from "react-native";
+import { View, StyleSheet, ScrollView, Text, FlatList, TouchableOpacity } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import Item from "../Components/Item"
 import { TextInput } from "react-native-gesture-handler";
 import HeaderComponent from "../Components/HeaderComponent";
+import TodoItem from "../Components/TodoItem";
+
+
 
 const CategoryScreen = (props) => {
 
+    const [todos, setTodos] = useState([
+        { text: 'buy coffee', key: '1' },
+        { text: 'Go to the gym', key: '2' },
+        { text: 'Study for Network', key: '3' }
+    ]);
+
+    {/*   This is a function that does the deleting from the list by long pressing on the item */ }
+    const pressHandler = (key) => {
+        setTodos((prevTodos) => {
+            return prevTodos.filter(todo => todo.key != key)
+        })
+    }
    
     return (
         <View style={styles.container}>
+            {/*   This is the Header */}
             {props.category_name ? <HeaderComponent title={props.category_name} /> : <HeaderComponent title="Categories" />/*If no title provided*/}
             
+            <View style={styles.content}>
+                {/*   Content   */}
+
+                <View style={styles.list}>
+                    {/*   this list thru array and display   */}
+
+                    <FlatList
+                        data={todos}
+                        renderItem={({ item }) => (
+                            <TodoItem item={item} pressHandler={pressHandler} />
+                        )}
+                    />
+                </View>
+            </View>
+
 
             <ScrollView style={styles.scrollContainer}>
-                
+
             </ScrollView>
 
-
+           
             <View style={styles.footer}>
                 <TextInput
                     style={styles.TextInput}
@@ -29,9 +59,9 @@ const CategoryScreen = (props) => {
                 </TextInput>
             </View>
 
-            <TouchableOpacity style={styles.addButton}>
+            <TouchableOpacity style={styles.button} >
                 <Text>Add</Text>
-            </TouchableOpacity>
+            </TouchableOpacity >
 
 
             <MyNavMenu />
@@ -43,19 +73,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    header: {
-        //backgroundColor: 'coral',
-        //alignItems: 'center',
-        //justifyContent: 'center',
-        //borderBottomWidth: 10,
-        //borderBottomColor: '#ddd',
+    content: {
+        padding:40,
+        
     },
-    title: {
-        textAlign: 'center',
-        fontSize: 22,
-        fontWeight: 'bold',
-        padding: 26,
-
+    list: {
+        marginTop: 20,
+      
     },
     TextInput: {
         alignSelf: 'stretch',
@@ -65,7 +89,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderTopColor: '#ededed',
     },
-    addButton: {
+    button: {
         position: 'absolute',
         zIndex: 11,
         right: 20,

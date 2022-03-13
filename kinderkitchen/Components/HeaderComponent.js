@@ -13,7 +13,7 @@ export default function HeaderComponent(props) {
 const styles = StyleSheet.create({
     header: {
         marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        padding: 10,
+        padding: 15,
         paddingHorizontal: 20,
         backgroundColor: 'coral'
     },
