@@ -1,25 +1,32 @@
 import React from "react";
-import { SafeAreaView, StyleSheet, Text, Platform, StatusBar} from "react-native";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  Platform,
+  StatusBar,
+} from "react-native";
 
 export default function HeaderComponent(props) {
-    if (props.title){
+  if (props.title) {
     return (
-    <SafeAreaView style={styles.header}>
+      <SafeAreaView style={styles.header}>
         <Text style={styles.title}>{props.title}</Text>
-    </SafeAreaView>);
-    }
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    header: {
-        marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        padding: 10,
-        paddingHorizontal: 20,
-        backgroundColor: 'coral'
-    },
-    title: {
-        textAlign: 'center',
-        fontSize: 22,
-        fontWeight: 'bold'
-    },
+  header: {
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    padding: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "coral",
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 22,
+    fontWeight: "bold",
+  },
 });
