@@ -50,7 +50,7 @@ const ItemScreen = (props) => {
 const styles = StyleSheet.create(
   {
     container: {
-      backgroundColor: "#56ff9f",
+          backgroundColor: "#E8EAED",
       flex: 1,
       justifyContent: "center",
     },

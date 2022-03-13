@@ -1,44 +1,85 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+
+import React, { useState } from "react";
+import { View, StyleSheet, ScrollView, Text, Alert, TouchableOpacity } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
+import Item from "../Components/Item"
+import { TextInput } from "react-native-gesture-handler";
+import HeaderComponent from "../Components/HeaderComponent";
 
-const CategoryScreen = () => {
+const CategoryScreen = (props) => {
+
+   
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.title}>Categories</Text>
+            {props.category_name ? <HeaderComponent title={props.category_name} /> : <HeaderComponent title="Categories" />/*If no title provided*/}
+            
+
+            <ScrollView style={styles.scrollContainer}>
+                
+            </ScrollView>
+
+
+            <View style={styles.footer}>
+                <TextInput
+                    style={styles.TextInput}
+                    placeholder='+ Enter Category Name'
+                    placeholderTextColor='#fff'
+                    underlineColorAndroid='transparent'>
+                </TextInput>
             </View>
-            <View style={styles.body}>
-                <Text>Hello, I'm page 1</Text>
-            </View>
+
+            <TouchableOpacity style={styles.addButton}>
+                <Text>Add</Text>
+            </TouchableOpacity>
+
+
             <MyNavMenu />
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    body: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
     container: {
-
-        backgroundColor: "#E8EAED",
         flex: 1,
-        justifyContent: "center",
     },
     header: {
-        height: 80,
-        paddingTop: 40,
-        paddingHorizontal: 20,
-        backgroundColor: 'coral'
+        //backgroundColor: 'coral',
+        //alignItems: 'center',
+        //justifyContent: 'center',
+        //borderBottomWidth: 10,
+        //borderBottomColor: '#ddd',
     },
     title: {
         textAlign: 'center',
         fontSize: 22,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        padding: 26,
+
+    },
+    TextInput: {
+        alignSelf: 'stretch',
+        color: '#fff',
+        padding: 10,
+        backgroundColor: '#252525',
+        borderTopWidth: 2,
+        borderTopColor: '#ededed',
+    },
+    addButton: {
+        position: 'absolute',
+        zIndex: 11,
+        right: 20,
+        bottom: 90,
+        backgroundColor: "coral",
+        width: 90,
+        height: 90,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation:8,
+    },
+    addButtonText: {
+        backgroundColor: "#2196F3",
     },
 });
 
