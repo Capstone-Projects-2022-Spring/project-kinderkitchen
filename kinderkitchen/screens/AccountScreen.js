@@ -1,6 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const AccountScreen = ({ navigation }) => {
@@ -33,6 +32,13 @@ const AccountScreen = ({ navigation }) => {
         >
         <Text>{titleAch}</Text>
         </TouchableOpacity>
+        <Button
+          title="Scan"
+          onPress={() =>
+            navigation.navigate('BarcodeScreen')
+          }
+        >
+        </Button>
       </View>
       <MyNavMenu />
     </View>

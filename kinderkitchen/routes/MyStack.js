@@ -10,7 +10,7 @@ import CategoryScreen from "../screens/CategoryScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import AchievementScreen from "../screens/AchievementScreen";
 import DonateScreen from "../screens/DonateScreen";
-
+import BarcodeScreen from "../screens/BarcodeScreen";
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -25,6 +25,8 @@ const MyStack = () => {
       <Stack.Screen name="NotificationScreen" component={NotificationScreen} />
       <Stack.Screen name="AchievementScreen" component={AchievementScreen} />
       <Stack.Screen name="DonateScreen" component={DonateScreen} />
+      <Stack.Screen name="BarcodeScreen" component={BarcodeScreen} />
+
     </Stack.Navigator>
   );
 };
