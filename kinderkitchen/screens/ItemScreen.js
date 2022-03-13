@@ -11,8 +11,7 @@ import HeaderComponent from "../Components/HeaderComponent";
 
 
 const ItemScreen = (props) => {
-  //Props should contain a ItemsObj
-  const [numItems, setNumItems] = useState(4);
+  //Props should contain a ItemsObj?
   const [status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
 
   const [itemName, setItemName] = useState('');
@@ -24,12 +23,12 @@ const ItemScreen = (props) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: 'Apple', value: 'apple' },
-    { label: 'Banana', value: 'banana' }
-  ]);
+    { label: 'Fridge', value: '1' },
+    { label: 'Pantry', value: '2' }
+  ]);//^^ label is categories goten from OBJ, Values are the ID of OBJ in DB
 
-  var DATA = [];
-
+  const [data, setData] = useState([{item_name: "Milk", expiration_date: "2022-03-06", category_id: 1}]);
+  
   var itemList = [];
 
   //props.category name
@@ -40,13 +39,15 @@ const ItemScreen = (props) => {
 
   //For Loop to get all Items from (CATEGORY)
   function showItems() {
-    for (let i = 0; i < DATA.length; i++) {
-      itemList.push(
-        <View key={i}>
-          <Item item_name={DATA[i]} />
-        </View>)
-      console.log("Item: " + DATA[i] + " added");
-    };
+    console.log("IN ShowItems");
+    // //DATA.forEach(obj => {
+    //   console.log("OBJECT" + obj);
+    //   itemList.push(
+    //     <View key={i}>
+    //       <Item item_name={obj.item_name} />
+    //     </View>)
+      
+    //   });
   }
 
 
@@ -120,10 +121,20 @@ const ItemScreen = (props) => {
                 <Pressable
                   style={[styles.button, styles.buttonSubmit]}
                   onPress={() => {
+                    
+                    setData(data.push(
+                      {
+                        "item_name": itemName, 
+                        "expiration_date": expirationDate, 
+                        "category_id": value
+                      }));
+
+                    console.log("Submitx:" + data);
                     setModalVisible(!modalVisible);
-                    DATA.push(itemName, expirationDate, value);
-                    console.log(DATA);
-                  }}
+
+                  //   DATA.forEach(obj => {
+                  //     console.log("OBJECT" + obj);})
+                }}
                 >
                   <Text style={styles.textStyle}>Submit</Text>
                 </Pressable>
