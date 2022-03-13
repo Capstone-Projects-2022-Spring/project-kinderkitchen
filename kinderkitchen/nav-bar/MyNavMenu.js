@@ -63,6 +63,7 @@ const MyNavMenu = () => {
 const styles = StyleSheet.create({
   navmenu: {
     flex: 0.05,
+    borderWidth: 1,
     backgroundColor: "#fff",
     flexDirection: "row",
     justifyContent: "space-evenly",
