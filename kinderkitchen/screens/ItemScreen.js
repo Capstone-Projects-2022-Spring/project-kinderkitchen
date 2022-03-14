@@ -58,141 +58,136 @@ const ItemScreen = (props) => {
   showItems();
   return (
     <View style={styles.container}>
-      {
-        props.category_name ? (
-          <HeaderComponent title={props.category_name} />
-        ) : (
-          <HeaderComponent title="CATEGORY_NAME" />
-        ) /*If no title provided*/
-      }
-      <ScrollView style={{ flex: 1, margin: 5 }}>
-        {itemList}
+      <View style={styles.body}>
+        {
+          props.category_name ? (
+            <HeaderComponent title={props.category_name} />
+          ) : (
+            <HeaderComponent title="CATEGORY_NAME" />
+          ) /*If no title provided*/
+        }
+        <ScrollView style={{ flex: 1, margin: 5 }}>
+          {itemList}
 
-        {/*Add Item Form Pop-Up*/}
-        <Modal
-          animationType="fade"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
+          {/*Add Item Form Pop-Up*/}
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setModalVisible(!modalVisible);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                {/*Header*/}
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalText}>Add Item</Text>
+                </View>
+
+                {/*Item Name*/}
+                <View style={styles.inputView}>
+                  <View style={styles.inputTitle}>
+                    <Text>Item Name:</Text>
+                  </View>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(newText) => setItemName(newText)}
+                    /*Make CharacterLimit*/
+                  />
+                </View>
+
+                {/*Expiration Date*/}
+                <View style={styles.inputView}>
+                  <View style={styles.inputTitle}>
+                    <Text>Expiration Date:</Text>
+                  </View>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="YYYY-MM-DD"
+                    onChangeText={(newText) => setExpirationDate(newText)}
+                    // defaultValue = "0001-01-28"
+                    /*Make CharacterLimit*/
+                  />
+                </View>
+
+                {/*Category:*/}
+                <View style={styles.inputView}>
+                  <View style={styles.inputTitle}>
+                    <Text>Category:</Text>
+                  </View>
+                  <DropDownPicker
+                    style={{ width: "40%" }}
+                    dropDownContainerStyle={{ width: "40%" }}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                  />
+                </View>
+
+                {/*ButtonField*/}
+                <View style={styles.submissionField}>
+                  {/*Submit Button*/}
+                  <Pressable
+                    style={[styles.button, styles.buttonSubmit]}
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                      DATA.push(itemName, expirationDate, value);
+                      console.log(DATA);
+                    }}
+                  >
+                    <Text style={styles.textStyle}>Submit</Text>
+                  </Pressable>
+
+                  {/*Scan Button*/}
+                  <Pressable
+                    style={[
+                      styles.button,
+                      styles.buttonScan,
+                      { marginLeft: 60, paddingHorizontal: 20 },
+                    ]}
+                    onPress={() => console.log("ScanButtonPressed")}
+                  >
+                    <Text style={styles.textStyle}>Scan</Text>
+                  </Pressable>
+                </View>
+                {/*END - ButtonField*/}
+              </View>
+            </View>
+          </Modal>
+        </ScrollView>
+
+        <Pressable
+          style={styles.button}
+          onPress={() => {
+            setModalVisible(true);
+            console.log("Button Press");
           }}
         >
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              {/*Header*/}
-              <View style={styles.modalHeader}>
-                <Text style={styles.modalText}>Add Item</Text>
-              </View>
-
-              {/*Item Name*/}
-              <View style={styles.inputView}>
-                <View style={styles.inputTitle}>
-                  <Text>Item Name:</Text>
-                </View>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={(newText) => setItemName(newText)}
-                  /*Make CharacterLimit*/
-                />
-              </View>
-
-              {/*Expiration Date*/}
-              <View style={styles.inputView}>
-                <View style={styles.inputTitle}>
-                  <Text>Expiration Date:</Text>
-                </View>
-                <TextInput
-                  style={styles.input}
-                  placeholder="YYYY-MM-DD"
-                  onChangeText={(newText) => setExpirationDate(newText)}
-                  // defaultValue = "0001-01-28"
-                  /*Make CharacterLimit*/
-                />
-              </View>
-
-              {/*Category:*/}
-              <View style={styles.inputView}>
-                <View style={styles.inputTitle}>
-                  <Text>Category:</Text>
-                </View>
-                <DropDownPicker
-                  style={{ width: "40%" }}
-                  dropDownContainerStyle={{ width: "40%" }}
-                  open={open}
-                  value={value}
-                  items={items}
-                  setOpen={setOpen}
-                  setValue={setValue}
-                  setItems={setItems}
-                />
-              </View>
-
-              {/*ButtonField*/}
-              <View style={styles.submissionField}>
-                {/*Submit Button*/}
-                <Pressable
-                  style={[styles.button, styles.buttonSubmit]}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                    DATA.push(itemName, expirationDate, value);
-                    console.log(DATA);
-                  }}
-                >
-                  <Text style={styles.textStyle}>Submit</Text>
-                </Pressable>
-
-                {/*Scan Button*/}
-                <Pressable
-                  style={[
-                    styles.button,
-                    styles.buttonScan,
-                    { marginLeft: 60, paddingHorizontal: 20 },
-                  ]}
-                  onPress={() => console.log("ScanButtonPressed")}
-                >
-                  <Text style={styles.textStyle}>Scan</Text>
-                </Pressable>
-              </View>
-              {/*END - ButtonField*/}
-            </View>
-          </View>
-        </Modal>
-      </ScrollView>
-
-      <Pressable
-        style={styles.button}
-        onPress={() => {
-          setModalVisible(true);
-          console.log("Button Press");
-        }}
-      >
-        <Text style={{ textAlign: "center" }}>+ Add Item</Text>
-      </Pressable>
+          <Text style={{ textAlign: "center" }}>+ Add Item</Text>
+        </Pressable>
+      </View>
       <MyNavMenu />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  body: {
+    flex: 1,
+    paddingBottom: 10,
+    alignItems: "center",
+  },
   container: {
     backgroundColor: "#56ff9f",
     flex: 1,
     justifyContent: "center",
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    marginTop: 10,
-    //margin: 20
-  },
-  buttonOpen: {
-    backgroundColor: "#F194FF",
-  },
-  buttonClose: {
-    backgroundColor: "#2196F3",
-  },
+
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -266,6 +261,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+    backgroundColor: "skyblue",
+    //marginTop: 10,
+    //margin: 20
   },
   buttonSubmit: {
     width: "33%",
