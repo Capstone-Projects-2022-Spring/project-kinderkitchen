@@ -3,13 +3,6 @@ import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-
-import Test2 from "../screens/Test2";
-import LoginScreen from "../screens/LoginScreen";
-import ItemScreen from "../screens/ItemScreen";
-import AccountScreen from "../screens/AccountScreen";
-import CategoryScreen from "../screens/CategoryScreen";
-
 const MyNavMenu = () => {
   const navigation = useNavigation();
 
@@ -17,7 +10,7 @@ const MyNavMenu = () => {
     <View style={styles.navmenu}>
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(CategoryScreen)}
+        onPress={() => navigation.navigate("Category")}
         underlayColor="limegreen"
       >
         <Text>Category</Text>
@@ -25,7 +18,7 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(Test2)}
+        onPress={() => navigation.navigate("Test 2")}
         underlayColor="limegreen"
       >
         <Text>Test2</Text>
@@ -33,15 +26,15 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(ItemScreen)}
+        onPress={() => navigation.navigate("Donate")}
         underlayColor="limegreen"
       >
-        <Text>Items</Text>
+        <Text>Donate</Text>
       </TouchableHighlight>
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(AccountScreen)}
+        onPress={() => navigation.navigate("Account")}
         underlayColor="limegreen"
       >
         <Text>Account</Text>
@@ -50,8 +43,7 @@ const MyNavMenu = () => {
       <TouchableHighlight
         style={styles.touchable}
         onPress={() => {
-          alert("I will return to login screen for now");
-          navigation.navigate(LoginScreen);
+          navigation.navigate("Login");
         }}
         underlayColor="limegreen"
       >
@@ -64,6 +56,7 @@ const MyNavMenu = () => {
 const styles = StyleSheet.create({
   navmenu: {
     flex: 0.05,
+    borderWidth: 1,
     backgroundColor: "#fff",
     flexDirection: "row",
     justifyContent: "space-evenly",

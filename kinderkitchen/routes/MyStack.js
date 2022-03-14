@@ -7,18 +7,25 @@ import Test2 from "../screens/Test2";
 import ItemScreen from "../screens/ItemScreen";
 import AccountScreen from "../screens/AccountScreen";
 import CategoryScreen from "../screens/CategoryScreen";
-
+import NotificationScreen from "../screens/NotificationScreen";
+import AchievementScreen from "../screens/AchievementScreen";
+import DonateScreen from "../screens/DonateScreen";
+import BarcodeScreen from "../screens/BarcodeScreen";
 const Stack = createStackNavigator();
 
 const MyStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
-      <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
-      <Stack.Screen name="Test2" component={Test2} />
-      <Stack.Screen name="ItemScreen" component={ItemScreen} />
-      <Stack.Screen name="AccountScreen" component={AccountScreen} />
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Screen name="Sign Up" component={SignUpScreen} />
+      <Stack.Screen name="Category" component={CategoryScreen} />
+      <Stack.Screen name="Test 2" component={Test2} />
+      <Stack.Screen name="Items" component={ItemScreen} />
+      <Stack.Screen name="Account" component={AccountScreen} />
+      <Stack.Screen name="Notifications" component={NotificationScreen} />
+      <Stack.Screen name="Achievements" component={AchievementScreen} />
+      <Stack.Screen name="Donate" component={DonateScreen} />
+      <Stack.Screen name="Barcode" component={BarcodeScreen} />
     </Stack.Navigator>
   );
 };

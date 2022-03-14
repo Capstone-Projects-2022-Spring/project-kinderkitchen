@@ -1,6 +1,5 @@
-import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const AccountScreen = ({ navigation }) => {
@@ -18,15 +17,21 @@ const AccountScreen = ({ navigation }) => {
         <TouchableOpacity
           title="Notifications"
           style={styles.notificationButton}
-        >
-          <Text>{titleAch}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          title="Achievements"
-          style={styles.achievementsButton}
+          onPress={() => navigation.navigate("Notifications")}
         >
           <Text>{titleNot}</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          title="1"
+          style={styles.achievementsButton}
+          onPress={() => navigation.navigate("Achievements")}
+        >
+          <Text>{titleAch}</Text>
+        </TouchableOpacity>
+        <Button
+          title="Scan"
+          onPress={() => navigation.navigate("Barcode")}
+        ></Button>
       </View>
       <MyNavMenu />
     </View>
@@ -88,7 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFD700",
     position: "absolute",
     top: 220,
-    right: 220,
+    right: 238,
     justifyContent: "space-evenly",
   },
   achievementsButton: {

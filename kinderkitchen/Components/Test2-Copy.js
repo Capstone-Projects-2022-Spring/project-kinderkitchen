@@ -1,9 +1,16 @@
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import DropDownPicker from 'react-native-dropdown-picker';
-
+import DropDownPicker from "react-native-dropdown-picker";
 
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, Text, Pressable, View, TextInput } from "react-native";
+import {
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  Pressable,
+  View,
+  TextInput,
+} from "react-native";
 
 const Test2 = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,8 +18,8 @@ const Test2 = () => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: 'Apple', value: 'apple' },
-    { label: 'Banana', value: 'banana' }
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
   ]);
 
   return (
@@ -28,7 +35,6 @@ const Test2 = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-
             {/*Header*/}
             <View style={styles.modalHeader}>
               <Text style={styles.modalText}>Add Item</Text>
@@ -39,7 +45,7 @@ const Test2 = () => {
               <View style={styles.inputTitle}>
                 <Text>Item Name:</Text>
               </View>
-              <TextInput style={styles.input}/*Make CharacterLimit*/ />
+              <TextInput style={styles.input} /*Make CharacterLimit*/ />
             </View>
 
             {/*Expiration Date*/}
@@ -47,7 +53,7 @@ const Test2 = () => {
               <View style={styles.inputTitle}>
                 <Text>Expiration Date:</Text>
               </View>
-              <TextInput style={styles.input}/*Make CharacterLimit*/ />
+              <TextInput style={styles.input} /*Make CharacterLimit*/ />
             </View>
 
             {/*Category:*/}
@@ -55,7 +61,9 @@ const Test2 = () => {
               <View style={styles.inputTitle}>
                 <Text>Category:</Text>
               </View>
-              <DropDownPicker style={{ width: "40%" }} dropDownContainerStyle={{width: "40%"}}
+              <DropDownPicker
+                style={{ width: "40%" }}
+                dropDownContainerStyle={{ width: "40%" }}
                 open={open}
                 value={value}
                 items={items}
@@ -67,7 +75,6 @@ const Test2 = () => {
 
             {/*ButtonField*/}
             <View style={styles.submissionField}>
-
               {/*Submit Button*/}
               <Pressable
                 style={[styles.button, styles.buttonSubmit]}
@@ -78,7 +85,11 @@ const Test2 = () => {
 
               {/*Scan Button*/}
               <Pressable
-                style={[styles.button, styles.buttonScan,{marginLeft: 60, paddingHorizontal: 20}]}
+                style={[
+                  styles.button,
+                  styles.buttonScan,
+                  { marginLeft: 60, paddingHorizontal: 20 },
+                ]}
                 onPress={() => console.log("ScanButtonPressed")}
               >
                 <Text style={styles.textStyle}>Scan</Text>
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
+    marginTop: 22,
   },
 
   //The Pop-Up Box
@@ -117,11 +128,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 4,
-    elevation: 5
+    elevation: 5,
   },
 
   //The Top Section to have a Line
@@ -132,7 +143,7 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
     marginBottom: 10,
     borderBottomColor: "black",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
 
   //Will consist of each field entry.
@@ -142,7 +153,6 @@ const styles = StyleSheet.create({
     //alignItems: "stretch",
     padding: 5,
     paddingHorizontal: 10,
-
   },
 
   //Allows for a cleaner view
@@ -156,22 +166,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     paddingHorizontal: 5,
     marginBottom: 10,
-    borderColor: 'black',
-    borderWidth: 1
+    borderColor: "black",
+    borderWidth: 1,
   },
 
   //Bottom Section to Hold Buttons
   submissionField: {
     width: "100%",
     flexDirection: "row",
-    borderTopColor: 'gray',
-    borderTopWidth: 1
+    borderTopColor: "gray",
+    borderTopWidth: 1,
   },
 
   button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
   },
   buttonOpen: {
     backgroundColor: "#F194FF",
@@ -183,7 +193,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#12CDD4",
   },
   buttonScan: {
-
     marginTop: 10,
     marginHorizontal: 20,
     backgroundColor: "gray",
@@ -191,11 +200,11 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    textAlign: "center",
   },
   modalText: {
     marginBottom: 15,
-    textAlign: "center"
+    textAlign: "center",
   },
   body: {
     flex: 1,
@@ -207,7 +216,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-
 });
 
 export default Test2;
