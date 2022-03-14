@@ -17,28 +17,21 @@ const AccountScreen = ({ navigation }) => {
         <TouchableOpacity
           title="Notifications"
           style={styles.notificationButton}
-          onPress={() =>
-            navigation.navigate('NotificationScreen')
-          }
+          onPress={() => navigation.navigate("Notifications")}
         >
-        <Text>{titleNot}</Text>
+          <Text>{titleNot}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           title="1"
           style={styles.achievementsButton}
-          onPress={() =>
-            navigation.navigate('AchievementScreen')
-          } 
+          onPress={() => navigation.navigate("Achievements")}
         >
-        <Text>{titleAch}</Text>
+          <Text>{titleAch}</Text>
         </TouchableOpacity>
         <Button
           title="Scan"
-          onPress={() =>
-            navigation.navigate('BarcodeScreen')
-          }
-        >
-        </Button>
+          onPress={() => navigation.navigate("Barcode")}
+        ></Button>
       </View>
       <MyNavMenu />
     </View>

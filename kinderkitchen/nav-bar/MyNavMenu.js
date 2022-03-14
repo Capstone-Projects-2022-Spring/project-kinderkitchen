@@ -3,12 +3,6 @@ import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 
-import Test2 from "../screens/Test2";
-import LoginScreen from "../screens/LoginScreen";
-import AccountScreen from "../screens/AccountScreen";
-import CategoryScreen from "../screens/CategoryScreen";
-import DonateScreen from "../screens/DonateScreen";
-
 const MyNavMenu = () => {
   const navigation = useNavigation();
 
@@ -16,7 +10,7 @@ const MyNavMenu = () => {
     <View style={styles.navmenu}>
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(CategoryScreen)}
+        onPress={() => navigation.navigate("Category")}
         underlayColor="limegreen"
       >
         <Text>Category</Text>
@@ -24,7 +18,7 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(Test2)}
+        onPress={() => navigation.navigate("Test 2")}
         underlayColor="limegreen"
       >
         <Text>Test2</Text>
@@ -32,7 +26,7 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(DonateScreen)}
+        onPress={() => navigation.navigate("Donate")}
         underlayColor="limegreen"
       >
         <Text>Donate</Text>
@@ -40,7 +34,7 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate(AccountScreen)}
+        onPress={() => navigation.navigate("Account")}
         underlayColor="limegreen"
       >
         <Text>Account</Text>
@@ -49,8 +43,7 @@ const MyNavMenu = () => {
       <TouchableHighlight
         style={styles.touchable}
         onPress={() => {
-          alert("I will return to login screen for now");
-          navigation.navigate(LoginScreen);
+          navigation.navigate("Login");
         }}
         underlayColor="limegreen"
       >

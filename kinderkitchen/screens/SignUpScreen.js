@@ -13,7 +13,11 @@ const SignUpScreen = ({ navigation }) => {
       <Text style={styles.welcome}>New Account</Text>
       <TextInput style={styles.input} placeholder="Username" />
       <TextInput style={styles.input} placeholder="Password" secureTextEntry />
-      <TextInput style={styles.input} placeholder="Confirm Password" secureTextEntry />
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        secureTextEntry
+      />
       <TextInput style={styles.input} placeholder="Email" />
       <TextInput style={styles.input} placeholder="Zip Code" />
       <View style={styles.btnContainer}>
@@ -23,7 +27,7 @@ const SignUpScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.userBtn}>
           <Text
             style={styles.btnTxt}
-            onPress={() => navigation.navigate("CategoryScreen")}
+            onPress={() => navigation.navigate("Category")}
           >
             Signup
           </Text>
@@ -32,7 +36,7 @@ const SignUpScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.userBtn}>
           <Text
             style={styles.btnTxt}
-            onPress={() => navigation.navigate("LoginScreen")}
+            onPress={() => navigation.navigate("Login")}
           >
             Cancel
           </Text>
