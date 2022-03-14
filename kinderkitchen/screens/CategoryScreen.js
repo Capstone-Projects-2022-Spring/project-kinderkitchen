@@ -1,100 +1,11 @@
-/*
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  Button,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
-
-import MyNavMenu from "../nav-bar/MyNavMenu";
-
-const CategoryScreen = ({ navigation }) => {
-  return (
-    <View style={styles.container}>
-      <View style={styles.body}>
-        <ScrollView style={styles.scrollView}>
-          {/* Both will lead to the same items screen until we differentiate them /}
-          <TouchableHighlight
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Items")}
-          >
-            <Text>Fridge</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Items")}
-          >
-            <Text>Pantry</Text>
-          </TouchableHighlight>
-        </ScrollView>
-
-        <Button
-          title={"Add Category"}
-          onPress={() => alert("Add Category function")}
-        />
-      </View>
-
-      <MyNavMenu />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    padding: 20,
-    alignItems: "center",
-  },
-  container: {
-    backgroundColor: "#E8EAED",
-    flex: 1,
-    justifyContent: "center",
-  },
-  scrollView: {
-    borderWidth: 1,
-    width: "100%",
-    marginBottom: 20,
-  },
-  touchable: {
-    backgroundColor: "skyblue",
-    paddingLeft: 5,
-    marginBottom: 10,
-    borderWidth: 1,
-    height: 75,
-  },
-  scrollView: {
-    borderWidth: 1,
-    width: "100%",
-    marginBottom: 20,
-  },
-
-/* This is From FUNCTIONALITY 
-    Author: Dom
-*/
-
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Text,
-  Button,
-  FlatList,
-  TouchableOpacity,
-} from "react-native";
+import { View, StyleSheet, FlatList } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import { TextInput } from "react-native-gesture-handler";
-import HeaderComponent from "../Components/HeaderComponent";
 import TodoItem from "../Components/TodoItem";
 import AddTodo from "../Components/addTodo";
 
-const CategoryScreen = (props) => {
+const CategoryScreen = () => {
   const [todos, setTodos] = useState([
     { text: "Pantry", key: "1" },
     { text: "Fridge", key: "2" },
@@ -118,47 +29,48 @@ const CategoryScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      {/*   This is the Header */}
-      {
-        props.category_name ? (
-          <HeaderComponent title={props.category_name} />
-        ) : (
-          <HeaderComponent title="Categories" />
-        ) /*If no title provided*/
-      }
-
-      <View style={styles.content}>
-        {/*   Content   */}
-        <AddTodo submitHandler={submitHandler} />
-
+      <View style={styles.body}>
         <View style={styles.list}>
           {/*   this list thru array and display   */}
 
           <FlatList
+            style={styles.flatList}
+            nestedScrollEnabled
+            inverted
             data={todos}
             renderItem={({ item }) => (
               <TodoItem item={item} pressHandler={pressHandler} />
             )}
           />
         </View>
+
+        {/*   Content   */}
+        <AddTodo submitHandler={submitHandler} />
       </View>
-
-      <ScrollView style={styles.scrollContainer}></ScrollView>
-
       <MyNavMenu />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  body: {
     flex: 1,
+    padding: 20,
+    alignItems: "center",
   },
-  content: {
-    padding: 40,
+  container: {
+    backgroundColor: "#E8EAED",
+    flex: 1,
+    justifyContent: "center",
   },
   list: {
-    marginTop: 20,
+    borderWidth: 1,
+    width: "100%",
+    height: "82%",
+    marginBottom: 20,
+  },
+  flatList: {
+    flexDirection: "column-reverse",
   },
 });
 
