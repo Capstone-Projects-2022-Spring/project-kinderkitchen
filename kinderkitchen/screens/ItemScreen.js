@@ -16,14 +16,20 @@ import Item from "../Components/Item";
 import dummyThiccIngredients from "./DummyData";
 import HeaderComponent from "../Components/HeaderComponent";
 
-const ItemScreen = (props) => {
-  //Props should contain a ItemsObj
-  const [numItems, setNumItems] = useState(4);
+const ItemScreen = ({route}) => {
+  console.log("Getting Route");
+  console.log(route);
+  console.log("Route Params");
+  console.log(route.params);
+  const {categoryName, CategotyID} = route.params;
+  
   const [status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
+
+
 
   const [itemName, setItemName] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
-  const [categoryName, setCategoryName] = useState("");
+  
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -54,14 +60,14 @@ const ItemScreen = (props) => {
       console.log("Item: " + DATA[i] + " added");
     }
   }
-
   showItems();
   return (
+    
     <View style={styles.container}>
       <View style={styles.body}>
         {
-          props.category_name ? (
-            <HeaderComponent title={props.category_name} />
+          categoryName ? (
+            <HeaderComponent title={categoryName} />
           ) : (
             <HeaderComponent title="CATEGORY_NAME" />
           ) /*If no title provided*/

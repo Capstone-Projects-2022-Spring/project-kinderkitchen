@@ -12,7 +12,7 @@ export default function TodoItem({ item, pressHandler }) {
   return (
     <TouchableOpacity
       onLongPress={() => pressHandler(item.key)}
-      onPress={() => navigation.navigate("Items")}
+      onPress={() => navigation.navigate("Items",{categoryName: item.text, categoryID: item.key})}
     >
       <Text style={styles.item}>{item.text}</Text>
     </TouchableOpacity>
