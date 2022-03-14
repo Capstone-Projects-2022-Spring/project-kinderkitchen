@@ -76,7 +76,6 @@ const ItemScreen = ({ route }) => {
 
 
   const pressHandler = (key) => {
-    console.log(key);
     setItemObject((prevItemObject) => {
       return prevItemObject.filter((obj) => obj.item_id != key);
     });
@@ -85,7 +84,7 @@ const ItemScreen = ({ route }) => {
 
   const submitHandler = (props) => {
     setItemObject((prevItemObject) => {
-      //Change account_id and category_id
+      //Change account_id
       //get from routes to pass in all available categories
       console.log(props);
       return [{ 
