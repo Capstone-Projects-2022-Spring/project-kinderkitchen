@@ -43,7 +43,6 @@ const MyNavMenu = () => {
       <TouchableHighlight
         style={styles.touchable}
         onPress={() => {
-          alert("I will return to login screen for now");
           navigation.navigate("Login");
         }}
         underlayColor="limegreen"

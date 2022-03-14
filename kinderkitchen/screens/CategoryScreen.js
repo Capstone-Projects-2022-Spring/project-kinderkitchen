@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import TodoItem from "../Components/TodoItem";
@@ -30,19 +30,14 @@ const CategoryScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <View style={styles.list}>
-          {/*   this list thru array and display   */}
-
-          <FlatList
-            style={styles.flatList}
-            nestedScrollEnabled
-            inverted
-            data={todos}
-            renderItem={({ item }) => (
+        {/*   this list thru array and display   */}
+        <ScrollView style={styles.scrollView}>
+          {todos.map((item, key) => (
+            <View key={key}>
               <TodoItem item={item} pressHandler={pressHandler} />
-            )}
-          />
-        </View>
+            </View>
+          ))}
+        </ScrollView>
 
         {/*   Content   */}
         <AddTodo submitHandler={submitHandler} />
@@ -63,14 +58,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
-  list: {
+  scrollView: {
     borderWidth: 1,
     width: "100%",
-    height: "82%",
     marginBottom: 20,
-  },
-  flatList: {
-    flexDirection: "column-reverse",
   },
 });
 
