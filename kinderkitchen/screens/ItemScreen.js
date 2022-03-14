@@ -4,51 +4,112 @@ import DropDownPicker from "react-native-dropdown-picker";
 
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import Item from "../Components/Item";
-import dummyThiccIngredients from "./DummyData";
+import ItemInfoComponent from "../Components/ItemInfoComponent";
+
 import HeaderComponent from "../Components/HeaderComponent";
 
-const ItemScreen = ({route}) => {
-  console.log("Getting Route");
+const ItemScreen = ({ route }) => {
+  console.log("=========== Page Update ===========");
+  console.log("\nRoute INFO: ");
   console.log(route);
-  console.log("Route Params");
+  console.log("\nRoute PARAMS: ");
   console.log(route.params);
-  const {categoryName, CategotyID} = route.params;
-  
-  const [status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
+  const { categoryName, categoryID } = route.params;
 
+  //Task For Later Note to self. on Route pass all Category Objects: Used for DropDown => or after DBCONN - Make Database call for Categories
+  //Filter Items to display only items with correct category id => or DBCONN SQL query for items with only Category ID 
+  
+  
+  //ONPRESS Events for Item Component (DELETE, EDIT,)
+  //STATUS Based on SYSTEM date and EXP date, Order items by Status, have Style to havea visual
+  //Style ITEMComponent
+
+
+  /*Dummy Data*/
+  const [itemObject, setItemObject] = useState([
+    {
+      item_id: 1,
+      item_name: "Milk",
+      expiration_date: "2022-03-06",
+      category_id: 1,
+      account_id: 1,
+    },
+    {
+      item_id: 2,
+      item_name: "Lucky Charms",
+      expiration_date: "2022-03-17",
+      category_id: 2,
+      account_id: 1,
+    },
+    {
+      item_id: 3,
+      item_name: "Eggs",
+      expiration_date: "2022-04-20",
+      category_id: 1,
+      account_id: 1,
+    },
+    {
+      item_id: 4,
+      item_name: "Goldfish",
+      expiration_date: "2022-03-28",
+      category_id: 2,
+      account_id: 1,
+    }
+  ]);
+
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(categoryID);
+  const [items, setItems] = useState([
+    { label: "Fridge", value: 1 },
+    { label: "Pantry", value: 2 },
+  ]);
+
+  /*Textbox Fields*/
   const [itemName, setItemName] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
-  
+
+
+
+  const pressHandler = (key) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo.key != key);
+    });
+  };
+
+
+  const submitHandler = (props) => {
+    setItemObject((prevItemObject) => {
+      //Change account_id and category_id
+      //get from routes to pass in all available categories
+      console.log(props);
+      return [{ 
+        item_id: Math.random().toString(),
+        item_name: props.itemName, 
+        expiration_date: props.expirationDate,
+        category_id: "1",
+        account_id: "1",
+        
+      }, ...prevItemObject];
+    });
+  };
+
+  const [status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
+
+
+
+
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-  ]);
+  
 
   //props.category name
   //props.category_id
   //props.obj?
   //props.item_name
 
-  //For Loop to get all Items from (CATEGORY)
-  function showItems() {
-    for (let i = 0; i < DATA.length; i++) {
-      itemList.push(
-        <View key={i}>
-          <Item item_name={DATA[i]} />
-        </View>
-      );
-      console.log("Item: " + DATA[i] + " added");
-    }
-  }
-  showItems();
   return (
-    
+
     <View style={styles.container}>
       <View style={styles.body}>
         {
@@ -58,8 +119,12 @@ const ItemScreen = ({route}) => {
             <HeaderComponent title="CATEGORY_NAME" />
           ) /*If no title provided*/
         }
-        <ScrollView style={{ flex: 1, margin: 5 }}>
-          {itemList}
+        <ScrollView style={styles.scrollView}>
+          {itemObject.map((obj, key) => (
+            <View key={key}>
+              <ItemInfoComponent item={obj} pressHandler={pressHandler} />
+            </View>
+          ))}
 
           {/*Add Item Form Pop-Up*/}
           <Modal
@@ -86,7 +151,7 @@ const ItemScreen = ({route}) => {
                   <TextInput
                     style={styles.input}
                     onChangeText={(newText) => setItemName(newText)}
-                    /*Make CharacterLimit*/
+                  /*Make CharacterLimit*/
                   />
                 </View>
 
@@ -99,8 +164,8 @@ const ItemScreen = ({route}) => {
                     style={styles.input}
                     placeholder="YYYY-MM-DD"
                     onChangeText={(newText) => setExpirationDate(newText)}
-                    // defaultValue = "0001-01-28"
-                    /*Make CharacterLimit*/
+                  // defaultValue = "0001-01-28"
+                  /*Make CharacterLimit*/
                   />
                 </View>
 
@@ -112,6 +177,7 @@ const ItemScreen = ({route}) => {
                   <DropDownPicker
                     style={{ width: "40%" }}
                     dropDownContainerStyle={{ width: "40%" }}
+                    placeholder={categoryName}
                     open={open}
                     value={value}
                     items={items}
@@ -127,9 +193,9 @@ const ItemScreen = ({route}) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
+                      submitHandler({itemName, expirationDate});
                       setModalVisible(!modalVisible);
-                      DATA.push(itemName, expirationDate, value);
-                      console.log(DATA);
+                      
                     }}
                   >
                     <Text style={styles.textStyle}>Submit</Text>
@@ -276,6 +342,13 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center",
+  },
+  scrollView: {
+    borderWidth: 1,
+    width: "98%",
+    marginVertical: 5,
+    marginBottom: 20,
+    padding: 10,
   },
 });
 
