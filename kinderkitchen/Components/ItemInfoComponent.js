@@ -5,7 +5,7 @@ export default function ItemInfoComponent({item, pressHandler }) {
 
   return (
     <TouchableOpacity
-      onLongPress={() => pressHandler(item.key)}
+      onLongPress={() => pressHandler(item.item_id)}
       onPress={() => {
         console.log(item)
         console.log(item.item_name + " Pressed!");

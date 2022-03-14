@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Modal, ScrollView, Text, Alert, Pressable, TextInput, StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
+import{format} from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
@@ -15,6 +16,10 @@ const ItemScreen = ({ route }) => {
   console.log("\nRoute PARAMS: ");
   console.log(route.params);
   const { categoryName, categoryID } = route.params;
+
+
+  const sysDate = format(new Date(), 'yyyy-MMM-dd');
+  
 
   //Task For Later Note to self. on Route pass all Category Objects: Used for DropDown => or after DBCONN - Make Database call for Categories
   //Filter Items to display only items with correct category id => or DBCONN SQL query for items with only Category ID 
@@ -71,8 +76,9 @@ const ItemScreen = ({ route }) => {
 
 
   const pressHandler = (key) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((todo) => todo.key != key);
+    console.log(key);
+    setItemObject((prevItemObject) => {
+      return prevItemObject.filter((obj) => obj.item_id != key);
     });
   };
 
@@ -86,7 +92,7 @@ const ItemScreen = ({ route }) => {
         item_id: Math.random().toString(),
         item_name: props.itemName, 
         expiration_date: props.expirationDate,
-        category_id: "1",
+        category_id: props.value,
         account_id: "1",
         
       }, ...prevItemObject];
@@ -193,7 +199,7 @@ const ItemScreen = ({ route }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      submitHandler({itemName, expirationDate});
+                      submitHandler({itemName, expirationDate, value});
                       setModalVisible(!modalVisible);
                       
                     }}
