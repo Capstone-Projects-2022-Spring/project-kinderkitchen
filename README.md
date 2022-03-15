@@ -45,6 +45,7 @@ npm install -g expo-cli
 npm install react-native-gesture-handler
 npm install date-fns --save
 npm install react-native-dropdown-picker
+expo install expo-barcode-scanner
 ```
 - Clone Repo
 ```
