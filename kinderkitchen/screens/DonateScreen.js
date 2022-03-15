@@ -4,7 +4,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
 } from "react-native";
 
@@ -16,7 +16,7 @@ const DonateScreen = ({ navigation }) => {
       <View style={styles.body}>
         <View style={styles.searchBar}>
           <TextInput style={styles.input} placeholder="Enter Address" />
-          <TouchableHighlight style={styles.userBtn}>
+          <TouchableOpacity style={styles.userBtn}>
             <Text
               style={styles.btnTxt}
               onPress={() =>
@@ -27,7 +27,7 @@ const DonateScreen = ({ navigation }) => {
             >
               Search
             </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.mapBox}>
@@ -35,26 +35,26 @@ const DonateScreen = ({ navigation }) => {
         </View>
 
         <ScrollView style={styles.addressList}>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.touchable}
-            onPress={() => navigation.navigate("Donate")}
+            onPress={() => navigation.navigate("Food Bank")}
           >
             <Text>Address 1</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.touchable}
-            onPress={() => navigation.navigate("Donate")}
+            onPress={() => navigation.navigate("Food Bank")}
           >
             <Text>Address 2</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
 
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.touchable}
-            onPress={() => navigation.navigate("Donate")}
+            onPress={() => navigation.navigate("Food Bank")}
           >
             <Text>Address 3</Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </ScrollView>
       </View>
       <MyNavMenu />

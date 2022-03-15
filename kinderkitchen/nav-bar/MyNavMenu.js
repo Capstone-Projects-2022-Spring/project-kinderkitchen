@@ -26,7 +26,7 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate("Food Banks")}
+        onPress={() => navigation.navigate("Donate")}
         underlayColor="limegreen"
       >
         <Text>Donate</Text>

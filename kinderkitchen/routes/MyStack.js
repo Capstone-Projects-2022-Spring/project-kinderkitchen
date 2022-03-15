@@ -25,8 +25,8 @@ const MyStack = () => {
       <Stack.Screen name="Account" component={AccountScreen} />
       <Stack.Screen name="Notifications" component={NotificationScreen} />
       <Stack.Screen name="Achievements" component={AchievementScreen} />
-      <Stack.Screen name="Food Banks" component={DonateScreen} />
-      <Stack.Screen name="Donate" component={DonateScreen2} />
+      <Stack.Screen name="Donate" component={DonateScreen} />
+      <Stack.Screen name="Food Bank" component={DonateScreen2} />
       <Stack.Screen name="Barcode" component={BarcodeScreen} />
     </Stack.Navigator>
   );
