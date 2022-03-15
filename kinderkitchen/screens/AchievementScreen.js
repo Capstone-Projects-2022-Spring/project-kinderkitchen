@@ -7,7 +7,6 @@ const AchievementScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <Text style={styles.header}>{textAch}</Text>
       </View>
     </View>
   );

@@ -9,7 +9,7 @@ import ItemInfoComponent from "../Components/ItemInfoComponent";
 
 import HeaderComponent from "../Components/HeaderComponent";
 
-const ItemScreen = ({ route }) => {
+const ItemScreen = ({ route, navigation }) => {
   console.log("=========== Page Update ===========");
   console.log("\nRoute INFO: ");
   console.log(route);
@@ -213,7 +213,7 @@ const ItemScreen = ({ route }) => {
                       styles.buttonScan,
                       { marginLeft: 60, paddingHorizontal: 20 },
                     ]}
-                    onPress={() => console.log("ScanButtonPressed")}
+                    onPress={() => navigation.navigate("Barcode")}
                   >
                     <Text style={styles.textStyle}>Scan</Text>
                   </Pressable>
