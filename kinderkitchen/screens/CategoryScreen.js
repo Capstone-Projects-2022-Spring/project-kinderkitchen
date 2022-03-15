@@ -1,48 +1,47 @@
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  Button,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import React, { useState } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import ItemScreen from "./ItemScreen";
+import TodoItem from "../Components/TodoItem";
+import AddTodo from "../Components/addTodo";
 
-const CategoryScreen = ({ navigation }) => {
+const CategoryScreen = () => {
+  const [todos, setTodos] = useState([
+    { text: "Pantry", key: "1" },
+    { text: "Fridge", key: "2" },
+    { text: "Fruit", key: "3" },
+  ]);
+
+  {
+    /*   This is a function that does the deleting from the list by long pressing on the item */
+  }
+  const pressHandler = (key) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo.key != key);
+    });
+  };
+
+  const submitHandler = (text) => {
+    setTodos((prevTodos) => {
+      return [{ text: text, key: Math.random().toString() }, ...prevTodos];
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Categories</Text>
-      </View>
-
       <View style={styles.body}>
+        {/*   this list thru array and display   */}
         <ScrollView style={styles.scrollView}>
-          {/* Both will lead to the same items screen until we differentiate them */}
-          <TouchableHighlight
-            style={styles.touchable}
-            onPress={() => navigation.navigate(ItemScreen)}
-          >
-            <Text>Fridge</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            style={styles.touchable}
-            onPress={() => navigation.navigate(ItemScreen)}
-          >
-            <Text>Pantry</Text>
-          </TouchableHighlight>
+          {todos.map((item, key) => (
+            <View key={key}>
+              <TodoItem item={item} pressHandler={pressHandler} />
+            </View>
+          ))}
         </ScrollView>
 
-        <Button
-          title={"Add Category"}
-          onPress={() => alert("Add Category function")}
-        />
+        {/*   Content   */}
+        <AddTodo submitHandler={submitHandler} />
       </View>
-
       <MyNavMenu />
     </View>
   );
@@ -58,24 +57,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#E8EAED",
     flex: 1,
     justifyContent: "center",
-  },
-  header: {
-    height: 80,
-    paddingTop: 40,
-    paddingHorizontal: 20,
-    backgroundColor: "coral",
-  },
-  title: {
-    textAlign: "center",
-    fontSize: 22,
-    fontWeight: "bold",
-  },
-  touchable: {
-    backgroundColor: "skyblue",
-    paddingLeft: 5,
-    marginBottom: 10,
-    borderWidth: 1,
-    height: 75,
   },
   scrollView: {
     borderWidth: 1,
