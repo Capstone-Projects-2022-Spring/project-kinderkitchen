@@ -234,7 +234,6 @@ const ItemScreen = ({ route }) => {
           <Text style={{ textAlign: "center" }}>+ Add Item</Text>
         </Pressable>
       </View>
-      <MyNavMenu />
     </View>
   );
 };
