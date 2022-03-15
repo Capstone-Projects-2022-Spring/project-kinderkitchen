@@ -12,6 +12,7 @@ import AchievementScreen from "../screens/AchievementScreen";
 import DonateScreen from "../screens/DonateScreen";
 import DonateScreen2 from "../screens/DonateScreen2";
 import BarcodeScreen from "../screens/BarcodeScreen";
+import RecipeScreen from "../screens/RecipeScreen";
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -28,6 +29,7 @@ const MyStack = () => {
       <Stack.Screen name="Donate" component={DonateScreen} />
       <Stack.Screen name="Food Bank" component={DonateScreen2} />
       <Stack.Screen name="Barcode" component={BarcodeScreen} />
+      <Stack.Screen name="Recipe" component={RecipeScreen} />
     </Stack.Navigator>
   );
 };
