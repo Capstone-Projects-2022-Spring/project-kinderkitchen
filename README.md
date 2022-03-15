@@ -37,6 +37,7 @@ Kinder Kitchen will be developed using React Native and JavaScript so that it ca
 - Install Android Studio [External Site](https://developer.android.com/studio)
   - Create Virtual Device
 - Install XCode
+- Download 
 - Download Dependencies ([More Details])
 *Command Line*
 ```
@@ -54,7 +55,56 @@ git clone https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen
 - Navigate to Cloned Repository Direcctory
 - Utilize VS Code 
 ```
-cd prj-01-typingtest/typing-test
+cd Capstone-Projects-2022-Spring/project-kinderkitchen/kinderkitchen
 code .
 ```
 Go to view in VS Code, open CMD and run ```npm start```
+
+## Milestone 1 Demo  
+- F1 User can create an account with Kinder Kitchen 
+  - Sign Up will validate first name, last name, 
+    email, address. 
+- F2  User can manage food items  
+  - add/edit/delete categories 
+  - add/edit/delete items 
+  - manually add items 
+  - scan barcodes to add items 
+  - change quantity and details (expirations, 
+    etc.) of each item 
+  - move items between categories 
+
+## Testing 1 
+
+### Test 1:
+- User Accounts:
+  - Actions/Steps
+    - Click Sign Up 
+    - Enter Username, Password, Confirm Password, Email, and Zip Code
+  - Expected Results
+    - The user is able to enter the app upon putting in their credentials.
+### Test 2:
+- Personal Categorization Ingredient Storage:
+  -  Actions/Steps
+     - Click Add Category and enter new category name
+     - Add items to category
+     - Edit category name
+     - Delete category
+  - Expected Results
+    - The user is able to add, edit, and delete categories with each change displaying on         their home screen as well as add items to an existing category.
+### Test 3: 
+- Multi-Method Ingredient Entry:
+  - Actions/Steps
+    - Click Add Item button located within a selected category 
+    - Enter in the name of the ingredient, the quantity, and its expiration/best by date
+    - Scan item via barcode scan and verify correct information
+    - Select category to place the ingredient
+    - Edit ingredient
+    - Delete ingredient
+  - Expected Results
+    - The user can add an item via manual entry or barcode scan. The user can select an         existing category and see it displayed in the correct category. The user can add,         edit, and delete the ingredient and the application will display the changes               accordingly.
+
+
+
+
+
+
