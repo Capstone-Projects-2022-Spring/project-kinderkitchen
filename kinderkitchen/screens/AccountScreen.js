@@ -28,10 +28,6 @@ const AccountScreen = ({ navigation }) => {
         >
           <Text>{titleAch}</Text>
         </TouchableOpacity>
-        <Button
-          title="Scan"
-          onPress={() => navigation.navigate("Barcode")}
-        ></Button>
       </View>
       <MyNavMenu />
     </View>
