@@ -20,7 +20,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.userBtn}>
           <Text
             style={styles.btnTxt}
-            onPress={() => navigation.navigate("CategoryScreen")}
+            onPress={() => navigation.navigate("Category")}
           >
             Login
           </Text>
@@ -29,7 +29,7 @@ const LoginScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.userBtn}>
           <Text
             style={styles.btnTxt}
-            onPress={() => navigation.navigate("SignUpScreen")}
+            onPress={() => navigation.navigate("Sign Up")}
           >
             Signup
           </Text>

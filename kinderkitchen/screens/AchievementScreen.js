@@ -2,36 +2,28 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, Switch, Menu, Button } from "react-native";
 
 const AchievementScreen = () => {
-    const textAch = "Achievements";
+  const textAch = "Achievements";
 
-    return (
-        <View style={styles.container}>
-                <View style={styles.body}>
-                    <Text style={styles.header}>{textAch}</Text>
-                </View>
-        </View>
-    )
-}
+  return (
+    <View style={styles.container}>
+      <View style={styles.body}>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#56ff9f",
-        flex: 1,
-        justifyContent: "center",
-      },
-    body: {
-          flex: 1,
-          backgroundColor: "#1e90ff",
-          alignItems: "center",
-          justifyContent: "center",
-    },
-    header: {
-        flex: 1,
-        color: "#fff",
-        marginTop: 40,
-        marginRight: 190,
-        fontSize: 30,
-    },
-})
+  container: {
+    backgroundColor: "#56ff9f",
+    flex: 1,
+    justifyContent: "center",
+  },
+  body: {
+    flex: 1,
+    backgroundColor: "#1e90ff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
 
-export default AchievementScreen
+export default AchievementScreen;
