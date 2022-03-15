@@ -37,7 +37,7 @@ Kinder Kitchen will be developed using React Native and JavaScript so that it ca
 - Install Android Studio [External Site](https://developer.android.com/studio)
   - Create Virtual Device
 - Install XCode
-- Download 
+- Download Expo Go App
 - Download Dependencies ([More Details])
 *Command Line*
 ```
@@ -59,6 +59,8 @@ cd Capstone-Projects-2022-Spring/project-kinderkitchen/kinderkitchen
 code .
 ```
 Go to view in VS Code, open CMD and run ```npm start```
+To view in Expo Go, run ```expo start``` 
+Scan the QR Code that it generates and open the app with Expo Go
 
 ## Milestone 1 Demo  
 - F1 User can create an account with Kinder Kitchen 
