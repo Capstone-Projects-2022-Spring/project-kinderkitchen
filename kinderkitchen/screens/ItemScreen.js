@@ -245,7 +245,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-    backgroundColor: "#56ff9f",
+      backgroundColor: "#E8EAED",
     flex: 1,
     justifyContent: "center",
   },
