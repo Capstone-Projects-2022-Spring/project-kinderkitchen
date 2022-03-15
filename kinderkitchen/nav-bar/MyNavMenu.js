@@ -18,10 +18,10 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate("Test 2")}
+        onPress={() => navigation.navigate("Recipe")}
         underlayColor="limegreen"
       >
-        <Text>Test2</Text>
+        <Text>Recipe</Text>
       </TouchableHighlight>
 
       <TouchableHighlight
