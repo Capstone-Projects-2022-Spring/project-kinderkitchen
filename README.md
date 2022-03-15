@@ -43,6 +43,7 @@ Kinder Kitchen will be developed using React Native and JavaScript so that it ca
 npm install -g expo-cli
 npm install react-native-gesture-handler
 npm install date-fns --save
+npm install react-native-dropdown-picker
 ```
 - Clone Repo
 ```
