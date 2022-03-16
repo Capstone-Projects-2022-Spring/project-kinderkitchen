@@ -28,7 +28,19 @@ Kinder Kitchen will be developed using React Native and JavaScript so that it ca
 
 
 ## Client Install
-- 
+1) Download Expo Go on your mobile device ([External Site](https://expo.dev/client)
+2) Navigate to our project on Expo's Site ([External Site](https://expo.dev/@kinderkitchen)
+  - Desktop:
+    - Click OPEN
+    - Scan QR Code with your mobile device
+ - Mobile Device: 
+    - Click 'Open In Expo Go'
+
+please Follow our testing guide [here](https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen/edit/ReadMe/README.md#testing-1) 
+
+If there are difficulties, Scan this QR Code to gain access 
+
+![image](https://user-images.githubusercontent.com/60050903/158704139-75985964-b0d8-4890-8c02-88602d0b7a9d.png) 
 
 ## Developer Install
 *Work In Progress to get docker to handle a container with all installations*
@@ -89,11 +101,11 @@ Scan the QR Code that it generates and open the app with Expo Go
     - The user is able to enter the app upon putting in their credentials.
 ### Test 2:
 - Personal Categorization Ingredient Storage:
-  -  Actions/Steps
-     - Click Add Category and enter new category name
-     - Add items to category
-     - Edit category name
-     - Delete category
+  - Actions/Steps
+    - Click Add Category and enter new category name
+    - Add items to category
+    - Edit category name
+    - Delete category
   - Expected Results
     - The user is able to add, edit, and delete categories with each change displaying on         their home screen as well as add items to an existing category.
 ### Test 3: 
@@ -107,9 +119,4 @@ Scan the QR Code that it generates and open the app with Expo Go
     - Delete ingredient
   - Expected Results
     - The user can add an item via manual entry or barcode scan. The user can select an         existing category and see it displayed in the correct category. The user can add,         edit, and delete the ingredient and the application will display the changes               accordingly.
-
-
-
-
-
 
