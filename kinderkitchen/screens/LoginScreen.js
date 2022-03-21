@@ -17,20 +17,20 @@ const LoginScreen = ({ navigation }) => {
         {/*
          * Edit this for when login functionality is working
          */}
-        <TouchableOpacity style={styles.userBtn}>
-          <Text
-            style={styles.btnTxt}
-            onPress={() => navigation.navigate("Category")}
-          >
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => navigation.navigate("Category")}
+        >
+          <Text style={styles.btnTxt}>
             Login
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.userBtn}>
-          <Text
-            style={styles.btnTxt}
-            onPress={() => navigation.navigate("Sign Up")}
-          >
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => navigation.navigate("Sign Up")}
+        >
+          <Text style={styles.btnTxt}>
             Signup
           </Text>
         </TouchableOpacity>

@@ -24,22 +24,18 @@ const SignUpScreen = ({ navigation }) => {
         {/*
          * Edit this for when login functionality is working
          */}
-        <TouchableOpacity style={styles.userBtn}>
-          <Text
-            style={styles.btnTxt}
-            onPress={() => navigation.navigate("Category")}
-          >
-            Signup
-          </Text>
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => navigation.navigate("Category")}
+        >
+          <Text style={styles.btnTxt}> Signup </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.userBtn}>
-          <Text
-            style={styles.btnTxt}
-            onPress={() => navigation.navigate("Login")}
-          >
-            Cancel
-          </Text>
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => navigation.navigate("Login")}
+        >
+          <Text style={styles.btnTxt}> Cancel </Text>
         </TouchableOpacity>
       </View>
     </View>
