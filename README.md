@@ -58,6 +58,10 @@ npm install react-native-gesture-handler
 npm install date-fns --save
 npm install react-native-dropdown-picker
 expo install expo-barcode-scanner
+expo install firebase
+expo install @react-native-firebase/app
+expo install @react-native-firebase/auth
+expo install @react-native-firebase/database
 ```
 - Clone Repo
 ```
