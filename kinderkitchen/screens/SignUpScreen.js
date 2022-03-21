@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,27 +6,53 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import auth from '@react-native-firebase/auth';
 
 const SignUpScreen = ({ navigation }) => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [zipCode, setZipCode] = useState('');
+
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>New Account</Text>
-      <TextInput style={styles.input} placeholder="Username" />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry />
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        secureTextEntry
-      />
-      <TextInput style={styles.input} placeholder="Email" />
-      <TextInput style={styles.input} placeholder="Zip Code" />
+
+      <TextInput style={styles.input} placeholder="Username" onChangeText={text => setUsername(text)} />
+      <TextInput style={styles.input} placeholder="Password" onChangeText={text => setPassword(text)} secureTextEntry />
+      <TextInput style={styles.input} placeholder="Confirm Password" onChangeText={text => setPassword2(text)} secureTextEntry />
+      <TextInput style={styles.input} placeholder="Email" onChangeText={text => setEmail(text)} />
+      <TextInput style={styles.input} placeholder="Zip Code" onChangeText={text => setZipCode(text)} />
+
       <View style={styles.btnContainer}>
-        {/*
-         * Edit this for when login functionality is working
-         */}
-        <TouchableOpacity
-          style={styles.userBtn}
-          onPress={() => navigation.navigate("Category")}
+        {/*Edit this for when login functionality is working */}
+
+        {/* Submit SignUp */}
+        <TouchableOpacity style={styles.userBtn}
+          onPress={() => {
+            if (password != password2) { alert("Passwords Do Not Match"); return; }
+            alert("Passwords Match");
+
+            //Fake user Test
+            auth()
+              .createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
+              .then(() => {
+                console.log('User account created & signed in!');
+              })
+              .catch(error => {
+                if (error.code === 'auth/email-already-in-use') {
+                  console.log('That email address is already in use!');
+                }
+
+                if (error.code === 'auth/invalid-email') {
+                  console.log('That email address is invalid!');
+                }
+
+                console.error(error);
+              });
+          }
+          }//navigation.navigate("Category")}
         >
           <Text style={styles.btnTxt}> Signup </Text>
         </TouchableOpacity>
