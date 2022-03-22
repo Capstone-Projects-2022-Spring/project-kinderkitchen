@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { getAuth, signOut } from "firebase/auth";
 
 const MyNavMenu = () => {
   const navigation = useNavigation();
+  const auth = getAuth();
+
+  const user = auth.currentUser;
+
 
   return (
     <View style={styles.navmenu}>
@@ -43,6 +48,13 @@ const MyNavMenu = () => {
       <TouchableHighlight
         style={styles.touchable}
         onPress={() => {
+          signOut(auth).then(() => {
+            // Sign-out successful.
+            alert("You Are Now Signed-Out!\nCome Again User: " + user.email);
+          }).catch((error) => {
+            // An error happened.
+            alert(error.code);
+          });
           navigation.navigate("Login");
         }}
         underlayColor="limegreen"
