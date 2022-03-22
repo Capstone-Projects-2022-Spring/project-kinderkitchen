@@ -20,9 +20,10 @@ const SignUpScreen = ({ navigation }) => {
 
   const createUserHandler = () => {
 
-    createUserWithEmailAndPassword(auth, 'jane.doe@example.com', 'SuperSecretPassword!')
+    createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       console.log('User account created & (maybe) signed in!');
+      navigation.navigate("Category");
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -54,23 +55,19 @@ const SignUpScreen = ({ navigation }) => {
       <TextInput style={styles.input} placeholder="Zip Code" onChangeText={text => setZipCode(text)} />
 
       <View style={styles.btnContainer}>
-        {/*Edit this for when login functionality is working */}
-
+        
         {/* Submit SignUp */}
         <TouchableOpacity style={styles.userBtn}
           onPress={() => {
-            if (password != password2) { alert("Passwords Do Not Match"); return; }
-            createUserHandler();
-          }//navigation.navigate("Category")}
+            if (password != password2) { alert("Passwords Do Not Match"); return; } //Password Failure
+            createUserHandler(); 
+          }
         }
         >
           <Text style={styles.btnTxt}> Signup </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.userBtn}
-          onPress={() => navigation.navigate("Login")}
-        >
+        <TouchableOpacity style={styles.userBtn} onPress={() => navigation.navigate("Login")}>
           <Text style={styles.btnTxt}> Cancel </Text>
         </TouchableOpacity>
       </View>
