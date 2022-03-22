@@ -6,7 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import auth from '@react-native-firebase/auth';
+import auth from "../firebase";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUpScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -14,6 +15,33 @@ const SignUpScreen = ({ navigation }) => {
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
   const [zipCode, setZipCode] = useState('');
+
+
+
+  const createUserHandler = () => {
+
+    createUserWithEmailAndPassword(auth, 'jane.doe@example.com', 'SuperSecretPassword!')
+    .then((userCredential) => {
+      console.log('User account created & (maybe) signed in!');
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+
+      if (error.code === 'auth/email-already-in-use') {
+        console.log('That email address is already in use!');
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        console.log('That email address is invalid!');
+      }
+
+      console.log(errorCode);
+      console.log(errorMessage);
+      console.error(error);
+    });
+
+  }
 
   return (
     <View style={styles.container}>
@@ -32,27 +60,9 @@ const SignUpScreen = ({ navigation }) => {
         <TouchableOpacity style={styles.userBtn}
           onPress={() => {
             if (password != password2) { alert("Passwords Do Not Match"); return; }
-            alert("Passwords Match");
-
-            //Fake user Test
-            auth()
-              .createUserWithEmailAndPassword('jane.doe@example.com', 'SuperSecretPassword!')
-              .then(() => {
-                console.log('User account created & signed in!');
-              })
-              .catch(error => {
-                if (error.code === 'auth/email-already-in-use') {
-                  console.log('That email address is already in use!');
-                }
-
-                if (error.code === 'auth/invalid-email') {
-                  console.log('That email address is invalid!');
-                }
-
-                console.error(error);
-              });
-          }
+            createUserHandler();
           }//navigation.navigate("Category")}
+        }
         >
           <Text style={styles.btnTxt}> Signup </Text>
         </TouchableOpacity>
