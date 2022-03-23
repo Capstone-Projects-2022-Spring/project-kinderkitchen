@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
@@ -25,10 +25,6 @@ const ItemScreen = ({ props, route, navigation }) => {
   // console.log("\nRoute PARAMS: ");
   // console.log(route.params);
   const { categoryName, categoryID } = route.params;
-
-  const sysDate = null; //= format(new Date(), "yyyy-MM-dd");
-
-  //console.log(sysDate);
 
   //Task For Later Note to self. on Route pass all Category Objects: Used for DropDown => or after DBCONN - Make Database call for Categories
   //Filter Items to display only items with correct category id => or DBCONN SQL query for items with only Category ID
@@ -68,6 +64,12 @@ const ItemScreen = ({ props, route, navigation }) => {
       account_id: 1,
     },
   ]);
+
+  // Sort by expiration date, soonest first ********************
+  itemObject.sort((a, b) => {
+    return parseISO(a.expiration_date) - parseISO(b.expiration_date);
+  });
+  // ***********************************************************
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(categoryID);
