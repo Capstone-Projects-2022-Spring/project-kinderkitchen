@@ -1,34 +1,41 @@
 import React, { useState } from "react";
-import { View, Modal, ScrollView, Text, Alert, Pressable, TextInput, StyleSheet } from "react-native";
+import {
+  View,
+  Modal,
+  ScrollView,
+  Text,
+  Alert,
+  Pressable,
+  TextInput,
+  StyleSheet,
+} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
-import{format} from "date-fns";
+import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
 
 import HeaderComponent from "../Components/HeaderComponent";
 
-const ItemScreen = ({ route, navigation }) => {
-  console.log("=========== Page Update ===========");
-  console.log("\nRoute INFO: ");
-  console.log(route);
-  console.log("\nRoute PARAMS: ");
-  console.log(route.params);
+const ItemScreen = ({ props, route, navigation }) => {
+  // console.log("=========== Page Update ===========");
+  // console.log("\nRoute INFO: ");
+  // console.log(route);
+  // console.log("\nRoute PARAMS: ");
+  // console.log(route.params);
   const { categoryName, categoryID } = route.params;
 
+  const sysDate = null; //= format(new Date(), "yyyy-MM-dd");
 
-  const sysDate = format(new Date(), 'yyyy-MMM-dd');
-  
+  //console.log(sysDate);
 
   //Task For Later Note to self. on Route pass all Category Objects: Used for DropDown => or after DBCONN - Make Database call for Categories
-  //Filter Items to display only items with correct category id => or DBCONN SQL query for items with only Category ID 
-  
-  
+  //Filter Items to display only items with correct category id => or DBCONN SQL query for items with only Category ID
+
   //ONPRESS Events for Item Component (DELETE, EDIT,)
   //STATUS Based on SYSTEM date and EXP date, Order items by Status, have Style to havea visual
   //Style ITEMComponent
-
 
   /*Dummy Data*/
   const [itemObject, setItemObject] = useState([
@@ -59,7 +66,7 @@ const ItemScreen = ({ route, navigation }) => {
       expiration_date: "2022-03-28",
       category_id: 2,
       account_id: 1,
-    }
+    },
   ]);
 
   const [open, setOpen] = useState(false);
@@ -73,40 +80,33 @@ const ItemScreen = ({ route, navigation }) => {
   const [itemName, setItemName] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
 
-
-
   const pressHandler = (key) => {
     setItemObject((prevItemObject) => {
       return prevItemObject.filter((obj) => obj.item_id != key);
     });
   };
 
-
   const submitHandler = (props) => {
     setItemObject((prevItemObject) => {
       //Change account_id
       //get from routes to pass in all available categories
-      console.log(props);
-      return [{ 
-        item_id: Math.random().toString(),
-        item_name: props.itemName, 
-        expiration_date: props.expirationDate,
-        category_id: props.value,
-        account_id: "1",
-        
-      }, ...prevItemObject];
+      //console.log(props);
+      return [
+        {
+          item_id: Math.random().toString(),
+          item_name: props.itemName,
+          expiration_date: props.expirationDate,
+          category_id: props.value,
+          account_id: "1",
+        },
+        ...prevItemObject,
+      ];
     });
   };
 
   const [status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
 
-
-
-
-
   const [modalVisible, setModalVisible] = useState(false);
-
-  
 
   //props.category name
   //props.category_id
@@ -114,7 +114,6 @@ const ItemScreen = ({ route, navigation }) => {
   //props.item_name
 
   return (
-
     <View style={styles.container}>
       <View style={styles.body}>
         {
@@ -127,7 +126,11 @@ const ItemScreen = ({ route, navigation }) => {
         <ScrollView style={styles.scrollView}>
           {itemObject.map((obj, key) => (
             <View key={key}>
-              <ItemInfoComponent item={obj} pressHandler={pressHandler} />
+              <ItemInfoComponent
+                sysDate={format(new Date(), "yyyy-MM-dd")}
+                item={obj}
+                pressHandler={pressHandler}
+              />
             </View>
           ))}
 
@@ -156,7 +159,7 @@ const ItemScreen = ({ route, navigation }) => {
                   <TextInput
                     style={styles.input}
                     onChangeText={(newText) => setItemName(newText)}
-                  /*Make CharacterLimit*/
+                    /*Make CharacterLimit*/
                   />
                 </View>
 
@@ -169,8 +172,8 @@ const ItemScreen = ({ route, navigation }) => {
                     style={styles.input}
                     placeholder="YYYY-MM-DD"
                     onChangeText={(newText) => setExpirationDate(newText)}
-                  // defaultValue = "0001-01-28"
-                  /*Make CharacterLimit*/
+                    // defaultValue = "0001-01-28"
+                    /*Make CharacterLimit*/
                   />
                 </View>
 
@@ -198,9 +201,8 @@ const ItemScreen = ({ route, navigation }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      submitHandler({itemName, expirationDate, value});
+                      submitHandler({ itemName, expirationDate, value });
                       setModalVisible(!modalVisible);
-                      
                     }}
                   >
                     <Text style={styles.textStyle}>Submit</Text>
@@ -245,7 +247,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   container: {
-      backgroundColor: "#E8EAED",
+    backgroundColor: "#E8EAED",
     flex: 1,
     justifyContent: "center",
   },
