@@ -1,25 +1,29 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
-import { format, parseISO, subDays } from "date-fns";
+import { parseISO, subDays } from "date-fns";
 
 export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
   //placeholder to demonstrate Style sheet
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
-  // Expiration Date Checker ******************************
-  let systemDate = sysDate;
+  // Expiration Date Checker ***********************************
+  let systemDate = parseISO(sysDate);
 
-  let expDate = format(new Date(), item.expiration_date, "yyyy-MM-dd");
+  let expDate = parseISO(item.expiration_date);
 
-  let temp = subDays(parseISO(item.expiration_date), 7);
+  let temp = subDays(expDate, 7);
 
-  parseISO(systemDate) < temp
+  /** Items with no expiration date set will be auto colored red
+   * If you want a different color (yellow or green), move the
+   * conditions around.
+   */
+  systemDate <= temp
     ? (statusValue = 0)
-    : parseISO(systemDate) > temp && parseISO(systemDate) <= parseISO(expDate)
+    : systemDate > temp && systemDate <= expDate
     ? (statusValue = 1)
     : (statusValue = 2);
-  // ******************************************************
+  // ***********************************************************
 
   //Status Handler Function
   return (
