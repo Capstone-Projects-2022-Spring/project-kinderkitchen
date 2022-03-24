@@ -10,18 +10,20 @@ import {
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
-const DonateScreen = ({ navigation }) => {
+const RecipeSearchScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.searchBar}>
-          <TextInput style={styles.input} placeholder="Enter Address" />
+          <TextInput style={styles.input} placeholder="Search Recipes">
+            <Text>Recipe</Text>
+          </TextInput>
           <TouchableOpacity style={styles.userBtn}>
             <Text
               style={styles.btnTxt}
               onPress={() =>
                 alert(
-                  "This will search and display on the map any nearby foodbanks."
+                  "This will search through recipes displayed on the screen from the API."
                 )
               }
             >
@@ -30,30 +32,17 @@ const DonateScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <View style={styles.mapBox}>
-          <Text>Map</Text>
-        </View>
-
-        <ScrollView style={styles.addressList}>
-          <TouchableOpacity
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Food Bank")}
-          >
-            <Text>Address 1</Text>
+        <ScrollView style={styles.recipeList}>
+          <TouchableOpacity style={styles.touchable}>
+            <Text>Recipe 1</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Food Bank")}
-          >
-            <Text>Address 2</Text>
+          <TouchableOpacity style={styles.touchable}>
+            <Text>Recipe 2</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Food Bank")}
-          >
-            <Text>Address 3</Text>
+          <TouchableOpacity style={styles.touchable}>
+            <Text>Recipe 3</Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -94,19 +83,10 @@ const styles = StyleSheet.create({
     width: "25%",
   },
 
-  mapBox: {
+  recipeList: {
+    borderWidth: 1,
+    width: "100%",
     marginTop: 5,
-    marginBottom: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    height: "50%",
-    width: "100%",
-    borderWidth: 1,
-  },
-
-  addressList: {
-    borderWidth: 1,
-    width: "100%",
     marginBottom: 5,
   },
   touchable: {
@@ -118,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DonateScreen;
+export default RecipeSearchScreen;

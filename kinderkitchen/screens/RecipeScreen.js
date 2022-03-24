@@ -5,12 +5,11 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
-const RecipeScreen = () => {
+const RecipeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -19,30 +18,28 @@ const RecipeScreen = () => {
           <TouchableOpacity style={styles.userBtn}>
             <Text
               style={styles.btnTxt}
-              onPress={() =>
-                alert(
-                  "This will search through recipes displayed on the screen from the API."
-                )
-              }
+              onPress={() => navigation.navigate("Recipe Search")}
             >
               Search
             </Text>
           </TouchableOpacity>
         </View>
 
-        <ScrollView style={styles.recipeList}>
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 1</Text>
-          </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.customBtn}
+          onPress={() => navigation.navigate("Custom Recipe Search")}
+        >
+          <Text style={{ color: "#fff" }}>
+            Search for Recipes using your items
+          </Text>
+        </TouchableOpacity>
 
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 2</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 3</Text>
-          </TouchableOpacity>
-        </ScrollView>
+        <TouchableOpacity
+          style={styles.customBtn}
+          onPress={() => navigation.navigate("Saved Recipes")}
+        >
+          <Text style={{ color: "#fff" }}>Saved Recipes</Text>
+        </TouchableOpacity>
       </View>
       <MyNavMenu />
     </View>
@@ -73,6 +70,7 @@ const styles = StyleSheet.create({
     width: "70%",
     backgroundColor: "#fff",
     marginRight: 5,
+    paddingLeft: 5,
   },
   userBtn: {
     backgroundColor: "#FFD700",
@@ -80,17 +78,14 @@ const styles = StyleSheet.create({
     width: "25%",
   },
 
-  recipeList: {
-    borderWidth: 1,
-    width: "100%",
-    marginBottom: 5,
-  },
-  touchable: {
-    backgroundColor: "#fff",
+  customBtn: {
+    backgroundColor: "darkturquoise",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 5,
+    marginTop: 25,
     height: 50,
+    width: "90%",
+    borderWidth: 0.5,
   },
 });
 

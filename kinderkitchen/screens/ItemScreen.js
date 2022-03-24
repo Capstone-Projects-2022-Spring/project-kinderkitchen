@@ -18,7 +18,7 @@ import ItemInfoComponent from "../Components/ItemInfoComponent";
 
 import HeaderComponent from "../Components/HeaderComponent";
 
-const ItemScreen = ({ props, route, navigation }) => {
+const ItemScreen = ({ route, navigation }) => {
   // console.log("=========== Page Update ===========");
   // console.log("\nRoute INFO: ");
   // console.log(route);
