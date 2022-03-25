@@ -10,12 +10,10 @@ import auth from "../firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 const SignUpScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
+ 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
-  const [zipCode, setZipCode] = useState('');
-
 
 
   const createUserHandler = () => {
@@ -48,11 +46,9 @@ const SignUpScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.welcome}>New Account</Text>
 
-      <TextInput style={styles.input} placeholder="Username" onChangeText={text => setUsername(text)} />
+      <TextInput style={styles.input} placeholder="Email Address" onChangeText={text => setEmail(text)} />
       <TextInput style={styles.input} placeholder="Password" onChangeText={text => setPassword(text)} secureTextEntry />
       <TextInput style={styles.input} placeholder="Confirm Password" onChangeText={text => setPassword2(text)} secureTextEntry />
-      <TextInput style={styles.input} placeholder="Email" onChangeText={text => setEmail(text)} />
-      <TextInput style={styles.input} placeholder="Zip Code" onChangeText={text => setZipCode(text)} />
 
       <View style={styles.btnContainer}>
         
