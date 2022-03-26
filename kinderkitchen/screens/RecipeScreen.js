@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   View,
   StyleSheet,
@@ -7,41 +7,48 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-
+import { Searchbar } from 'react-native-paper';
+import Recipe from "../Components/Recipe";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const RecipeScreen = () => {
+  const APP_ID = ''; //INSERT APP ID HERE!!!!!!!
+  const API_KEY = ''; //INSERT API KEY HERE!!!!!!!
+
+  const [recipeData, setRecipeData] = useState([]);
+  const [search, setSearch] = useState('')
+  const [query, setQuery] = useState("fish");
+
+  useEffect(() => {
+    getRecipeData();
+  }, [query]);
+
+  const getRecipeData = async() => {
+    const response = await fetch(`https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${API_KEY}`)
+    const data = await response.json();
+    setRecipeData(data.hits);
+  }
+
+  const getSearch = e => {
+    e.preventDefault();
+    setQuery(search);
+    setSearch('');
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.searchBar}>
-          <TextInput style={styles.input} placeholder="Search Recipes" />
-          <TouchableOpacity style={styles.userBtn}>
-            <Text
-              style={styles.btnTxt}
-              onPress={() =>
-                alert(
-                  "This will search through recipes displayed on the screen from the API."
-                )
-              }
-            >
-              Search
-            </Text>
-          </TouchableOpacity>
+          <Searchbar style={styles.input} placeholder="Search Recipes" value={search} onChangeText={text => setSearch(text)} onIconPress={getSearch} onSubmitEditing={getSearch} />
         </View>
-
         <ScrollView style={styles.recipeList}>
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 1</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 2</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 3</Text>
-          </TouchableOpacity>
+          {recipeData.map(recipe =>(
+            <Recipe
+             key={recipe.recipe.label}
+             title={recipe.recipe.label} 
+             calories={recipe.recipe.calories}
+             image={recipe.recipe.image} />
+          ))}
         </ScrollView>
       </View>
       <MyNavMenu />
