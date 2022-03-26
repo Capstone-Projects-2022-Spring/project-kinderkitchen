@@ -58,6 +58,7 @@ npm install react-native-gesture-handler
 npm install date-fns --save
 npm install react-native-dropdown-picker
 expo install expo-barcode-scanner
+expo install react-native-paper
 ```
 - Clone Repo
 ```
