@@ -62,6 +62,7 @@ expo install firebase
 expo install @react-native-firebase/app
 expo install @react-native-firebase/auth
 expo install @react-native-firebase/database
+expo install react-native-paper
 ```
 - Clone Repo
 ```
