@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, SafeAreaView, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, SafeAreaView, Image } from "react-native";
 
 const Recipe = ({ title, calories, image }) => {
     return (

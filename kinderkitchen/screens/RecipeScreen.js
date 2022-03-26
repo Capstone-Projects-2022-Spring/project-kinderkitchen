@@ -12,8 +12,8 @@ import Recipe from "../Components/Recipe";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const RecipeScreen = () => {
-  const APP_ID = '';
-  const API_KEY = '';
+  const APP_ID = ''; //INSERT APP ID HERE!!!!!!!
+  const API_KEY = ''; //INSERT API KEY HERE!!!!!!!
 
   const [recipeData, setRecipeData] = useState([]);
   const [search, setSearch] = useState('')
@@ -29,11 +29,6 @@ const RecipeScreen = () => {
     setRecipeData(data.hits);
   }
 
-  const updateSearch = e => {
-    setSearch(e.target.value);
-    console.log(search);
-  }
-
   const getSearch = e => {
     e.preventDefault();
     setQuery(search);
@@ -44,7 +39,7 @@ const RecipeScreen = () => {
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.searchBar}>
-          <Searchbar style={styles.input} placeholder="Search Recipes" value={search} onChange={updateSearch} onIconPress={getSearch} />
+          <Searchbar style={styles.input} placeholder="Search Recipes" value={search} onChangeText={text => setSearch(text)} onIconPress={getSearch} onSubmitEditing={getSearch} />
         </View>
         <ScrollView style={styles.recipeList}>
           {recipeData.map(recipe =>(
