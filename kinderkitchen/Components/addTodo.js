@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TextInput, Button } from "react-native";
 
-export default function AddTodo({ submitHandler }) {
+export default function AddTodo({ submitHandler, userID }) {
   const [text, setText] = useState("");
 
   const changeHandler = (val) => {
@@ -19,7 +19,7 @@ export default function AddTodo({ submitHandler }) {
       ></TextInput>
 
       <Button
-        onPress={() => submitHandler(text)}
+        onPress={() => submitHandler(text, userID)}
         title="Add Category"
         style={styles.button}
       />

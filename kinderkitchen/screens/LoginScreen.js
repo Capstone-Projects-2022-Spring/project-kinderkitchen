@@ -19,6 +19,7 @@ const LoginScreen = ({ navigation }) => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
+        console.log(user);
         setUser(userCredential.user);
         alert("Welcome: " + user.email);
         console.log("Welcome:", user.email);

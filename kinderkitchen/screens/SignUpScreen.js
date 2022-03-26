@@ -8,18 +8,39 @@ import {
 } from "react-native";
 import auth from "../firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, set, ref, child, push, update } from "firebase/database";
 
 const SignUpScreen = ({ navigation }) => {
- 
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
 
+  const database = getDatabase();
+
+  function writeUserData(userId, name, email) {
+    set(ref(database, 'users/' + userId), {
+      username: name,
+      email: email
+      //profile_picture : imageUrl
+    });
+    set(ref(database, 'users/' + userId +'/categories/'), {});
+    addCategory('Fridge', userId);
+    addCategory('Pantry', userId);
+  }
+
+  function addCategory(categoryName, userID){
+    const newCategoryKey = push(child(ref(database), 'categories')).key;
+    const updates = {};
+    updates['users/' + userID + '/categories/' + newCategoryKey] = {categoryName: categoryName};
+    return update(ref(database), updates);
+  }
 
   const createUserHandler = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
+      writeUserData(userCredential.user.uid, username, email)
       console.log('User account created & (maybe) signed in!');
       navigation.navigate("Category");
     })
@@ -46,9 +67,11 @@ const SignUpScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.welcome}>New Account</Text>
 
-      <TextInput style={styles.input} placeholder="Email Address" onChangeText={text => setEmail(text)} />
+      <TextInput style={styles.input} placeholder="Username" onChangeText={text => setUsername(text)} />
       <TextInput style={styles.input} placeholder="Password" onChangeText={text => setPassword(text)} secureTextEntry />
       <TextInput style={styles.input} placeholder="Confirm Password" onChangeText={text => setPassword2(text)} secureTextEntry />
+      <TextInput style={styles.input} placeholder="Email" onChangeText={text => setEmail(text)} />
+      <TextInput style={styles.input} placeholder="Zip Code" onChangeText={text => setZipCode(text)} />
 
       <View style={styles.btnContainer}>
         
