@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import MyNavMenu from "../nav-bar/MyNavMenu";
+import { getAuth, signOut } from "firebase/auth";
 
 const AccountScreen = ({ navigation }) => {
   const titleAcc = "Account";
   const titleAch = "Achievements";
   const titleNot = "Notifications";
+  const titleLog = "Logout";
+
+ const auth = getAuth();
+ const user = auth.currentUser;
+
 
   return (
     <View style={styles.container}>
@@ -27,7 +33,24 @@ const AccountScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("Achievements")}
         >
           <Text>{titleAch}</Text>
-        </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  title="1"
+                  style={styles.LogoutButton}
+                  //onPress={() => navigation.navigate("Achievements")}
+                  onPress={() => {
+                      signOut(auth).then(() => {
+                          // Sign-out successful.
+                          alert("You Are Now Signed-Out!\n See You Soon: " + user.email);
+                      }).catch((error) => {
+                          // An error happened.
+                          alert(error.code);
+                      });
+                      navigation.navigate("Login");
+                  }}
+              >
+                  <Text>{titleLog}</Text>
+              </TouchableOpacity>
       </View>
       <MyNavMenu />
     </View>
@@ -103,6 +126,17 @@ const styles = StyleSheet.create({
     right: 230,
     justifyContent: "space-evenly",
   },
+    LogoutButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 49,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: "#FFD700",
+        position: "absolute",
+        top: 570,
+        right: 130,
+        justifyContent: "space-evenly",
+    },
 });
 
 export default AccountScreen;

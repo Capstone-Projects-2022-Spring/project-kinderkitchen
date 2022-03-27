@@ -2,6 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\kinderkitchen",
+    "\\kinderkitchen\\Components",
+    "\\kinderkitchen\\nav-bar",
+    "\\kinderkitchen\\routes",
     "\\kinderkitchen\\screens"
   ],
   "PreviewInSolutionExplorer": false

@@ -45,22 +45,7 @@ const MyNavMenu = () => {
         <Text>Account</Text>
       </TouchableHighlight>
 
-      <TouchableHighlight
-        style={styles.touchable}
-        onPress={() => {
-          signOut(auth).then(() => {
-            // Sign-out successful.
-            alert("You Are Now Signed-Out!\nCome Again User: " + user.email);
-          }).catch((error) => {
-            // An error happened.
-            alert(error.code);
-          });
-          navigation.navigate("Login");
-        }}
-        underlayColor="limegreen"
-      >
-        <Text>Logout</Text>
-      </TouchableHighlight>
+      
     </View>
   );
 };
@@ -69,7 +54,7 @@ const styles = StyleSheet.create({
   navmenu: {
     flex: 0.05,
     borderWidth: 1,
-    backgroundColor: "#fff",
+        backgroundColor: "#2196F3",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "flex-end",
@@ -79,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: "lightgray",
     justifyContent: "center",
     alignItems: "center",
-    width: 75,
+    width: 99,
   },
 });
 
