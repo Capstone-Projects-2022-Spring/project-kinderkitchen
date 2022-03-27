@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Text, Pressable } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import TodoItem from "../Components/TodoItem";
-import AddTodo from "../Components/addTodo";
+import TodoItem from "../Components/CategoryItem";
+import AddCategory from "../Components/AddCategory";
 
-import { getDatabase, onValue, set, ref, child, push, update } from "firebase/database";
+import { getDatabase, onValue, set, get, ref, child, push, update } from "firebase/database";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import CategoryItem from "../Components/CategoryItem";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 const CategoryScreen = () => {
@@ -22,29 +24,18 @@ const CategoryScreen = () => {
   const database = getDatabase();
   const auth = getAuth();
 
-  // const [databaseRef, setDBRef] = useState();
+  const [dbData, setDBData] = useState([]);
+
+
   const [currentUserID, setCurrentUserID] = useState();
 
-  // const [categoryData, setCategoryData] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   // //const categoryRef = ref(database, 'categories/' + categoryID + '/categoryName');
 
   /*Get Currently SignedIn User - Observer*/
   onAuthStateChanged(auth, (user) => {
     if (user) { //User is Signed In
       setCurrentUserID(user.uid);
-      // setDBRef(ref(database, 'users/' + user.uid + '/categories'))
-      // onValue(databaseRef, (snapshot) => {
-      //   snapshot.forEach((childSnapshot) => {
-      //     const childKey = childSnapshot.key; //Giberish
-      //     const childData = childSnapshot.val(); //{categoryName: 'string'}
-      //     setCategoryData((prevData) => {
-      //       return [{categoryName: Pizza, key: childKey}, ...prevData];
-      //     });
-      //     // // ...
-      //   });
-      // }, {
-      //   onlyOnce: true
-      // });
       // ...
     } else {
       alert('User is Signed out');
@@ -52,7 +43,19 @@ const CategoryScreen = () => {
   });
 
 
+  // setCategoryData((prevData) => {
+  //   return [{ categoryName: childData, key: childKey }, ...prevData];
+  // });
 
+
+
+  onValue(ref(database, 'users/' + currentUserID + '/categories'), (snapshot) => {
+    setDBData(snapshot.val());
+  }, {
+    onlyOnce: true
+  });
+
+  // console.log(dbData);
 
 
   function addCategory(categoryName, userID) {
@@ -62,7 +65,13 @@ const CategoryScreen = () => {
     return update(ref(database), updates);
   }
 
-
+  function ParseDBData() {
+    for (var key in dbData) {
+      setCategoryData((prevData) => {
+        return [{ categoryName: dbData[key].categoryName, categoryKey: key }, ...prevData];
+      });
+    }
+  }
 
 
   {
@@ -74,21 +83,23 @@ const CategoryScreen = () => {
     });
   };
 
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         {/*   this list thru array and display   */}
         <ScrollView style={styles.scrollView}>
           {//categoryData.map((categoryName, key) => (
-            todos.map((item, key) => (
+            categoryData.map((item, key) => (
               <View key={key}>
-                <TodoItem item={item} pressHandler={pressHandler} />
+                <CategoryItem item={item} pressHandler={pressHandler} />
               </View>
             ))}
         </ScrollView>
 
-        {/*   Content   */}
-        <AddTodo submitHandler={addCategory} userID={currentUserID} />
+        {/*   Add Category Field   */}
+        <AddCategory submitHandler={addCategory} userID={currentUserID} />
+        <TouchableOpacity onPress={ParseDBData}><Text>Press</Text></TouchableOpacity>
       </View>
       <MyNavMenu />
     </View>

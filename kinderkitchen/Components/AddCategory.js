@@ -1,19 +1,15 @@
 import React, { useState } from "react";
-import { StyleSheet, View, TextInput, Button } from "react-native";
+import { StyleSheet, SafeAreaView, TextInput, Button } from "react-native";
 
-export default function AddTodo({ submitHandler, userID }) {
+export default function AddCategory({ submitHandler, userID }) {
   const [text, setText] = useState("");
 
-  const changeHandler = (val) => {
-    setText(val);
-  };
-
   return (
-    <View style={styles.footer}>
+    <SafeAreaView style={styles.footer}>
       <TextInput
         style={styles.TextInput}
         placeholder="Enter Category Name"
-        onChangeText={changeHandler}
+        onChangeText={(text) => setText(text)}
         placeholderTextColor="#fff"
         underlineColorAndroid="transparent"
       ></TextInput>
@@ -23,7 +19,7 @@ export default function AddTodo({ submitHandler, userID }) {
         title="Add Category"
         style={styles.button}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
