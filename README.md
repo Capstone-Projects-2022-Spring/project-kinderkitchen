@@ -82,18 +82,13 @@ Go to view in VS Code, open CMD and run ```npm start```
 To view in Expo Go, run ```expo start``` 
 Scan the QR Code that it generates and open the app with Expo Go
 
-## Milestone 1 Demo  
-- F1 User can create an account with Kinder Kitchen 
-  - Sign Up will validate first name, last name, 
-    email, address. 
-- F2  User can manage food items  
-  - add/edit/delete categories 
-  - add/edit/delete items 
-  - manually add items 
-  - scan barcodes to add items 
-  - change quantity and details (expirations, 
-    etc.) of each item 
-  - move items between categories 
+## v1.0 Release Notes
+- Full navigation through app.
+- Add and delete categories.
+- Add and delete items.
+- Manually add items.
+- Added barcode scanner.
+- Application available on android and iOS devices.
 
 ## Testing 1 
 
