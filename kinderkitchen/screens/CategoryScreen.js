@@ -23,20 +23,13 @@ const CategoryScreen = () => {
   const auth = getAuth();
   const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
-  const [categoryData, setCategoryData] = useState(ReadCategory);
-  /*
-  { 
-    Fridge: true,   //True  ->  Category Has Items
-    Pantry: false,  //False ->  Category does not have items
-    Other: false
-  }
-  */
+  const [categoryData, setCategoryData] = useState(ReadCategory); //similar to placeHolderData
 
-  const [placeHolderData, setPlaceHolderData] = useState([{
+  const [placeHolderData, setPlaceHolderData] = useState({
     Fridge: false,   //True  ->  Category Has Items
     Pantry: false,  //False ->  Category does not have items
     Other: false
-  }]);
+  });
 
 
   const [dbData, setDBData] = useState([]);
@@ -96,6 +89,23 @@ const CategoryScreen = () => {
     return update(ref(database), updates);
   }
 
+  function displayData() {
+    //ReadCategory(); //setDBData to localData
+    let items = [];
+    for (var key in categoryData) {
+      console.log(key);
+      //something like this?
+      items.push(<Text>{key}</Text>);
+
+      //category item will need to be updated.
+
+      // <View key={key}>
+      //   <CategoryItem categoryName={item} pressHandler={pressHandler} />
+      // </View>
+    }
+    return items;
+  }
+
 
   {
     /*   This is a function that does the deleting from the list by long pressing on the item */
@@ -113,15 +123,20 @@ const CategoryScreen = () => {
         <ScrollView style={styles.scrollView}>
 
           {/*   Display Categories   */}
+          {displayData()}
+          {console.log('Hello')}
           {/* On Page Render Data gathers twice. First Is Undefined second is Data */}
           {/* {placeHolderData.map((key)=>{console.log(key)}) */
-          // forEach(key => { //Key is CategoryName - Untested as undefined triggers first
-          // console.log(key);
-          //   // <View key={key}>
-          //   //   <CategoryItem categoryName={item} pressHandler={pressHandler} />
-          //   // </View>
-          // })
-        }
+            // forEach(key => { //Key is CategoryName - Untested as undefined triggers first
+            // console.log(key);
+            //   // <View key={key}>
+            //   //   <CategoryItem categoryName={item} pressHandler={pressHandler} />
+            //   // </View>
+            // })
+          }
+          {/* if (typeof jsVar == 'undefined') {
+  ...
+} */}
         </ScrollView>
 
         {/*   Add Category Field   */}
