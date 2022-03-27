@@ -32,15 +32,15 @@ const CategoryScreen = () => {
   const [categoryData, setCategoryData] = useState([]);
   // //const categoryRef = ref(database, 'categories/' + categoryID + '/categoryName');
 
-  /*Get Currently SignedIn User - Observer*/
-  onAuthStateChanged(auth, (user) => {
-    if (user) { //User is Signed In
-      setCurrentUserID(user.uid);
-      // ...
-    } else {
-      alert('User is Signed out');
-    }
-  });
+  // /*Get Currently SignedIn User - Observer*/
+  // onAuthStateChanged(auth, (user) => {
+  //   if (user) { //User is Signed In
+  //     setCurrentUserID(user.uid);
+  //     // ...
+  //   } else {
+  //     alert('User is Signed out');
+  //   }
+  // });
 
 
   // setCategoryData((prevData) => {
@@ -49,11 +49,11 @@ const CategoryScreen = () => {
 
 
 
-  onValue(ref(database, 'users/' + currentUserID + '/categories'), (snapshot) => {
-    setDBData(snapshot.val());
-  }, {
-    onlyOnce: true
-  });
+  // onValue(ref(database, 'users/' + currentUserID + '/categories'), (snapshot) => {
+  //   setDBData(snapshot.val());
+  // }, {
+  //   onlyOnce: true
+  // });
 
   // console.log(dbData);
 
