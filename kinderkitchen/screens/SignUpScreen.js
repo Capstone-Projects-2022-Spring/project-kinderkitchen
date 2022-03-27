@@ -11,38 +11,27 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, set, ref, child, push, update } from "firebase/database";
 
 const SignUpScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [password2, setPassword2] = useState('');
 
   const database = getDatabase();
 
-  function writeUserData(userId, name, email) {
-    set(ref(database, 'users/' + userId), {
-      username: name,
-      email: email
-      //profile_picture : imageUrl
-    });
-    set(ref(database, 'users/' + userId +'/categories/'), {});
-    addCategory('Fridge', userId);
-    addCategory('Pantry', userId);
-  }
-
-  function addCategory(categoryName, userID){
-    const newCategoryKey = push(child(ref(database), 'categories')).key;
-    const updates = {};
-    updates['users/' + userID + '/categories/' + newCategoryKey] = {categoryName: categoryName};
-    return update(ref(database), updates);
+  function writeUserData(userId, email) {
+    set(ref(database, 'users/' + userId), { email: email });
+    set(ref(database, 'users/' + userId +'/categories/'), {
+      Fridge: false, 
+      Pantry: false}); //On New Item Add, Set to true
+      set(ref(database, 'users/' + userId +'/items/'), {}); //Add Category Name that was set to true as an ID,
+                                                            //Then add Item with all data - MIGRATE TO ITEM ADD does not initalize
   }
 
   const createUserHandler = () => {
 
     createUserWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-      writeUserData(userCredential.user.uid, username, email)
-      console.log('User account created & (maybe) signed in!');
-      navigation.navigate("Category");
+      writeUserData(userCredential.user.uid, email)
+      navigation.navigate("Category"); //Navigate to AccountScreen? or WelcomeIntro?
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -67,11 +56,9 @@ const SignUpScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text style={styles.welcome}>New Account</Text>
 
-      <TextInput style={styles.input} placeholder="Username" onChangeText={text => setUsername(text)} />
+      <TextInput style={styles.input} placeholder="Email" onChangeText={text => setEmail(text)} />
       <TextInput style={styles.input} placeholder="Password" onChangeText={text => setPassword(text)} secureTextEntry />
       <TextInput style={styles.input} placeholder="Confirm Password" onChangeText={text => setPassword2(text)} secureTextEntry />
-      <TextInput style={styles.input} placeholder="Email" onChangeText={text => setEmail(text)} />
-      <TextInput style={styles.input} placeholder="Zip Code" onChangeText={text => setZipCode(text)} />
 
       <View style={styles.btnContainer}>
         

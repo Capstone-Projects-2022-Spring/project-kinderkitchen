@@ -12,24 +12,39 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 
 const CategoryScreen = () => {
-  const [todos, setTodos] = useState([
-    { text: "Pantry", key: "1" },
-    { text: "Fridge", key: "2" },
-    { text: "Fruit", key: "3" },
-  ]);
 
 
 
+  //May neeed Asynch calls as page renders twice to wait for data collection
 
   const database = getDatabase();
+  const bdRef = ref(database); //refrences Root database
+
   const auth = getAuth();
+  const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
+
+  const [categoryData, setCategoryData] = useState(ReadCategory);
+  /*
+  { 
+    Fridge: true,   //True  ->  Category Has Items
+    Pantry: false,  //False ->  Category does not have items
+    Other: false
+  }
+  */
+
+  const [placeHolderData, setPlaceHolderData] = useState([{
+    Fridge: false,   //True  ->  Category Has Items
+    Pantry: false,  //False ->  Category does not have items
+    Other: false
+  }]);
+
 
   const [dbData, setDBData] = useState([]);
 
 
-  const [currentUserID, setCurrentUserID] = useState();
 
-  const [categoryData, setCategoryData] = useState([]);
+
+
   // //const categoryRef = ref(database, 'categories/' + categoryID + '/categoryName');
 
   // /*Get Currently SignedIn User - Observer*/
@@ -57,20 +72,28 @@ const CategoryScreen = () => {
 
   // console.log(dbData);
 
-
-  function addCategory(categoryName, userID) {
-    const newCategoryKey = push(child(ref(database), 'categories')).key;
-    const updates = {};
-    updates['users/' + userID + '/categories/' + newCategoryKey] = { categoryName: categoryName };
-    return update(ref(database), updates);
+  function ReadCategory() {
+    get(child(ref(database), `users/${currentUserID}/categories`)).then((snapshot) => {
+      if (snapshot.exists()) {
+        setCategoryData(snapshot.val())
+      } else {
+        console.log("No data available");
+        setCategoryData({ UnknownCategory: false });
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
   }
 
-  function ParseDBData() {
-    for (var key in dbData) {
-      setCategoryData((prevData) => {
-        return [{ categoryName: dbData[key].categoryName, categoryKey: key }, ...prevData];
-      });
-    }
+  function addCategory(categoryName, userID) {
+    if (categoryName === "") { alert("Category Name Cannot Be Blank"); return; } //Future Bug - Spaces and extra white space
+    if (categoryName in categoryData) { alert("Category Already Exists!"); return; }//Future BUG - Case sensitivity, Set to lower/to upper on creation. then do a to upper/tolower comapre
+    let localData = categoryData;
+    localData[categoryName] = false;
+    setCategoryData(localData);
+    const updates = {};
+    updates['users/' + userID + '/categories/'] = categoryData;
+    return update(ref(database), updates);
   }
 
 
@@ -87,19 +110,22 @@ const CategoryScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        {/*   this list thru array and display   */}
         <ScrollView style={styles.scrollView}>
-          {//categoryData.map((categoryName, key) => (
-            categoryData.map((item, key) => (
-              <View key={key}>
-                <CategoryItem item={item} pressHandler={pressHandler} />
-              </View>
-            ))}
+
+          {/*   Display Categories   */}
+          {/* On Page Render Data gathers twice. First Is Undefined second is Data */}
+          {/* {placeHolderData.map((key)=>{console.log(key)}) */
+          // forEach(key => { //Key is CategoryName - Untested as undefined triggers first
+          // console.log(key);
+          //   // <View key={key}>
+          //   //   <CategoryItem categoryName={item} pressHandler={pressHandler} />
+          //   // </View>
+          // })
+        }
         </ScrollView>
 
         {/*   Add Category Field   */}
         <AddCategory submitHandler={addCategory} userID={currentUserID} />
-        <TouchableOpacity onPress={ParseDBData}><Text>Press</Text></TouchableOpacity>
       </View>
       <MyNavMenu />
     </View>
