@@ -78,6 +78,17 @@ const CategoryScreen = () => {
     });
   }
 
+  function displayData() {
+    let items = [];
+    for (var key in categoryData) {
+      items.push(
+      <View key={key}>
+        <CategoryItem categoryName={key} pressHandler={pressHandler} />
+      </View>);
+    }
+    return items;
+  }
+
   function addCategory(categoryName, userID) {
     if (categoryName === "") { alert("Category Name Cannot Be Blank"); return; } //Future Bug - Spaces and extra white space
     if (categoryName in categoryData) { alert("Category Already Exists!"); return; }//Future BUG - Case sensitivity, Set to lower/to upper on creation. then do a to upper/tolower comapre
@@ -87,24 +98,10 @@ const CategoryScreen = () => {
     const updates = {};
     updates['users/' + userID + '/categories/'] = categoryData;
     return update(ref(database), updates);
+    
   }
 
-  function displayData() {
-    //ReadCategory(); //setDBData to localData
-    let items = [];
-    for (var key in categoryData) {
-      console.log(key);
-      //something like this?
-      items.push(<Text>{key}</Text>);
-
-      //category item will need to be updated.
-
-      // <View key={key}>
-      //   <CategoryItem categoryName={item} pressHandler={pressHandler} />
-      // </View>
-    }
-    return items;
-  }
+  
 
 
   {
@@ -124,19 +121,7 @@ const CategoryScreen = () => {
 
           {/*   Display Categories   */}
           {displayData()}
-          {console.log('Hello')}
-          {/* On Page Render Data gathers twice. First Is Undefined second is Data */}
-          {/* {placeHolderData.map((key)=>{console.log(key)}) */
-            // forEach(key => { //Key is CategoryName - Untested as undefined triggers first
-            // console.log(key);
-            //   // <View key={key}>
-            //   //   <CategoryItem categoryName={item} pressHandler={pressHandler} />
-            //   // </View>
-            // })
-          }
-          {/* if (typeof jsVar == 'undefined') {
-  ...
-} */}
+
         </ScrollView>
 
         {/*   Add Category Field   */}

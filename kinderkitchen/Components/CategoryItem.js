@@ -6,15 +6,15 @@ import { useNavigation } from "@react-navigation/native";
 {
   /*   This is a class that is related to the content of the list (design + displaying ) */
 }
-export default function CategoryItem({ item, pressHandler }) {
+export default function CategoryItem({ categoryName, pressHandler }) {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       onLongPress={() => pressHandler(item.categoryKey)}
-      onPress={() => navigation.navigate("Items",{categoryName: item.categoryName, categoryID: item.categoryKey})}
+      onPress={() => navigation.navigate("Items",{categoryName: categoryName})}
     >
-      <Text style={styles.item}>{item.categoryName}</Text>
+      <Text style={styles.item}>{categoryName}</Text>
     </TouchableOpacity>
   );
 }
