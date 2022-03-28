@@ -20,9 +20,7 @@ const LoginScreen = ({ navigation }) => {
       .then((userCredential) => {
         // Signed in
         setUser(userCredential.user);
-        alert("Welcome: " + user.email);
-        console.log("Welcome:", user.email);
-        navigation.navigate("Category");
+        navigation.navigate("Category"); //Pass in User?
         // ...
       })
       .catch((error) => {
