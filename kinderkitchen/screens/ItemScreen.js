@@ -14,6 +14,8 @@ import {
 import DropDownPicker from "react-native-dropdown-picker";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, getHours, parseISO } from "date-fns";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
@@ -80,6 +82,7 @@ const ItemScreen = ({ props, route, navigation }) => {
         { label: "Pantry", value: 2 },
     ]);
 
+    
     /*Textbox Fields*/
     const [itemName, setItemName] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
@@ -167,7 +170,7 @@ const ItemScreen = ({ props, route, navigation }) => {
 
                     {/*Add Item Form Pop-Up*/}
                     <Modal
-                        animationType="fade"
+                        animationType='slide'
                         transparent={true}
                         visible={modalVisible}
                         onRequestClose={() => {
@@ -177,12 +180,20 @@ const ItemScreen = ({ props, route, navigation }) => {
                     >
                         <View style={styles.centeredView}>
                             <View style={styles.modalView}>
+
+                                <MaterialIcons
+                                    name='close'
+                                    size={24}
+                                    style={{ ...styles.modalToggle, ...styles.modalClose }}
+                                    onPress={() => setModalVisible(false)}
+                                />
+
                                 {/*Header*/}
                                 <View style={styles.modalHeader}>
                                     <Text style={styles.modalText}>Add Item</Text>
                                 </View>
-
-                                {/*Item Name*/}
+                            
+                               {/*Item Name*/}
                                 <View style={styles.inputView}>
                                     <View style={styles.inputTitle}>
                                         <Text>Item Name:</Text>
@@ -200,7 +211,9 @@ const ItemScreen = ({ props, route, navigation }) => {
                                         <Text>Expiration Date:</Text>
                                     </View>
 
-                                    <Button title="Date Picker" onPress={() => showMode('date') } />
+                                    <Button title="Date Picker"
+                                        onPress={() => showMode('date')}
+                                    />
 
                                     {show && (
                                         <DateTimePicker
@@ -263,7 +276,8 @@ const ItemScreen = ({ props, route, navigation }) => {
                                         ]}
                                         onPress={() => navigation.navigate("Barcode")}
                                     >
-                                        <Text style={styles.textStyle}>Scan</Text>
+                                        <MaterialCommunityIcons name="barcode-scan" size={24} color="black" />
+                                        <Text style={styles.textStyle}></Text>
                                     </Pressable>
                                 </View>
                                 {/*END - ButtonField*/}
@@ -376,10 +390,10 @@ const styles = StyleSheet.create({
         //margin: 20
     },
     buttonSubmit: {
-        width: "33%",
+        width: "30%",
         marginTop: 10,
-        marginHorizontal: 20,
-        backgroundColor: "#12CDD4",
+        marginHorizontal: 27,
+        backgroundColor: "gray",
     },
     buttonScan: {
         marginTop: 10,
@@ -387,7 +401,7 @@ const styles = StyleSheet.create({
         backgroundColor: "gray",
     },
     textStyle: {
-        color: "white",
+        color: "black",
         fontWeight: "bold",
         textAlign: "center",
     },
@@ -401,6 +415,22 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         marginBottom: 20,
         padding: 10,
+    },
+    modalToggle: {
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#f2f2f2',
+        padding: 8,
+        top: 7,
+        right: 120,
+        borderRadius: 10,
+        //alignSelf: 'center',
+    },
+    modalClose: {
+        marginTop: 10,
+        marginBottom: 0,
     },
 });
 
