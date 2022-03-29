@@ -1,49 +1,60 @@
-import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { Searchbar } from "react-native-paper";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
+import Recipe from "../Components/Recipe";
 
 const RecipeSearchScreen = () => {
+  const APP_ID = "07a95ab7"; //INSERT APP ID HERE!!!!!!!
+  const API_KEY = "4b2362fb7801b1a6063b6b509759585e"; //INSERT API KEY HERE!!!!!!!
+
+  const [recipeData, setRecipeData] = useState([]);
+  const [search, setSearch] = useState("");
+  const [query, setQuery] = useState("fish");
+
+  useEffect(() => {
+    getRecipeData();
+  }, [query]);
+
+  const getRecipeData = async () => {
+    const response = await fetch(
+      `https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${API_KEY}`
+    );
+    const data = await response.json();
+    setRecipeData(data.hits);
+  };
+
+  const getSearch = (e) => {
+    e.preventDefault();
+    setQuery(search);
+    setSearch("");
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.searchBar}>
-          <TextInput style={styles.input} placeholder="Search Recipes">
-            <Text>Recipe</Text>
-          </TextInput>
-          <TouchableOpacity style={styles.userBtn}>
-            <Text
-              style={styles.btnTxt}
-              onPress={() =>
-                alert(
-                  "This will search through recipes displayed on the screen from the API."
-                )
-              }
-            >
-              Search
-            </Text>
-          </TouchableOpacity>
+          <Searchbar
+            style={styles.input}
+            placeholder="Search Recipes"
+            value={search}
+            onChangeText={(text) => setSearch(text)}
+            onIconPress={getSearch}
+            onSubmitEditing={getSearch}
+          />
         </View>
-
         <ScrollView style={styles.recipeList}>
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 1</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 2</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.touchable}>
-            <Text>Recipe 3</Text>
-          </TouchableOpacity>
+          {recipeData.map((recipe) => (
+            <Recipe
+              key={recipe.recipe.label}
+              title={recipe.recipe.label}
+              calories={recipe.recipe.calories}
+              image={recipe.recipe.image}
+              ingredients={recipe.recipe.ingredients}
+              shareAs={recipe.recipe.shareAs}
+            />
+          ))}
         </ScrollView>
       </View>
       <MyNavMenu />
@@ -67,34 +78,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-  btnTxt: {
-    fontSize: 18,
-    textAlign: "center",
-  },
   input: {
-    width: "70%",
+    width: "100%",
     backgroundColor: "#fff",
     marginRight: 5,
-    paddingLeft: 5,
-  },
-  userBtn: {
-    backgroundColor: "#FFD700",
-    height: "100%",
-    width: "25%",
   },
 
   recipeList: {
     borderWidth: 1,
     width: "100%",
-    marginTop: 5,
     marginBottom: 5,
-  },
-  touchable: {
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 5,
-    height: 50,
+    backgroundColor: "tan",
   },
 });
 
