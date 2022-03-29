@@ -382,11 +382,11 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        borderRadius: 20,
+        borderRadius: 30,
         padding: 10,
         elevation: 2,
         backgroundColor: "skyblue",
-        //marginTop: 10,
+        marginTop: 10,
         //margin: 20
     },
     buttonSubmit: {
@@ -394,16 +394,21 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginHorizontal: 27,
         backgroundColor: "gray",
+        marginVertical: 15,
+
     },
     buttonScan: {
         marginTop: 10,
         marginHorizontal: 20,
         backgroundColor: "gray",
+
     },
     textStyle: {
         color: "black",
         fontWeight: "bold",
         textAlign: "center",
+
+        //top: 30,
     },
     modalText: {
         marginBottom: 15,
