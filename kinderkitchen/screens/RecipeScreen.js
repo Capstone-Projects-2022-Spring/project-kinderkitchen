@@ -5,7 +5,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import { Searchbar } from 'react-native-paper';
 import Recipe from "../Components/Recipe";
@@ -35,6 +34,7 @@ const RecipeScreen = () => {
     setSearch('');
   }
 
+//const RecipeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -52,6 +52,32 @@ const RecipeScreen = () => {
              shareAs={recipe.recipe.shareAs}/>
           ))}
         </ScrollView>
+//          <TextInput style={styles.input} placeholder="Search Recipes" />
+//          <TouchableOpacity style={styles.userBtn}>
+//            <Text
+//              style={styles.btnTxt}
+//              onPress={() => navigation.navigate("Recipe Search")}
+//            >
+//              Search
+//            </Text>
+//          </TouchableOpacity>
+//        </View>
+
+//        <TouchableOpacity
+//          style={styles.customBtn}
+//          onPress={() => navigation.navigate("Custom Recipe Search")}
+//        >
+//          <Text style={{ color: "#fff" }}>
+//            Search for Recipes using your items
+//          </Text>
+//        </TouchableOpacity>
+
+//        <TouchableOpacity
+//          style={styles.customBtn}
+//          onPress={() => navigation.navigate("Saved Recipes")}
+//        >
+//          <Text style={{ color: "#fff" }}>Saved Recipes</Text>
+//        </TouchableOpacity>
       </View>
       <MyNavMenu />
     </View>
@@ -82,12 +108,14 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#fff",
     marginRight: 5,
+    paddingLeft: 5,
   },
   userBtn: {
     backgroundColor: "#FFD700",
     height: "100%",
     width: "25%",
   },
+
 
   recipeList: {
     borderWidth: 1,
@@ -97,10 +125,14 @@ const styles = StyleSheet.create({
   },
   touchable: {
     backgroundColor: "#fff",
+//  customBtn: {
+//    backgroundColor: "darkturquoise",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 5,
+    marginTop: 25,
     height: 50,
+    width: "90%",
+    borderWidth: 0.5,
   },
 });
 
