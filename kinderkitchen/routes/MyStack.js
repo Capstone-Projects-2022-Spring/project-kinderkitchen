@@ -13,6 +13,9 @@ import DonateScreen from "../screens/DonateScreen";
 import DonateScreen2 from "../screens/DonateScreen2";
 import BarcodeScreen from "../screens/BarcodeScreen";
 import RecipeScreen from "../screens/RecipeScreen";
+import RecipeSearchScreen from "../screens/RecipeSearchScreen";
+import RecipeCustomSearchScreen from "../screens/RecipeCustomSearchScreen";
+import RecipeSaved from "../screens/RecipeSaved";
 const Stack = createStackNavigator();
 
 const MyStack = () => {
@@ -30,6 +33,12 @@ const MyStack = () => {
       <Stack.Screen name="Food Bank" component={DonateScreen2} />
       <Stack.Screen name="Barcode" component={BarcodeScreen} />
       <Stack.Screen name="Recipe" component={RecipeScreen} />
+      <Stack.Screen name="Recipe Search" component={RecipeSearchScreen} />
+      <Stack.Screen
+        name="Custom Recipe Search"
+        component={RecipeCustomSearchScreen}
+      />
+      <Stack.Screen name="Saved Recipes" component={RecipeSaved} />
     </Stack.Navigator>
   );
 };
