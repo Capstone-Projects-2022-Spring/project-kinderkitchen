@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, Text, Pressable } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import TodoItem from "../Components/CategoryItem";
 import AddCategory from "../Components/AddCategory";
 
 import { getDatabase, onValue, set, get, ref, child, push, update } from "firebase/database";
@@ -82,9 +81,9 @@ const CategoryScreen = () => {
     let items = [];
     for (var key in categoryData) {
       items.push(
-      <View key={key}>
-        <CategoryItem categoryName={key} pressHandler={pressHandler} />
-      </View>);
+        <View key={key}>
+          <CategoryItem categoryName={key} deleteCategoryFunction={deleteCategory} />
+        </View>);
     }
     return items;
   }
@@ -98,10 +97,25 @@ const CategoryScreen = () => {
     const updates = {};
     updates['users/' + userID + '/categories/'] = categoryData;
     return update(ref(database), updates);
-    
+
   }
 
-  
+  function deleteCategory(categoryName) {//category name is the Key, Check if False, if False Delete is good
+    
+    alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
+    let hasItems = categoryData[categoryName];
+    if (hasItems){alert("Cannot Delete, Category has Items! \nOverride comming soon!"); return;}
+    let localData = categoryData;
+    localData[categoryName] = null;
+    /* Once Items Have DB Ref. Remove Category From Items DB Table */
+    setCategoryData(localData);
+    const updates = {};
+    updates['users/' + auth.currentUser.uid + '/categories/'] = categoryData;
+    alert("Deletion Success!\nKnown Bug: Page does not update.\n\nLog out and back in to see change.")
+    return update(ref(database), updates);
+
+  }
+
 
 
   {
