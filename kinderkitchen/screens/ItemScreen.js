@@ -83,12 +83,14 @@ const ItemScreen = ({ props, route, navigation }) => {
     /*Textbox Fields*/
     const [itemName, setItemName] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
+
+    /* For the date Picker func   */
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [text, setText] = useState('Empty');
     const [date, setDate] = useState(new Date());
 
-
+    /* For the date Picker func   */
     const onChange = (event, selectDate) => {
         const currentDate = selectDate || date;
         setShow(Platform.OS == 'ios');
@@ -102,6 +104,7 @@ const ItemScreen = ({ props, route, navigation }) => {
         console.log(fDate + '(' + ftime + ')');
     }
 
+    /* For the date Picker func   */
     const showMode = (currentMode) => {
         setShow(true);
         setMode(currentMode);

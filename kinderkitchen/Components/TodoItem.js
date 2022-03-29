@@ -1,5 +1,6 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { MaterialIcons } from '@expo/vector-icons';
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -13,8 +14,11 @@ export default function TodoItem({ item, pressHandler }) {
     <TouchableOpacity
       onLongPress={() => pressHandler(item.key)}
       onPress={() => navigation.navigate("Items",{categoryName: item.text, categoryID: item.key})}
-    >
-      <Text style={styles.item}>{item.text}</Text>
+      >
+          <View style={styles.item}>
+              <MaterialIcons name='delete' size={18} color='#333' />
+              <Text style={styles.itemText}>{item.text}</Text>
+          </View>
     </TouchableOpacity>
   );
 }
@@ -28,5 +32,10 @@ const styles = StyleSheet.create({
     borderStyle: "dashed",
     borderRadius: 10,
     backgroundColor: "orange",
-  },
+     flexDirection: 'row',
+    alignItems: 'center',
+    },
+    itemText: {
+        marginLeft: 10,
+    }
 });

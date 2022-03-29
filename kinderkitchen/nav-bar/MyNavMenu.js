@@ -3,6 +3,11 @@ import { View, StyleSheet, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { getAuth, signOut } from "firebase/auth";
+import { Ionicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+
+
 
 const MyNavMenu = () => {
   const navigation = useNavigation();
@@ -18,7 +23,7 @@ const MyNavMenu = () => {
         onPress={() => navigation.navigate("Category")}
         underlayColor="limegreen"
       >
-        <Text>Category</Text>
+        <Ionicons name="home-sharp" size={24} color="black" />
       </TouchableHighlight>
 
       <TouchableHighlight
@@ -26,7 +31,7 @@ const MyNavMenu = () => {
         onPress={() => navigation.navigate("Recipe")}
         underlayColor="limegreen"
       >
-        <Text>Recipe</Text>
+        <MaterialCommunityIcons name="silverware-fork-knife" size={24} color="black" />
       </TouchableHighlight>
 
       <TouchableHighlight
@@ -34,7 +39,7 @@ const MyNavMenu = () => {
         onPress={() => navigation.navigate("Donate")}
         underlayColor="limegreen"
       >
-        <Text>Donate</Text>
+        <MaterialCommunityIcons name="map-search" size={24} color="black" />
       </TouchableHighlight>
 
       <TouchableHighlight
@@ -42,7 +47,7 @@ const MyNavMenu = () => {
         onPress={() => navigation.navigate("Account")}
         underlayColor="limegreen"
       >
-        <Text>Account</Text>
+        <MaterialCommunityIcons name="account" size={24} color="black" />
       </TouchableHighlight>
 
       
@@ -54,10 +59,12 @@ const styles = StyleSheet.create({
   navmenu: {
     flex: 0.05,
     borderWidth: 1,
-        backgroundColor: "#2196F3",
+        backgroundColor: "lightgray",
     flexDirection: "row",
     justifyContent: "space-evenly",
-    alignItems: "flex-end",
+        alignItems: "flex-end",
+        paddingBottom: 20
+
   },
   touchable: {
     flex: 1,
