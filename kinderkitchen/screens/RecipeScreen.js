@@ -12,8 +12,8 @@ import Recipe from "../Components/Recipe";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const RecipeScreen = () => {
-  const APP_ID = ''; //INSERT APP ID HERE!!!!!!!
-  const API_KEY = ''; //INSERT API KEY HERE!!!!!!!
+    const APP_ID = ""; //INSERT APP ID HERE!!!!!!!
+    const API_KEY = ""; //INSERT API KEY 
 
   const [recipeData, setRecipeData] = useState([]);
   const [search, setSearch] = useState('')
