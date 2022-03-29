@@ -1,7 +1,15 @@
 import React, {useCallback} from 'react';
-import { StyleSheet, Text, SafeAreaView, Image, Linking, Alert, Button } from "react-native";
+import { StyleSheet, Text, SafeAreaView, Image, Linking, Alert, Button, Pressable } from "react-native";
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Recipe = ({ title, calories, image, ingredients, shareAs }) => {
+const Recipe = ({ title, calories, image, ingredients, shareAs, saveRecipeFunction }) => {
+
+  const recipeData = {
+    title: title, 
+    calories: calories, 
+    image: image, 
+    ingredients: ingredients, 
+    shareAs: shareAs}
 
     const OpenURLButton = ({ url, children }) => {
         const handlePress = useCallback(async () => {
@@ -20,7 +28,9 @@ const Recipe = ({ title, calories, image, ingredients, shareAs }) => {
         return <Button color="brown" title={children} onPress={handlePress} />;
       };
       
-    
+
+      
+
     return (
         <SafeAreaView style={styles.safeView}>
                 <Text style={styles.recipeName}>{title}</Text>
@@ -32,6 +42,9 @@ const Recipe = ({ title, calories, image, ingredients, shareAs }) => {
                   <Text style={styles.ingredients}>{ingredient.text}</Text>
                 ))}
                 <OpenURLButton url={shareAs}>More about recipe</OpenURLButton>
+
+                {/* Stores All 10 Search entries to DB - Help */}
+                <TouchableOpacity onPress={() => {console.log(recipeData); saveRecipeFunction(recipeData);}}><Text>SAVE</Text></TouchableOpacity>
                 
         </SafeAreaView>
     );
