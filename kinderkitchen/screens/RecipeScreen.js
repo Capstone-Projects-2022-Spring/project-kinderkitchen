@@ -47,7 +47,9 @@ const RecipeScreen = () => {
              key={recipe.recipe.label}
              title={recipe.recipe.label} 
              calories={recipe.recipe.calories}
-             image={recipe.recipe.image} />
+             image={recipe.recipe.image}
+             ingredients={recipe.recipe.ingredients} 
+             shareAs={recipe.recipe.shareAs}/>
           ))}
         </ScrollView>
       </View>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   input: {
-    width: "70%",
+    width: "100%",
     backgroundColor: "#fff",
     marginRight: 5,
   },
@@ -91,6 +93,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: "100%",
     marginBottom: 5,
+    backgroundColor: "tan"
   },
   touchable: {
     backgroundColor: "#fff",
