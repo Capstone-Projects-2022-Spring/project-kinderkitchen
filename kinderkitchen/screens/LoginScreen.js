@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -6,33 +6,69 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import auth from "../firebase";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginScreen = ({ navigation }) => {
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [user, setUser] = useState();
+
+  //const auth2 = getAuth();
+  const signInHandler = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        setUser(userCredential.user);
+        navigation.navigate("Category"); //Pass in User?
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("Error Code: " + errorCode);
+        console.log("Error Message: " + errorMessage);
+        if (errorCode === "auth/user-not-found") {
+          alert("Oops! Could not find user with\n Email: " + email);
+        }
+        if (errorCode === "auth/wrong-password") {
+          alert("Incorrect password. \nPlease try again.");
+        }
+        if (errorCode === "auth/missing-email") {
+          alert("Missing Email Parameter");
+        }
+      });
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome to Kinder Kitchen</Text>
-      <TextInput style={styles.input} placeholder="Username" />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        onChangeText={(text) => setEmail(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        onChangeText={(text) => setPassword(text)}
+        secureTextEntry
+      />
       <View style={styles.btnContainer}>
-        {/*
-         * Edit this for when login functionality is working
-         */}
-        <TouchableOpacity style={styles.userBtn}>
-          <Text
-            style={styles.btnTxt}
-            onPress={() => navigation.navigate("Category")}
-          >
-            Login
-          </Text>
+        {/*Login Button*/}
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => signInHandler()}
+        >
+          <Text style={styles.btnTxt}> Login </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.userBtn}>
-          <Text
-            style={styles.btnTxt}
-            onPress={() => navigation.navigate("Sign Up")}
-          >
-            Signup
-          </Text>
+        {/*SignUp Button*/}
+        <TouchableOpacity
+          style={styles.userBtn}
+          onPress={() => navigation.navigate("Sign Up")}
+        >
+          <Text style={styles.btnTxt}> Signup </Text>
         </TouchableOpacity>
       </View>
     </View>
