@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, SafeAreaView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { getAuth, signOut } from "firebase/auth";
@@ -12,6 +12,7 @@ const MyNavMenu = () => {
 
 
   return (
+    
     <View style={styles.navmenu}>
       <TouchableHighlight
         style={styles.touchable}
@@ -62,6 +63,7 @@ const MyNavMenu = () => {
         <Text>Logout</Text>
       </TouchableHighlight>
     </View>
+    
   );
 };
 
@@ -73,6 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "flex-end",
+    paddingBottom: 20
   },
   touchable: {
     flex: 1,
