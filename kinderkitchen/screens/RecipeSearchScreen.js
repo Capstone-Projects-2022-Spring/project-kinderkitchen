@@ -5,9 +5,12 @@ import { Searchbar } from "react-native-paper";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import Recipe from "../Components/Recipe";
 
+import { getDatabase, ref, update } from "firebase/database";
+import { getAuth } from "firebase/auth";
+
 const RecipeSearchScreen = () => {
-  const APP_ID = "07a95ab7"; //INSERT APP ID HERE!!!!!!!
-  const API_KEY = "4b2362fb7801b1a6063b6b509759585e"; //INSERT API KEY HERE!!!!!!!
+  const APP_ID = ""; //INSERT APP ID HERE!!!!!!!
+  const API_KEY = ""; //INSERT API KEY HERE!!!!!!!
 
   const [recipeData, setRecipeData] = useState([]);
   const [search, setSearch] = useState("");
@@ -31,6 +34,20 @@ const RecipeSearchScreen = () => {
     setSearch("");
   };
 
+  function saveRecipe(recipeData) {
+    const updates = {};
+    updates[
+      "users/" + getAuth().currentUser.uid + "/savedRecipes/" + recipeData.title
+    ] = recipeData;
+    return update(ref(getDatabase()), updates);
+    // set(ref(getDatabase(), 'users/' + auth.currentUser.uid +'/savedRecipes/' + title), {
+    //   title: title,
+    //   calories: calories,
+    //   image: image,
+    //   ingredients: ingredients,
+    //   shareAs: shareAs});
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -53,6 +70,7 @@ const RecipeSearchScreen = () => {
               image={recipe.recipe.image}
               ingredients={recipe.recipe.ingredients}
               shareAs={recipe.recipe.shareAs}
+              saveRecipeFunction={saveRecipe}
             />
           ))}
         </ScrollView>
