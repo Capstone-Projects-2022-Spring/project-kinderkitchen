@@ -40,7 +40,10 @@ please Follow our testing guide [here](https://github.com/Capstone-Projects-2022
 
 If there are difficulties, Scan this QR Code to gain access 
 
-![image](https://user-images.githubusercontent.com/60050903/158704139-75985964-b0d8-4890-8c02-88602d0b7a9d.png) 
+v2.0
+![image](https://user-images.githubusercontent.com/60050903/160689252-0ac6dd84-61e0-4aeb-932f-3852ea8b8e27.png)
+
+
 
 ## Developer Install
 *Work In Progress to get docker to handle a container with all installations*
