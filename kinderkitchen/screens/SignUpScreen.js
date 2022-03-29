@@ -22,8 +22,6 @@ const SignUpScreen = ({ navigation }) => {
     set(ref(database, 'users/' + userId +'/categories/'), {
       Fridge: false, 
       Pantry: false}); //On New Item Add, Set to true
-      set(ref(database, 'users/' + userId +'/items/'), {}); //Add Category Name that was set to true as an ID,
-                                                            //Then add Item with all data - MIGRATE TO ITEM ADD does not initalize
   }
 
   const createUserHandler = () => {
