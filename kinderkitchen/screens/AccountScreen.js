@@ -1,19 +1,47 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
 import MyNavMenu from "../nav-bar/MyNavMenu";
+import { getAuth, signOut } from "firebase/auth";
 
 const AccountScreen = ({ navigation }) => {
   const titleAcc = "Account";
   const titleAch = "Achievements";
   const titleNot = "Notifications";
+  const titleLog = "Logout";
+  const titleRecipe = "Recipes";
+  const titleDonation = "Donation";
+
+
+ const auth = getAuth();
+ const user = auth.currentUser;
+
 
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <Text style={styles.header}>Settings</Text>
-        <Text style={styles.acc}>{titleAcc}</Text>
-        <Text style={styles.accTextRecipe}># of completed recipes</Text>
-        <Text style={styles.accTextDonation}># of completed donations</Text>
+        
+
+
+        <TouchableOpacity
+          title="1"
+          style={styles.recipesButton}
+          //onPress={() => navigation.navigate("Recipes")}
+        >
+          <Text>{titleRecipe}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          title="1"
+          style={styles.donatationButton}
+          //onPress={() => navigation.navigate("Recipes")}
+        >
+          <Text>{titleDonation}</Text>
+        </TouchableOpacity>
+
+
+
+
         <TouchableOpacity
           title="Notifications"
           style={styles.notificationButton}
@@ -27,7 +55,24 @@ const AccountScreen = ({ navigation }) => {
           onPress={() => navigation.navigate("Achievements")}
         >
           <Text>{titleAch}</Text>
-        </TouchableOpacity>
+              </TouchableOpacity>
+              <TouchableOpacity
+                  title="1"
+                  style={styles.LogoutButton}
+                  //onPress={() => navigation.navigate("Achievements")}
+                  onPress={() => {
+                      signOut(auth).then(() => {
+                          // Sign-out successful.
+                          alert("You Are Now Signed-Out!\n See You Soon: " + user.email);
+                      }).catch((error) => {
+                          // An error happened.
+                          alert(error.code);
+                      });
+                      navigation.navigate("Login");
+                  }}
+              >
+                  <Text>{titleLog}</Text>
+              </TouchableOpacity>
       </View>
       <MyNavMenu />
     </View>
@@ -49,38 +94,34 @@ const styles = StyleSheet.create({
   header: {
     flex: 1,
     color: "#fff",
-    marginTop: 40,
+    marginTop: 15,
     marginRight: 250,
     fontSize: 30,
   },
-  acc: {
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    position: "absolute",
-    top: 100,
-    right: 250,
-    fontSize: 20,
-    justifyContent: "space-evenly",
-    color: "#fff",
-  },
-  accTextRecipe: {
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    position: "absolute",
-    top: 130,
-    right: 170,
-    justifyContent: "space-evenly",
-    color: "#fff",
-  },
-  accTextDonation: {
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    position: "absolute",
-    top: 160,
-    right: 155,
-    justifyContent: "space-evenly",
-    color: "#fff",
-  },
+ 
+    recipesButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: "#FFD700",
+        position: "absolute",
+        top: 90,
+        right: 267,
+        justifyContent: "space-evenly",
+    },
+    donatationButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: "#FFD700",
+        position: "absolute",
+        top: 180,
+        right: 262,
+        justifyContent: "space-evenly",
+    },
+  
   notificationButton: {
     paddingVertical: 12,
     paddingHorizontal: 32,
@@ -88,7 +129,7 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#FFD700",
     position: "absolute",
-    top: 220,
+    top: 280,
     right: 238,
     justifyContent: "space-evenly",
   },
@@ -99,10 +140,21 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#FFD700",
     position: "absolute",
-    top: 280,
+    top: 380,
     right: 230,
     justifyContent: "space-evenly",
   },
+    LogoutButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 49,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: "#FFD700",
+        position: "absolute",
+        top: 570,
+        right: 130,
+        justifyContent: "space-evenly",
+    },
 });
 
 export default AccountScreen;

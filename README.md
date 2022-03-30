@@ -62,6 +62,7 @@ expo install firebase
 expo install @react-native-firebase/app
 expo install @react-native-firebase/auth
 expo install @react-native-firebase/database
+expo install react-native-paper
 ```
 - Clone Repo
 ```
@@ -81,18 +82,13 @@ Go to view in VS Code, open CMD and run ```npm start```
 To view in Expo Go, run ```expo start``` 
 Scan the QR Code that it generates and open the app with Expo Go
 
-## Milestone 1 Demo  
-- F1 User can create an account with Kinder Kitchen 
-  - Sign Up will validate first name, last name, 
-    email, address. 
-- F2  User can manage food items  
-  - add/edit/delete categories 
-  - add/edit/delete items 
-  - manually add items 
-  - scan barcodes to add items 
-  - change quantity and details (expirations, 
-    etc.) of each item 
-  - move items between categories 
+## v1.0 Release Notes
+- Full navigation through app.
+- Add and delete categories.
+- Add and delete items.
+- Manually add items.
+- Added barcode scanner.
+- Application available on android and iOS devices.
 
 ## Testing 1 
 
@@ -124,3 +120,41 @@ Scan the QR Code that it generates and open the app with Expo Go
   - Expected Results
     - The user can add an item via manual entry or barcode scan. The user can select an         existing category and see it displayed in the correct category. The user can add,         edit, and delete the ingredient and the application will display the changes               accordingly.
 
+## v2.0 Release Notes
+```
+https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen/tree/v2.0
+```
+Storing new user and verifying user login
+Storing user data and saving info for logins (add/deleting items and categories)
+Recipe API connection using Edamam API
+Search recipe functionality
+Bug fixes for navigation bar
+Color coding for expiration date
+
+## Testing 2
+
+### Test 1:
+- User Accounts:
+  - Actions/Steps
+    - Attempt to login before creating account
+    - Click Sign Up 
+    - Enter Email, Password, and Confirm Password and Click Sign Up
+    - Navigate to Account Screen and press the logout button
+    - Attempt to log into the account that was just created
+  - Expected Results
+    - The user should not be able to log into an account without first signing up. The user, upon sign up, should be taken to the home screen if they used       an email that was not previously used. The user should be able to log out of the account and log back in with the email and password that they used       to sign up. 
+### Test 2:
+- Personal Categorization Ingredient Storage:
+  - Actions/Steps
+    - Delete category using new icon
+  - Expected Results
+    - The user should be able to delete a category. The user, at this moment due to a bug, must log out and log in to the same account to see the change         on the home screen.
+### Test 3:
+- Recipe Recommendation Based on Ingredients
+  - Actions/Steps 
+    - Navigate to Recipes screen via navigation bar
+    - Use search bar to search for a recipe name or ingredient(s)
+    - Recipes will populate screen based off search 
+    - Click "More About Recipe" button (Android) or text (iPhone)
+  - Expected Results 
+    - The user should be able to find recipes based on searching the recipe name or ingredient(s). The user can click on the recipe and view the                 instructions and nutrition information through their browser. 
