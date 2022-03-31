@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, Text, Pressable } from "react-native";
+import { View, StyleSheet, ScrollView, Text, Pressable, TextInput } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import AddCategory from "../Components/AddCategory";
@@ -8,6 +8,7 @@ import { getDatabase, onValue, set, get, ref, child, push, update } from "fireba
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CategoryItem from "../Components/CategoryItem";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { Modal } from "react-native-paper";
 
 
 const CategoryScreen = () => {
@@ -32,6 +33,19 @@ const CategoryScreen = () => {
 
 
   const [dbData, setDBData] = useState([]);
+
+    /*  These are for the edit name func */
+  const [isModalVisible, setisModalVisible] = useState(false);
+  const [inputText, setinputText] = useState();
+
+
+
+    const onPressSaveEdit = () => {
+
+
+    }
+
+
 
 
 
@@ -136,6 +150,36 @@ const CategoryScreen = () => {
           {/*   Display Categories   */}
           {displayData()}
 
+                  {/*   Display Editing Cateogry Modal   */}
+
+                  <Modal
+                      animationType='fade'
+                      visible={isModalVisible}
+                      onRequestClose={() => setisModalVisible(false)}
+                  >
+                      <View style={styles.modalView}>
+                          <Text style={styles.text}> Change Text:  </Text>
+                          <TextInput
+                              style={styles.textInput}
+                              onChangeText={(text) => setinputText(text)}
+                              defaultValue={inputText}
+                              editable={true}
+                              multiline={false}
+                              maxLength={200}
+                          />
+
+                          <TouchableOpacity
+                              onLongPress={() => onPressSaveEdit()}
+                              style={styles.touchableSave}
+                          >
+                              <Text style={styles.text}> Save </Text>
+
+                              </TouchableOpacity>
+                      </View>
+
+                  </Modal>
+
+        
         </ScrollView>
 
         {/*   Add Category Field   */}
@@ -161,7 +205,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: "100%",
     marginBottom: 20,
-  },
+    },
+    textInput: {
+        width: '90%',
+        height: 70,
+        borderColor: 'grey',
+        borderWidth: 1,
+        fontSize: 25
+    },
+    modalView: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
+    touchableSave: {
+        backgroundColor: 'orange',
+        paddingHorizontal: 100,
+        alignItems: 'center',
+        marginTop: 20,
+    }
+    
 });
 
 export default CategoryScreen;
