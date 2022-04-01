@@ -38,10 +38,10 @@ const RecipeSaved = () => {
         <Recipe
               key={key}
               title={key}
-              calories={recipeData.calories}
-              image={recipeData.image}
-              ingredients={recipeData.ingredients}
-              shareAs={recipeData.shareAs}
+              calories={recipeData[key].calories}
+              image={recipeData[key].image}
+              ingredients={recipeData[key].ingredients}
+              shareAs={recipeData[key].shareAs}
             />)}
     return items;
   }

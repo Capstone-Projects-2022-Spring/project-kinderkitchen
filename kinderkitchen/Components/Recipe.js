@@ -38,9 +38,9 @@ const Recipe = ({ title, calories, image, ingredients, shareAs, saveRecipeFuncti
                 <Image source={{ uri: image }}
                        style={styles.recipeImage}
                 ></Image>
-                {/* {ingredients.map(ingredient => (
+                {ingredients.map(ingredient => (
                   <Text style={styles.ingredients}>{ingredient.text}</Text>
-                ))} */}
+                ))}
                 <OpenURLButton url={shareAs}>More about recipe</OpenURLButton>
 
                 {/* Stores All 10 Search entries to DB - Help */}
