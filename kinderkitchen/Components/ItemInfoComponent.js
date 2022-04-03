@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { parseISO, subDays } from "date-fns";
 
@@ -35,36 +35,75 @@ export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
       }}
     >
       {statusValue === 2 ? (
-        <Text style={[styles.item, Status.expired]}>
-          {item.item_name + " "}
-          {item.expiration_date}
-        </Text>
+        <View style={[styles.itemContainer, Status.expired]}>
+          <Image
+            // Change this to an image that is saved to
+            // database that corresponds to each item
+            source={require("../assets/favicon.png")}
+            style={styles.image}
+            resizeMode="cover"
+          />
+          <Text style={styles.item}>{item.item_name + " "}</Text>
+          <Text style={styles.expDate}>{item.expiration_date}</Text>
+        </View>
       ) : statusValue === 0 ? (
-        <Text style={[styles.item, Status.good]}>
-          {item.item_name + " "}
-          {item.expiration_date}
-        </Text>
+        <View style={[styles.itemContainer, Status.good]}>
+          <Image
+            // Change this to an image that is saved to
+            // database that corresponds to each item
+            source={require("../assets/favicon.png")}
+            style={styles.image}
+            resizeMode="cover"
+          />
+          <Text style={styles.item}>{item.item_name + " "}</Text>
+          <Text style={styles.expDate}>{item.expiration_date}</Text>
+        </View>
       ) : (
-        <Text style={[styles.item, Status.soon]}>
-          {item.item_name + " "}
-          {item.expiration_date}
-        </Text>
+        <View style={[styles.itemContainer, Status.soon]}>
+          <Image
+            // Change this to an image that is saved to
+            // database that corresponds to each item
+            source={require("../assets/favicon.png")}
+            style={styles.image}
+            resizeMode="cover"
+          />
+          <Text style={styles.item}>{item.item_name + " "}</Text>
+          <Text style={styles.expDate}>{item.expiration_date}</Text>
+        </View>
       )}
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  item: {
-    padding: 10,
-    marginTop: 10,
-    borderColor: "black",
+  itemContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
     borderWidth: 1,
-    borderStyle: "solid",
     borderRadius: 5,
     backgroundColor: "gray",
+    margin: 5,
+  },
+
+  image: {
+    flex: 1,
+    width: undefined,
+    height: undefined,
+    padding: 10,
+  },
+
+  item: {
+    flex: 6.5,
+    padding: 10,
+  },
+
+  expDate: {
+    flex: 2.5,
+    padding: 10,
   },
 });
+
 const Status = StyleSheet.create({
   good: {
     borderColor: "green",

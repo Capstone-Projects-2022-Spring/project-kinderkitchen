@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     width: "70%",
     backgroundColor: "#fff",
     marginRight: 5,
+    paddingLeft: 5,
   },
   userBtn: {
     backgroundColor: "#FFD700",
