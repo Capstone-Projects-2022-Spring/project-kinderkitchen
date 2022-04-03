@@ -2,7 +2,7 @@ import React, {useCallback} from 'react';
 import { StyleSheet, Text, SafeAreaView, Image, Linking, Alert, Button, Pressable } from "react-native";
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const Recipe = ({ title, calories, image, ingredients, shareAs, saveRecipeFunction }) => {
+const Recipe = ({ title, calories, image, ingredients, shareAs, saveRecipeFunction, deleteRecipeFunction }) => {
 
   const recipeData = {
     title: title, 
@@ -42,9 +42,20 @@ const Recipe = ({ title, calories, image, ingredients, shareAs, saveRecipeFuncti
                   <Text style={styles.ingredients}>{ingredient.text}</Text>
                 ))}
                 <OpenURLButton url={shareAs}>More about recipe</OpenURLButton>
+                
+                {/* Conditional Statement for Saving or Deleting */}
+                {saveRecipeFunction ? 
+                <TouchableOpacity onPress={() => saveRecipeFunction(recipeData) }>
+                  <Text>SAVE</Text>
+                </TouchableOpacity> 
 
-                {/* Stores All 10 Search entries to DB - Help */}
-                <TouchableOpacity onPress={() => {console.log(recipeData); saveRecipeFunction(recipeData);}}><Text>SAVE</Text></TouchableOpacity>
+                : deleteRecipeFunction ?
+                <TouchableOpacity onPress={() => deleteRecipeFunction(title) }>
+                  <Text>DELETE</Text>
+                </TouchableOpacity>
+
+                : null}
+
                 
         </SafeAreaView>
     );
