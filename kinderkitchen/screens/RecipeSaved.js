@@ -1,25 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text, ScrollView } from "react-native";
 
-import { getDatabase, onValue, set, get, ref, child, push, update } from "firebase/database";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, get, ref, child, remove } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import Recipe from "../Components/Recipe";
 
 const RecipeSaved = () => {
   const [recipeData, setRecipeData] = useState([]);
-  const[test, setTest] = useState(1);
+  const auth = getAuth();
+  const db = getDatabase();
+  const dbRef = ref(db);
 
   useEffect(() => {
     readSavedRecipes();
   }, []);
 
+  function deleteSavedRecipe(recipeName){
+    alert(`Deleting ${recipeName}. This Cannot be Undone! \nSecondary Confirm To be Initialized`);
+    remove(ref(db, `users/${auth.currentUser.uid}/savedRecipes/${recipeName}`));
+    //readSavedRecipes(); //This might Update page on each delete Needs to be tested.
+  }
+
   const readSavedRecipes = async () => {
     get(child(ref(getDatabase()), `users/${getAuth().currentUser.uid}/savedRecipes/`)).then((snapshot) => {
       if (snapshot.exists()) {
         setRecipeData(snapshot.val());
-        console.log(recipeData);
       } else {
         console.log("No data available");
         //......
@@ -32,8 +39,6 @@ const RecipeSaved = () => {
   function displaySavedRecipes() {
     let items = [];
     for (var key in recipeData) {
-      console.log("=================");
-      console.log(key);
       items.push(
         <Recipe
               key={key}
@@ -42,10 +47,10 @@ const RecipeSaved = () => {
               image={recipeData[key].image}
               ingredients={recipeData[key].ingredients}
               shareAs={recipeData[key].shareAs}
+              deleteRecipeFunction={deleteSavedRecipe}
             />)}
     return items;
   }
-
 
   return (
     <View style={styles.container}>
@@ -54,7 +59,7 @@ const RecipeSaved = () => {
         <Text>Saved Recipes</Text>
 
         <ScrollView style={styles.recipeList}>
-          { recipeData.length === 0 ? alert("Undefined!") 
+          { recipeData.length === 0 ? null//alert("Undefined!") 
           : displaySavedRecipes()
         }
           </ScrollView>
