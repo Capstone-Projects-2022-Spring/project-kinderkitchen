@@ -20,7 +20,11 @@ const LoginScreen = ({ navigation }) => {
       .then((userCredential) => {
         // Signed in
         setUser(userCredential.user);
-        navigation.navigate("Category"); //Pass in User?
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "Category" }],
+        });
+        //navigation.navigate("Category"); //Pass in User?
         // ...
       })
       .catch((error) => {
