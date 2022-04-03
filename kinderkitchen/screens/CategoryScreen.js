@@ -82,7 +82,7 @@ const CategoryScreen = () => {
     for (var key in categoryData) {
       items.push(
         <View key={key}>
-          <CategoryItem categoryName={key} deleteCategoryFunction={deleteCategory} />
+          <CategoryItem categoryName={key} deleteCategoryFunction={deleteCategory} passingCategoryData={categoryData}/>
         </View>);
     }
     return items;

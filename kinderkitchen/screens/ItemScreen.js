@@ -19,23 +19,48 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
+import { getAuth } from "firebase/auth";
+import { getDatabase, set, ref, child, push, update } from "firebase/database";
+
 
 import HeaderComponent from "../Components/HeaderComponent";
 
 const ItemScreen = ({ props, route, navigation }) => {
-    // console.log("=========== Page Update ===========");
-    // console.log("\nRoute INFO: ");
-    // console.log(route);
-    // console.log("\nRoute PARAMS: ");
-    // console.log(route.params);
-    const { categoryName, categoryID } = route.params;
 
-    //Task For Later Note to self. on Route pass all Category Objects: Used for DropDown => or after DBCONN - Make Database call for Categories
-    //Filter Items to display only items with correct category id => or DBCONN SQL query for items with only Category ID
+    function consoleLogTesting() {
+        /*Route Log Test*/
+        console.log("=========== Page Update ===========");
+        console.log("\nRoute INFO: ");
+        console.log(route);
+        console.log("\nRoute PARAMS: ");
+        console.log(route.params);
+        /*Category log Test*/
+        console.log("\nthisCategoryName: ");
+        console.log(thisCategoryName);
+        console.log("\ncategoryData: /n\n");
+        console.log(categoryData);
+    }
+
+    const thisCategoryName = route.params.categoryName
+    const categoryData = route.params.passingCategoryData //If issues with null category, Read Data from DB
+                                                                //Make Database call for Categories instead of passing?
+    const database = getDatabase();
+    const DBref = ref(database);
+    const auth = getAuth();
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    //FUTURE PLANING:
+    //ITEM EDITING Prompt and Alert - We could vote to remove this feature. make user delete then re add.
+    //Item Editing w/ DB
+    //      -> Make Sure on Category Change -> it changes to new Category
+
+    //Item Deleting:
+    //      -> Check If Last Item Deleted
+    //            -> check if category name is in users items category
+    //             => Alternate, Create a counter for each Item added, not True/False?
 
     //ONPRESS Events for Item Component (DELETE, EDIT,)
-    //STATUS Based on SYSTEM date and EXP date, Order items by Status, have Style to havea visual
-    //Style ITEMComponent
 
     /*Dummy Data*/
     const [itemObject, setItemObject] = useState([
@@ -75,14 +100,21 @@ const ItemScreen = ({ props, route, navigation }) => {
     });
     // ***********************************************************
 
+    /* Drop Down */
     const [open, setOpen] = useState(false);
-    const [value, setValue] = useState(categoryID);
-    const [items, setItems] = useState([
-        { label: "Fridge", value: 1 },
-        { label: "Pantry", value: 2 },
-    ]);
+    const [value, setValue] = useState(thisCategoryName);
+    const [items, setItems] = useState(setDropdownItems()) //[{ label: "Fridge", value: "Fridge" }, { label: "Pantry", value: "Fridge" },
 
-    
+    function setDropdownItems() {
+        let obj = [];
+        for (var key in categoryData) {
+            if (categoryData[key] != null) {
+                obj.push({ label: key, value: key })
+            }
+        }
+        return obj;
+    }
+
     /*Textbox Fields*/
     const [itemName, setItemName] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
@@ -120,11 +152,19 @@ const ItemScreen = ({ props, route, navigation }) => {
         });
     };
 
+    /* Database Adding Of Item */
+    const addItem = (newItemObj) => {
+        let localData = categoryData;
+        if (localData[newItemObj.categoryName] === null) { alert('UnExpected null value\n Did you Delete this Category?'); return; }
+        localData[newItemObj.categoryName] = true;
+        const updates = {};
+        updates['users/' + auth.currentUser.uid + '/items/' + newItemObj.categoryName + '/' + newItemObj.itemName] = newItemObj;
+        updates['users/' + auth.currentUser.uid + '/categories/' + newItemObj.categoryName] = localData;
+        return update(ref(database), updates);
+    }
+
     const submitHandler = (props) => {
         setItemObject((prevItemObject) => {
-            //Change account_id
-            //get from routes to pass in all available categories
-            //console.log(props);
             return [
                 {
                     item_id: Math.random().toString(),
@@ -138,21 +178,12 @@ const ItemScreen = ({ props, route, navigation }) => {
         });
     };
 
-    const [status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
-
-    const [modalVisible, setModalVisible] = useState(false);
-
-    //props.category name
-    //props.category_id
-    //props.obj?
-    //props.item_name
-
     return (
         <View style={styles.container}>
             <View style={styles.body}>
                 {
-                    categoryName ? (
-                        <HeaderComponent title={categoryName} />
+                    thisCategoryName ? (
+                        <HeaderComponent title={thisCategoryName} />
                     ) : (
                         <HeaderComponent title="CATEGORY_NAME" />
                     ) /*If no title provided*/
@@ -192,8 +223,8 @@ const ItemScreen = ({ props, route, navigation }) => {
                                 <View style={styles.modalHeader}>
                                     <Text style={styles.modalText}>Add Item</Text>
                                 </View>
-                            
-                               {/*Item Name*/}
+
+                                {/*Item Name*/}
                                 <View style={styles.inputView}>
                                     <View style={styles.inputTitle}>
                                         <Text>Item Name:</Text>
@@ -244,7 +275,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                                     <DropDownPicker
                                         style={{ width: "40%" }}
                                         dropDownContainerStyle={{ width: "40%" }}
-                                        placeholder={categoryName}
+                                        placeholder={thisCategoryName}
                                         open={open}
                                         value={value}
                                         items={items}
@@ -252,7 +283,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                                         setValue={setValue}
                                         setItems={setItems}
                                     />
-                                </View> 
+                                </View>
 
                                 {/*ButtonField*/}
                                 <View style={styles.submissionField}>
@@ -260,7 +291,12 @@ const ItemScreen = ({ props, route, navigation }) => {
                                     <Pressable
                                         style={[styles.button, styles.buttonSubmit]}
                                         onPress={() => {
-                                            submitHandler({ itemName, expirationDate, value });
+                                            submitHandler({ itemName, expirationDate, value });//Replace when Read is available
+                                            addItem({
+                                                itemName: itemName,
+                                                expirationDate: expirationDate,
+                                                categoryName: value
+                                            });
                                             setModalVisible(!modalVisible);
                                         }}
                                     >
