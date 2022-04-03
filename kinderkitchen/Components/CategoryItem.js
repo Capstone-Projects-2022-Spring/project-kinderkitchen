@@ -7,13 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 {
   /*   This is a class that is related to the content of the list (design + displaying ) */
 }
-export default function CategoryItem({ categoryName, deleteCategoryFunction }) {
+export default function CategoryItem({ categoryName, deleteCategoryFunction, passingCategoryData}) {
   const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       //pressHandler(item.categoryKey)}
-      onPress={() => navigation.navigate("Items",{categoryName: categoryName})}
+      onPress={() => navigation.navigate("Items",{categoryName, passingCategoryData})}
       >
           <View style={styles.item}>
               <MaterialIcons name='delete' size={18} color='#333' onPress={() => deleteCategoryFunction(categoryName)}/*alert("Backend Delete Coming Soon!")}*/  />
