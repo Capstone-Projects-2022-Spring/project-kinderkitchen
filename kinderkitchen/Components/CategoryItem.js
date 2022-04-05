@@ -25,7 +25,8 @@ export default function CategoryItem({ categoryName, deleteCategoryFunction, edi
                   name="edit"
                   size={24}
                   color="black"
-                  onPress={() => editCategoryFunction(categoryName)}
+                  onPress={() => editCategoryFunction()}
+
               />
 
               <MaterialIcons name='delete' size={18} color='#333' onPress={() => deleteCategoryFunction(categoryName)}/*alert("Backend Delete Coming Soon!")}*/  />

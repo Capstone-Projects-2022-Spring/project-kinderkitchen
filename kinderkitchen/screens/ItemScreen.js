@@ -223,7 +223,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                                             is24hour={true}
                                             display='default'
                                             
-                                            onChange={(newText) => setExpirationDate(newText)}
+                                            //onChange={(newText) => setExpirationDate(newText)}
                                             //buttonSubmit={setExpirationDate(date)}
                                         />)}
 

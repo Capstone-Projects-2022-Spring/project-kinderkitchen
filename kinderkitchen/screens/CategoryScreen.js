@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, Text, Pressable, TextInput } from "react-native";
+import { View, StyleSheet, ScrollView, Text, Pressable, TextInput, Modal, Button } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import AddCategory from "../Components/AddCategory";
@@ -8,45 +8,36 @@ import { getDatabase, onValue, set, get, ref, child, push, update } from "fireba
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CategoryItem from "../Components/CategoryItem";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { Modal } from "react-native-paper";
+import { MaterialIcons } from '@expo/vector-icons';
+
 
 
 const CategoryScreen = () => {
 
 
 
-  //May neeed Asynch calls as page renders twice to wait for data collection
+    //May neeed Asynch calls as page renders twice to wait for data collection
 
-  const database = getDatabase();
-  const bdRef = ref(database); //refrences Root database
+    const database = getDatabase();
+    const bdRef = ref(database); //refrences Root database
 
-  const auth = getAuth();
-  const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
+    const auth = getAuth();
+    const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
-  const [categoryData, setCategoryData] = useState(ReadCategory); //similar to placeHolderData
-
-  const [placeHolderData, setPlaceHolderData] = useState({
-    Fridge: false,   //True  ->  Category Has Items
-    Pantry: false,  //False ->  Category does not have items
-    Other: false
-  });
-
-
-  const [dbData, setDBData] = useState([]);
+    const [categoryData, setCategoryData] = useState(ReadCategory); //similar to placeHolderData
+    const [placeHolderData, setPlaceHolderData] = useState({
+        Fridge: false,   //True  ->  Category Has Items
+        Pantry: false,  //False ->  Category does not have items
+        Other: false
+    });
 
     /*  These are for the edit name func */
+    const [modalVisible, setModalVisible] = useState(false);
+    const [newCategoryName, setNewCategoryName] = useState();
+    const [categoryNameToEdit, setCategoryNameToEdit] = useState();
 
-    const [data, setdata] = useState(ReadCategory);
-  const [isModalVisible, setisModalVisible] = useState(false);
-  const [inputText, setinputText] = useState();
-  const [isRender, setisRender] = useState(false);
-  const [editItem, seteditItem] = useState();
 
-    const onPressItem = (item) => {
-        setisModalVisible(true);
-        setinputText(item.text);
-        seteditItem(item.id)
-    }
+
 
     const renderItem = ({ item, index }) => {
         <TouchableOpacity
@@ -56,191 +47,159 @@ const CategoryScreen = () => {
         >
             <Text style={styles.text}>{itm.text}</Text>
 
-            </TouchableOpacity>
+        </TouchableOpacity>
     }
 
 
-    const onPressSaveEdit = () => {
+    function ReadCategory() {
+        get(child(ref(database), `users/${currentUserID}/categories`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                setCategoryData(snapshot.val())
+            } else {
+                console.log("No data available");
+                setCategoryData({ UnknownCategory: false });
+            }
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
 
+    function displayData() {
+        let items = [];
+        for (var key in categoryData) {
+            items.push(
+                <View key={key}>
+                    <CategoryItem categoryName={key} deleteCategoryFunction={deleteCategory} editCategoryFunction={editCategory} />
+                </View>);
+        }
+        return items;
+    }
+
+    function addCategory(categoryName, userID) {
+        if (categoryName === "") { alert("Category Name Cannot Be Blank"); return; } //Future Bug - Spaces and extra white space
+        if (categoryName in categoryData) { alert("Category Already Exists!"); return; }//Future BUG - Case sensitivity, Set to lower/to upper on creation. then do a to upper/tolower comapre
+        let localData = categoryData;
+        localData[categoryName] = false;
+        setCategoryData(localData);
+        const updates = {};
+        updates['users/' + userID + '/categories/'] = categoryData;
+        return update(ref(database), updates);
 
     }
 
-
-
-
-
-
-
-  // //const categoryRef = ref(database, 'categories/' + categoryID + '/categoryName');
-
-  // /*Get Currently SignedIn User - Observer*/
-  // onAuthStateChanged(auth, (user) => {
-  //   if (user) { //User is Signed In
-  //     setCurrentUserID(user.uid);
-  //     // ...
-  //   } else {
-  //     alert('User is Signed out');
-  //   }
-  // });
-
-
-  // setCategoryData((prevData) => {
-  //   return [{ categoryName: childData, key: childKey }, ...prevData];
-  // });
-
-
-
-  // onValue(ref(database, 'users/' + currentUserID + '/categories'), (snapshot) => {
-  //   setDBData(snapshot.val());
-  // }, {
-  //   onlyOnce: true
-  // });
-
-  // console.log(dbData);
-
-  function ReadCategory() {
-    get(child(ref(database), `users/${currentUserID}/categories`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        setCategoryData(snapshot.val())
-      } else {
-        console.log("No data available");
-        setCategoryData({ UnknownCategory: false });
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
-
-  function displayData() {
-    let items = [];
-    for (var key in categoryData) {
-      items.push(
-        <View key={key}>
-          <CategoryItem categoryName={key} deleteCategoryFunction={deleteCategory} />
-        </View>);
+    function deleteCategory(categoryName) {//category name is the Key, Check if False, if False Delete is good
+        alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
+        let hasItems = categoryData[categoryName];
+        if (hasItems) { alert("Cannot Delete, Category has Items! \nOverride comming soon!"); return; }
+        let localData = categoryData;
+        localData[categoryName] = null;
+        /* Once Items Have DB Ref. Remove Category From Items DB Table */
+        setCategoryData(localData);
+        const updates = {};
+        updates['users/' + auth.currentUser.uid + '/categories/'] = categoryData;
+        alert("Deletion Success!\nKnown Bug: Page does not update.\n\nLog out and back in to see change.")
+        return update(ref(database), updates);
     }
-    return items;
-  }
 
-  function addCategory(categoryName, userID) {
-    if (categoryName === "") { alert("Category Name Cannot Be Blank"); return; } //Future Bug - Spaces and extra white space
-    if (categoryName in categoryData) { alert("Category Already Exists!"); return; }//Future BUG - Case sensitivity, Set to lower/to upper on creation. then do a to upper/tolower comapre
-    let localData = categoryData;
-    localData[categoryName] = false;
-    setCategoryData(localData);
-    const updates = {};
-    updates['users/' + userID + '/categories/'] = categoryData;
-    return update(ref(database), updates);
+    //This Function will Reveal the Modal to edit specified Category
+    function editCategory(categoryNameToEdit) {
+        setModalVisible(true);
+        setCategoryNameToEdit(categoryNameToEdit);
+    }
 
-  }
+    function onPressSaveEdit() {
+        setModalVisible(false);
+        ////Something going on here that I cant solve
+        alert("Changing " + categoryNameToEdit + " To " + newCategoryName);
+    }
 
-  function deleteCategory(categoryName) {//category name is the Key, Check if False, if False Delete is good
-    
-    alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
-    let hasItems = categoryData[categoryName];
-    if (hasItems){alert("Cannot Delete, Category has Items! \nOverride comming soon!"); return;}
-    let localData = categoryData;
-    localData[categoryName] = null;
-    /* Once Items Have DB Ref. Remove Category From Items DB Table */
-    setCategoryData(localData);
-    const updates = {};
-    updates['users/' + auth.currentUser.uid + '/categories/'] = categoryData;
-    alert("Deletion Success!\nKnown Bug: Page does not update.\n\nLog out and back in to see change.")
-    return update(ref(database), updates);
+    /* Display Content */
+    return (
+        <View style={styles.container}>
+            <View style={styles.body}>
+                <ScrollView style={styles.scrollView}>
 
-  }
+                    {/*   Display Categories   */}
+                    {displayData()}
 
-    function editCategory(categoryName) {
 
-        {/*   Display Editing Cateogry Modal   */ }
 
-        <Modal
-            animationType='fade'
-            visible={isModalVisible}
-            onRequestClose={() => setisModalVisible(true)}
-        >
-            <View style={styles.modalView}>
-                <Text style={styles.text}> Change Text:  </Text>
-                <TextInput
-                    style={styles.textInput}
-                    onChangeText={(text) => setinputText(text)}
-                    defaultValue={inputText}
-                    editable={true}
-                    multiline={false}
-                    maxLength={200}
-                />
 
-                <TouchableOpacity
-                    onPress={() => onPressSaveEdit()}
-                    style={styles.touchableSave}
-                >
-                    <Text style={styles.text}> Save </Text>
+                </ScrollView>
 
-                </TouchableOpacity>
+                {/*   Add Category Field   */}
+                <AddCategory submitHandler={addCategory} userID={currentUserID} />
             </View>
 
-        </Modal>
-    }
+            {/* Edit Item Modal */}
+            <Modal
+                animationType='fade'
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
 
-  {
-    /*   This is a function that does the deleting from the list by long pressing on the item */
-  }
-  const pressHandler = (key) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((todo) => todo.key != key);
-    });
-  };
+                        <MaterialIcons
+                            name='close'
+                            size={24}
+                            style={{ ...styles.modalToggle, ...styles.modalClose }}
+                            onPress={() => setModalVisible(false)}
+                        />
 
+                        <TextInput
+                            style={styles.textInput}
+                            onChangeText={(text) => setNewCategoryName(text)}
+                            defaultValue={""}
+                            editable={true}
+                            multiline={false} e
+                            maxLength={200}
+                        />
+                        <TouchableOpacity
+                            onPress={() => onPressSaveEdit()}
+                            style={styles.touchableSave}
+                        >
+                            <Text style={styles.text}> Save </Text>
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.body}>
-        <ScrollView style={styles.scrollView}>
+                        </TouchableOpacity>
+                        
 
-          {/*   Display Categories   */}
-          {displayData()}
+                    </View>
+                </View>
+            </Modal>
 
-
-
-        
-        </ScrollView>
-
-        {/*   Add Category Field   */}
-        <AddCategory submitHandler={addCategory} userID={currentUserID} />
-      </View>
-      <MyNavMenu />
-    </View>
-  );
+            <MyNavMenu />
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
-  body: {
-    flex: 1,
-    padding: 20,
-    alignItems: "center",
-  },
-  container: {
-    backgroundColor: "#E8EAED",
-    flex: 1,
-    justifyContent: "center",
-  },
-  scrollView: {
-    borderWidth: 1,
-    width: "100%",
-    marginBottom: 20,
+    body: {
+        flex: 1,
+        padding: 20,
+        alignItems: "center",
+    },
+    container: {
+        backgroundColor: "#E8EAED",
+        flex: 1,
+        justifyContent: "center",
+    },
+    scrollView: {
+        borderWidth: 1,
+        width: "100%",
+        marginBottom: 20,
     },
     textInput: {
-        width: '90%',
-        height: 70,
-        borderColor: 'grey',
+        width: "40%",
+        backgroundColor: "#fff",
+        paddingHorizontal: 5,
+        marginBottom: 8,
+        borderColor: "black",
         borderWidth: 1,
-        fontSize: 25
-    },
-    modalView: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-
     },
     touchableSave: {
         backgroundColor: 'orange',
@@ -259,6 +218,65 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 10
     },
+
+    //MODAL Styles
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    },
+    modalToggle: {
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: '#f2f2f2',
+        padding: 8,
+        top: 7,
+        right: 120,
+        borderRadius: 10,
+        //alignSelf: 'center',
+    },
+    modalClose: {
+        marginTop: 10,
+        marginBottom: 0,
+    }
 
 });
 
