@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, Text, Pressable, TextInput, Modal, Button } from "react-native";
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TextInput, Modal, Button } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import AddCategory from "../Components/AddCategory";
@@ -7,8 +7,9 @@ import AddCategory from "../Components/AddCategory";
 import { getDatabase, onValue, set, get, ref, child, push, update } from "firebase/database";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import CategoryItem from "../Components/CategoryItem";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { MaterialIcons } from '@expo/vector-icons';
+import { setISODay } from "date-fns/esm/fp";
+import { render } from "react-dom";
 
 
 
@@ -34,23 +35,10 @@ const CategoryScreen = () => {
     /*  These are for the edit name func */
     const [modalVisible, setModalVisible] = useState(false);
     const [newCategoryName, setNewCategoryName] = useState();
-    const [categoryNameToEdit, setCategoryNameToEdit] = useState();
+    const [categoryNameToEdit, setCategoryNameToEdit] = useState();  
+  
 
-
-
-
-    const renderItem = ({ item, index }) => {
-        <TouchableOpacity
-            style={styles.itm}
-            onLongPress={() => onPressItem(item)}
-
-        >
-            <Text style={styles.text}>{itm.text}</Text>
-
-        </TouchableOpacity>
-    }
-
-
+   
     function ReadCategory() {
         get(child(ref(database), `users/${currentUserID}/categories`)).then((snapshot) => {
             if (snapshot.exists()) {
@@ -69,7 +57,11 @@ const CategoryScreen = () => {
         for (var key in categoryData) {
             items.push(
                 <View key={key}>
-                    <CategoryItem categoryName={key} deleteCategoryFunction={deleteCategory} editCategoryFunction={editCategory} />
+                    <CategoryItem
+                        categoryName={key} d
+                        eleteCategoryFunction={deleteCategory}
+                        editCategoryFunction={editCategory}                       
+                    />
                 </View>);
         }
         return items;
@@ -107,10 +99,14 @@ const CategoryScreen = () => {
         setCategoryNameToEdit(categoryNameToEdit);
     }
 
+ 
+
     function onPressSaveEdit() {
-        setModalVisible(false);
+        setModalVisible(false); //closing the model
         ////Something going on here that I cant solve
         alert("Changing " + categoryNameToEdit + " To " + newCategoryName);
+
+
     }
 
     /* Display Content */
@@ -122,9 +118,6 @@ const CategoryScreen = () => {
                     {/*   Display Categories   */}
                     {displayData()}
 
-
-
-
                 </ScrollView>
 
                 {/*   Add Category Field   */}
@@ -133,7 +126,7 @@ const CategoryScreen = () => {
 
             {/* Edit Item Modal */}
             <Modal
-                animationType='fade'
+                animationType='slide'
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
@@ -195,9 +188,10 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: "40%",
+        height: 40,
         backgroundColor: "#fff",
-        paddingHorizontal: 5,
-        marginBottom: 8,
+        paddingHorizontal: 60,
+        marginBottom: 1,
         borderColor: "black",
         borderWidth: 1,
     },
@@ -206,6 +200,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 100,
         alignItems: 'center',
         marginTop: 20,
+
     },
     itm: {
         borderBottomWidth: 1,
@@ -213,10 +208,11 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
     text: {
-        marginVertical: 30,
+        marginVertical: 10,
         fontSize: 25,
         fontWeight: 'bold',
-        marginLeft: 10
+        marginLeft: 2,
+        marginRight: 1
     },
 
     //MODAL Styles
@@ -227,6 +223,7 @@ const styles = StyleSheet.create({
         marginTop: 22
     },
     modalView: {
+        
         margin: 20,
         backgroundColor: "white",
         borderRadius: 20,
@@ -268,8 +265,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#f2f2f2',
         padding: 8,
-        top: 7,
-        right: 120,
+        top: 3,
+        right: 130,
         borderRadius: 10,
         //alignSelf: 'center',
     },

@@ -8,11 +8,8 @@ import {
     Pressable,
     TextInput,
     StyleSheet,
-    Button,
-    Platform,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, getHours, parseISO } from "date-fns";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -87,32 +84,7 @@ const ItemScreen = ({ props, route, navigation }) => {
     const [itemName, setItemName] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
 
-    /* For the date Picker function   */
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(false);
-    const [text, setText] = useState('Empty');
-    const [date, setDate] = useState(new Date());
-
-    /* For the date Picker func   */
-    const onChange = (event, selectDate) => {
-        const currentDate = selectDate || date;
-        setShow(Platform.OS == 'ios');
-        setDate(currentDate);
-
-        //let tempDate = new Date(currentDate);
-        //let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-        //let ftime = 'Hours: ' + tempDate / getHours() + '| Minutes: ' + tempDate.getMinutes();
-        //setText(fDate + '\n' + ftime);
-
-        //console.log(fDate + '(' + ftime + ')');
-    }
-
-    /* For the date Picker func   */
-    const showMode = (currentMode) => {
-        setShow(true);
-        setMode(currentMode);
-    }
-
+  
 
     const pressHandler = (key) => {
         setItemObject((prevItemObject) => {
@@ -210,32 +182,14 @@ const ItemScreen = ({ props, route, navigation }) => {
                                     <View style={styles.inputTitle}>
                                         <Text>Expiration Date:</Text>
                                     </View>
-
-                                    <Button title="Date Picker"
-                                        onPress={() => showMode('date')}
+                                                                 
+                                    <TextInput
+                                        style={styles.input}
+                                        placeholder="YYYY-MM-DD"
+                                        onChangeText={(newText) => setExpirationDate(newText)}
+                                    // defaultValue = "0001-01-28"
+                                    Make CharacterLimit
                                     />
-
-                                    {show && (
-                                        <DateTimePicker
-                                            testid='datetimepicker'
-                                            value={date}
-                                            mode={mode}
-                                            is24hour={true}
-                                            display='default'
-                                            
-                                            //onChange={(newText) => setExpirationDate(newText)}
-                                            //buttonSubmit={setExpirationDate(date)}
-                                        />)}
-
-                                    {/*<TextInput*/}
-                                    {/*    style={styles.input}*/}
-                                    {/*    placeholder="YYYY-MM-DD"*/}
-                                    {/*    //onChangeText={(newText) => setExpirationDate(newText)}*/}
-                                    {/*// defaultValue = "0001-01-28"*/}
-                                    {/*Make CharacterLimit*/}
-                                    {/*/>*/}
-
-
                                 </View>
 
                                 {/*Category:*/}
