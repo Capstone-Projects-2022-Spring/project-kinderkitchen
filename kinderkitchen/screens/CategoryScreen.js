@@ -35,9 +35,29 @@ const CategoryScreen = () => {
   const [dbData, setDBData] = useState([]);
 
     /*  These are for the edit name func */
+
+    const [data, setdata] = useState(ReadCategory);
   const [isModalVisible, setisModalVisible] = useState(false);
   const [inputText, setinputText] = useState();
+  const [isRender, setisRender] = useState(false);
+  const [editItem, seteditItem] = useState();
 
+    const onPressItem = (item) => {
+        setisModalVisible(true);
+        setinputText(item.text);
+        seteditItem(item.id)
+    }
+
+    const renderItem = ({ item, index }) => {
+        <TouchableOpacity
+            style={styles.itm}
+            onLongPress={() => onPressItem(item)}
+
+        >
+            <Text style={styles.text}>{itm.text}</Text>
+
+            </TouchableOpacity>
+    }
 
 
     const onPressSaveEdit = () => {
@@ -130,7 +150,37 @@ const CategoryScreen = () => {
 
   }
 
+    function editCategory(categoryName) {
 
+        {/*   Display Editing Cateogry Modal   */ }
+
+        <Modal
+            animationType='fade'
+            visible={isModalVisible}
+            onRequestClose={() => setisModalVisible(true)}
+        >
+            <View style={styles.modalView}>
+                <Text style={styles.text}> Change Text:  </Text>
+                <TextInput
+                    style={styles.textInput}
+                    onChangeText={(text) => setinputText(text)}
+                    defaultValue={inputText}
+                    editable={true}
+                    multiline={false}
+                    maxLength={200}
+                />
+
+                <TouchableOpacity
+                    onPress={() => onPressSaveEdit()}
+                    style={styles.touchableSave}
+                >
+                    <Text style={styles.text}> Save </Text>
+
+                </TouchableOpacity>
+            </View>
+
+        </Modal>
+    }
 
   {
     /*   This is a function that does the deleting from the list by long pressing on the item */
@@ -150,34 +200,7 @@ const CategoryScreen = () => {
           {/*   Display Categories   */}
           {displayData()}
 
-                  {/*   Display Editing Cateogry Modal   */}
 
-                  <Modal
-                      animationType='fade'
-                      visible={isModalVisible}
-                      onRequestClose={() => setisModalVisible(false)}
-                  >
-                      <View style={styles.modalView}>
-                          <Text style={styles.text}> Change Text:  </Text>
-                          <TextInput
-                              style={styles.textInput}
-                              onChangeText={(text) => setinputText(text)}
-                              defaultValue={inputText}
-                              editable={true}
-                              multiline={false}
-                              maxLength={200}
-                          />
-
-                          <TouchableOpacity
-                              onLongPress={() => onPressSaveEdit()}
-                              style={styles.touchableSave}
-                          >
-                              <Text style={styles.text}> Save </Text>
-
-                              </TouchableOpacity>
-                      </View>
-
-                  </Modal>
 
         
         </ScrollView>
@@ -224,8 +247,19 @@ const styles = StyleSheet.create({
         paddingHorizontal: 100,
         alignItems: 'center',
         marginTop: 20,
-    }
-    
+    },
+    itm: {
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey',
+        alignItems: 'flex-start'
+    },
+    text: {
+        marginVertical: 30,
+        fontSize: 25,
+        fontWeight: 'bold',
+        marginLeft: 10
+    },
+
 });
 
 export default CategoryScreen;

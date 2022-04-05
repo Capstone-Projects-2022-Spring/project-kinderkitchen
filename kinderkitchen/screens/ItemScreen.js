@@ -87,7 +87,7 @@ const ItemScreen = ({ props, route, navigation }) => {
     const [itemName, setItemName] = useState("");
     const [expirationDate, setExpirationDate] = useState("");
 
-    /* For the date Picker func   */
+    /* For the date Picker function   */
     const [mode, setMode] = useState('date');
     const [show, setShow] = useState(false);
     const [text, setText] = useState('Empty');
@@ -99,12 +99,12 @@ const ItemScreen = ({ props, route, navigation }) => {
         setShow(Platform.OS == 'ios');
         setDate(currentDate);
 
-        let tempDate = new Date(currentDate);
-        let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
-        let ftime = 'Hours: ' + tempDate / getHours() + '| Minutes: ' + tempDate.getMinutes();
-        setText(fDate + '\n' + ftime);
+        //let tempDate = new Date(currentDate);
+        //let fDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+        //let ftime = 'Hours: ' + tempDate / getHours() + '| Minutes: ' + tempDate.getMinutes();
+        //setText(fDate + '\n' + ftime);
 
-        console.log(fDate + '(' + ftime + ')');
+        //console.log(fDate + '(' + ftime + ')');
     }
 
     /* For the date Picker func   */
@@ -222,7 +222,9 @@ const ItemScreen = ({ props, route, navigation }) => {
                                             mode={mode}
                                             is24hour={true}
                                             display='default'
-                                            onChange={onChange}
+                                            
+                                            onChange={(newText) => setExpirationDate(newText)}
+                                            //buttonSubmit={setExpirationDate(date)}
                                         />)}
 
                                     {/*<TextInput*/}
