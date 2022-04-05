@@ -46,6 +46,8 @@ const ItemScreen = ({ props, route, navigation }) => {
   const DBref = ref(database);
   const auth = getAuth();
 
+  const [actionTriggered, setActionTriggered] = useState('');
+
   const [modalVisible, setModalVisible] = useState(false);
 
   //FUTURE PLANING:
@@ -206,11 +208,20 @@ const ItemScreen = ({ props, route, navigation }) => {
         <ScrollView style={styles.scrollView}>
           {itemObject.map((obj, key) => (
             <View key={key}>
-              <ItemInfoComponent
-                sysDate={format(new Date(), "yyyy-MM-dd")}
-                item={obj}
-                pressHandler={pressHandler}
-              />
+              <Pressable
+                //style={styles.button}
+                onPress={() => {
+                  setModalVisible(true);
+                  setActionTriggered("ACTION_EDIT");
+                  console.log("Button Press");
+                }}
+              >
+                <ItemInfoComponent
+                  sysDate={format(new Date(), "yyyy-MM-dd")}
+                  item={obj}
+                  pressHandler={pressHandler}
+                />
+              </Pressable>
             </View>
           ))}
 
@@ -224,119 +235,235 @@ const ItemScreen = ({ props, route, navigation }) => {
               setModalVisible(!modalVisible);
             }}
           >
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <MaterialIcons
-                  name="close"
-                  size={24}
-                  style={{ ...styles.modalToggle, ...styles.modalClose }}
-                  onPress={() => setModalVisible(false)}
-                />
+            {actionTriggered === "ACTION_ADD" ?
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <MaterialIcons
+                    name="close"
+                    size={24}
+                    style={{ ...styles.modalToggle, ...styles.modalClose }}
+                    onPress={() => setModalVisible(false)}
+                  />
 
-                {/*Header*/}
-                <View style={styles.modalHeader}>
-                  <Text style={styles.modalText}>Add Item</Text>
-                </View>
-
-                {/*Item Name*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Item Name:</Text>
+                  {/*Header*/}
+                  <View style={styles.modalHeader}>
+                    <Text style={styles.modalText}>Add Item</Text>
                   </View>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={(newText) => setItemName(newText)}
+
+                  {/*Item Name*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Item Name:</Text>
+                    </View>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(newText) => setItemName(newText)}
                     /*Make CharacterLimit*/
-                  />
-                </View>
-
-                {/*Expiration Date*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Expiration Date:</Text>
-                  </View>
-
-                  <Button
-                    title="Date Picker"
-                    onPress={() => showMode("date")}
-                  />
-
-                  {show && (
-                    <DateTimePicker
-                      testid="datetimepicker"
-                      value={date}
-                      mode={mode}
-                      is24hour={true}
-                      display="default"
-                      onChange={onChange}
                     />
-                  )}
-
-                  {/*<TextInput*/}
-                  {/*    style={styles.input}*/}
-                  {/*    placeholder="YYYY-MM-DD"*/}
-                  {/*    //onChangeText={(newText) => setExpirationDate(newText)}*/}
-                  {/*// defaultValue = "0001-01-28"*/}
-                  {/*Make CharacterLimit*/}
-                  {/*/>*/}
-                </View>
-
-                {/*Category:*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Category:</Text>
                   </View>
-                  <DropDownPicker
-                    style={{ width: "40%" }}
-                    dropDownContainerStyle={{ width: "40%" }}
-                    placeholder={thisCategoryName}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                  />
+
+                  {/*Expiration Date*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Expiration Date:</Text>
+                    </View>
+
+                    <Button
+                      title="Date Picker"
+                      onPress={() => showMode("date")}
+                    />
+
+                    {show && (
+                      <DateTimePicker
+                        testid="datetimepicker"
+                        value={date}
+                        mode={mode}
+                        is24hour={true}
+                        display="default"
+                        onChange={onChange}
+                      />
+                    )}
+
+                    {/*<TextInput*/}
+                    {/*    style={styles.input}*/}
+                    {/*    placeholder="YYYY-MM-DD"*/}
+                    {/*    //onChangeText={(newText) => setExpirationDate(newText)}*/}
+                    {/*// defaultValue = "0001-01-28"*/}
+                    {/*Make CharacterLimit*/}
+                    {/*/>*/}
+                  </View>
+
+                  {/*Category:*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Category:</Text>
+                    </View>
+                    <DropDownPicker
+                      style={{ width: "40%" }}
+                      dropDownContainerStyle={{ width: "40%" }}
+                      placeholder={thisCategoryName}
+                      open={open}
+                      value={value}
+                      items={items}
+                      setOpen={setOpen}
+                      setValue={setValue}
+                      setItems={setItems}
+                    />
+                  </View>
+
+                  {/*ButtonField*/}
+                  <View style={styles.submissionField}>
+                    {/*Submit Button*/}
+                    <Pressable
+                      style={[styles.button, styles.buttonSubmit]}
+                      onPress={() => {
+                        submitHandler({ itemName, expirationDate, value }); //Replace when Read is available
+                        addItem({
+                          itemName: itemName,
+                          expirationDate: expirationDate,
+                          categoryName: value,
+                        });
+                        setModalVisible(!modalVisible);
+                      }}
+                    >
+                      <Text style={styles.textStyle}>Submit</Text>
+                    </Pressable>
+
+                    {/*Scan Button*/}
+                    <Pressable
+                      style={[
+                        styles.button,
+                        styles.buttonScan,
+                        { marginLeft: 60, paddingHorizontal: 20 },
+                      ]}
+                      onPress={() => navigation.navigate("Barcode")}
+                    >
+                      <MaterialCommunityIcons
+                        name="barcode-scan"
+                        size={24}
+                        color="black"
+                      />
+                      <Text style={styles.textStyle}></Text>
+                    </Pressable>
+                  </View>
+                  {/*END - ButtonField*/}
                 </View>
-
-                {/*ButtonField*/}
-                <View style={styles.submissionField}>
-                  {/*Submit Button*/}
-                  <Pressable
-                    style={[styles.button, styles.buttonSubmit]}
-                    onPress={() => {
-                      submitHandler({ itemName, expirationDate, value }); //Replace when Read is available
-                      addItem({
-                        itemName: itemName,
-                        expirationDate: expirationDate,
-                        categoryName: value,
-                      });
-                      setModalVisible(!modalVisible);
-                    }}
-                  >
-                    <Text style={styles.textStyle}>Submit</Text>
-                  </Pressable>
-
-                  {/*Scan Button*/}
-                  <Pressable
-                    style={[
-                      styles.button,
-                      styles.buttonScan,
-                      { marginLeft: 60, paddingHorizontal: 20 },
-                    ]}
-                    onPress={() => navigation.navigate("Barcode")}
-                  >
-                    <MaterialCommunityIcons
-                      name="barcode-scan"
+              </View> :
+              actionTriggered === "ACTION_EDIT" ?
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <MaterialIcons
+                      name="close"
                       size={24}
-                      color="black"
+                      style={{ ...styles.modalToggle, ...styles.modalClose }}
+                      onPress={() => setModalVisible(false)}
                     />
-                    <Text style={styles.textStyle}></Text>
-                  </Pressable>
-                </View>
-                {/*END - ButtonField*/}
-              </View>
-            </View>
+
+                    {/*Header*/}
+                    <View style={styles.modalHeader}>
+                      <Text style={styles.modalText}>Add Item</Text>
+                    </View>
+
+                    {/*Item Name*/}
+                    <View style={styles.inputView}>
+                      <View style={styles.inputTitle}>
+                        <Text>Item Name:</Text>
+                      </View>
+                      <TextInput
+                        style={styles.input}
+                        onChangeText={(newText) => setItemName(newText)}
+                      /*Make CharacterLimit*/
+                      />
+                    </View>
+
+                    {/*Expiration Date*/}
+                    <View style={styles.inputView}>
+                      <View style={styles.inputTitle}>
+                        <Text>Expiration Date:</Text>
+                      </View>
+
+                      <Button
+                        title="Date Picker"
+                        onPress={() => showMode("date")}
+                      />
+
+                      {show && (
+                        <DateTimePicker
+                          testid="datetimepicker"
+                          value={date}
+                          mode={mode}
+                          is24hour={true}
+                          display="default"
+                          onChange={onChange}
+                        />
+                      )}
+
+                      {/*<TextInput*/}
+                      {/*    style={styles.input}*/}
+                      {/*    placeholder="YYYY-MM-DD"*/}
+                      {/*    //onChangeText={(newText) => setExpirationDate(newText)}*/}
+                      {/*// defaultValue = "0001-01-28"*/}
+                      {/*Make CharacterLimit*/}
+                      {/*/>*/}
+                    </View>
+
+                    {/*Category:*/}
+                    <View style={styles.inputView}>
+                      <View style={styles.inputTitle}>
+                        <Text>Category:</Text>
+                      </View>
+                      <DropDownPicker
+                        style={{ width: "40%" }}
+                        dropDownContainerStyle={{ width: "40%" }}
+                        placeholder={thisCategoryName}
+                        open={open}
+                        value={value}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setValue}
+                        setItems={setItems}
+                      />
+                    </View>
+
+                    {/*ButtonField*/}
+                    <View style={styles.submissionField}>
+                      {/*Submit Button*/}
+                      <Pressable
+                        style={[styles.button, styles.buttonSubmit]}
+                        onPress={() => {
+                          submitHandler({ itemName, expirationDate, value }); //Replace when Read is available
+                          addItem({
+                            itemName: itemName,
+                            expirationDate: expirationDate,
+                            categoryName: value,
+                          });
+                          setModalVisible(!modalVisible);
+                        }}
+                      >
+                        <Text style={styles.textStyle}>Submit</Text>
+                      </Pressable>
+
+                      {/*Scan Button*/}
+                      <Pressable
+                        style={[
+                          styles.button,
+                          styles.buttonScan,
+                          { marginLeft: 60, paddingHorizontal: 20 },
+                        ]}
+                        onPress={() => navigation.navigate("Barcode")}
+                      >
+                        <MaterialCommunityIcons
+                          name="barcode-scan"
+                          size={24}
+                          color="black"
+                        />
+                        <Text style={styles.textStyle}></Text>
+                      </Pressable>
+                    </View>
+                    {/*END - ButtonField*/}
+                  </View>
+                </View> :
+                null}
           </Modal>
         </ScrollView>
 
@@ -344,6 +471,7 @@ const ItemScreen = ({ props, route, navigation }) => {
           style={styles.button}
           onPress={() => {
             setModalVisible(true);
+            setActionTriggered("ACTION_ADD");
             console.log("Button Press");
           }}
         >
