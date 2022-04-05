@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -11,15 +11,10 @@ import { useNavigation } from "@react-navigation/native";
 export default function CategoryItem({ categoryName, deleteCategoryFunction, editCategoryFunction }) {
   const navigation = useNavigation();
 
-
-
   return (
     <TouchableOpacity
-      //pressHandler(item.categoryKey)}
       onPress={() => navigation.navigate("Items",{categoryName: categoryName})}
-
       >
-
           <View style={styles.item}>
               <AntDesign
                   name="edit"
