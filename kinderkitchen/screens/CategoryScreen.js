@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TextInput, Modal, Button } from "react-native";
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TextInput, Modal, SafeAreaView  } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import AddCategory from "../Components/AddCategory";
@@ -111,7 +111,7 @@ const CategoryScreen = () => {
 
     /* Display Content */
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.body}>
                 <ScrollView style={styles.scrollView}>
 
@@ -146,6 +146,7 @@ const CategoryScreen = () => {
 
                         <TextInput
                             style={styles.textInput}
+                            placeholder="Enter Category Name"
                             onChangeText={(text) => setNewCategoryName(text)}
                             defaultValue={""}
                             editable={true}
@@ -166,7 +167,7 @@ const CategoryScreen = () => {
             </Modal>
 
             <MyNavMenu />
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -187,17 +188,17 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     textInput: {
-        width: "40%",
+        width: "30%",
         height: 40,
         backgroundColor: "#fff",
-        paddingHorizontal: 60,
+        paddingHorizontal: 30,
         marginBottom: 1,
         borderColor: "black",
         borderWidth: 1,
     },
     touchableSave: {
         backgroundColor: 'orange',
-        paddingHorizontal: 100,
+        paddingHorizontal: 90,
         alignItems: 'center',
         marginTop: 20,
 
@@ -209,7 +210,7 @@ const styles = StyleSheet.create({
     },
     text: {
         marginVertical: 10,
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
         marginLeft: 2,
         marginRight: 1
@@ -262,12 +263,12 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'stretch',
         marginBottom: 10,
-        borderWidth: 1,
-        borderColor: '#f2f2f2',
+        //borderWidth: 1,
+       // borderColor: '#f2f2f2',
         padding: 8,
-        top: 3,
-        right: 130,
-        borderRadius: 10,
+        top: 1,
+        right: 120,
+        //borderRadius: 10,
         //alignSelf: 'center',
     },
     modalClose: {

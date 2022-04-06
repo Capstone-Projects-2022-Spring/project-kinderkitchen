@@ -17,19 +17,23 @@ export default function CategoryItem({ categoryName, deleteCategoryFunction, edi
     <TouchableOpacity
       //pressHandler(item.categoryKey)}
       onPress={() => navigation.navigate("Items",{categoryName: categoryName})}
-
       >
-
           <View style={styles.item}>
               <AntDesign
+                  style={styles.edit}
                   name="edit"
                   size={24}
                   color="black"
                   onPress={() => editCategoryFunction()}
-
               />
-
-              <MaterialIcons name='delete' size={18} color='#333' onPress={() => deleteCategoryFunction(categoryName)}/*alert("Backend Delete Coming Soon!")}*/  />
+              <MaterialIcons
+                  style={styles.delete}
+                  name='delete'
+                  size={18}
+                  color='#333'
+                  onPress={() => deleteCategoryFunction(categoryName)}
+              /*alert("Backend Delete Coming Soon!")}*/
+              />
               <Text style={styles.itemText}>{categoryName}</Text>
           </View>
     </TouchableOpacity>
@@ -49,9 +53,20 @@ const styles = StyleSheet.create({
      flexDirection: 'row',
     alignItems: 'center',
     },
+    /*Category name design */
     itemText: {
         marginLeft: 10,
     },
+    /*Edit Icon design */
+    edit: {
+        marginRight: 80,
+        left: 300,
+    },
+    /*Delete Icon design */
+    delete: {
+        right: 100,
+    },
+
     
 });
       
