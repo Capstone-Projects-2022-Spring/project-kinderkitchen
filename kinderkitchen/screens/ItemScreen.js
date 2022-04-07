@@ -172,8 +172,7 @@ const ItemScreen = ({ props, route, navigation }) => {
         newItemObj.itemName
     ] = newItemObj;
     updates[
-      "users/" + auth.currentUser.uid + "/categories/" + newItemObj.categoryName
-    ] = localData;
+      "users/" + auth.currentUser.uid + "/categories/"] = localData; //Bug Fix
     return update(ref(database), updates);
   };
 
