@@ -12,7 +12,6 @@ import {
   Platform,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import { format, getHours, parseISO } from "date-fns";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -256,7 +255,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                     <Text>Expiration Date:</Text>
                   </View>
 
-                  <Button
+                  {/* <Button
                     title="Date Picker"
                     onPress={() => showMode("date")}
                   />
@@ -270,15 +269,16 @@ const ItemScreen = ({ props, route, navigation }) => {
                       display="default"
                       onChange={onChange}
                     />
-                  )}
+                  )} */}
 
-                  {/*<TextInput*/}
-                  {/*    style={styles.input}*/}
-                  {/*    placeholder="YYYY-MM-DD"*/}
-                  {/*    //onChangeText={(newText) => setExpirationDate(newText)}*/}
-                  {/*// defaultValue = "0001-01-28"*/}
-                  {/*Make CharacterLimit*/}
-                  {/*/>*/}
+                  <TextInput
+                    style={styles.input}
+                    placeholder="YYYY-MM-DD"
+                    onChangeText={(newText) => setExpirationDate(newText)}
+                    defaultValue="0001-01-28"
+                    Make
+                    CharacterLimit
+                  />
                 </View>
 
                 {/*Category:*/}

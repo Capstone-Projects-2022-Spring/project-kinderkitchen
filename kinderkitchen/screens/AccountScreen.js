@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Share, Button  } from "react-native";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import { getAuth, signOut } from "firebase/auth";
 
@@ -15,14 +15,34 @@ const AccountScreen = ({ navigation }) => {
  const auth = getAuth();
  const user = auth.currentUser;
 
+    
+        const onShare = async () => {
+            try {
+                const result = await Share.share({
+                    message:
+                        'React Native | A framework for building native apps using React',
+                });
+                if (result.action === Share.sharedAction) {
+                    if (result.activityType) {
+                        // shared with activity type of result.activityType
+                    } else {
+                        // shared
+                    }
+                } else if (result.action === Share.dismissedAction) {
+                    // dismissed
+                }
+            } catch (error) {
+                alert(error.message);
+            }
+        };
+
 
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <Text style={styles.header}>Settings</Text>
         
-
-
+              
         <TouchableOpacity
           title="1"
           style={styles.recipesButton}
@@ -38,9 +58,7 @@ const AccountScreen = ({ navigation }) => {
         >
           <Text>{titleDonation}</Text>
         </TouchableOpacity>
-
-
-
+          
 
         <TouchableOpacity
           title="Notifications"
@@ -73,6 +91,14 @@ const AccountScreen = ({ navigation }) => {
               >
                   <Text>{titleLog}</Text>
               </TouchableOpacity>
+
+              <TouchableOpacity                 
+                  style={styles.ShareButton}
+                  onPress={onShare}
+              >
+                  <Text>Share</Text>
+              </TouchableOpacity>
+
       </View>
       <MyNavMenu />
     </View>
@@ -143,7 +169,18 @@ const styles = StyleSheet.create({
     top: 380,
     right: 230,
     justifyContent: "space-evenly",
-  },
+    },
+    ShareButton: {
+        paddingVertical: 12,
+        paddingHorizontal: 32,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: "#FFD700",
+        position: "absolute",
+        top: 470,
+        right: 270,
+        justifyContent: "space-evenly",
+    },
     LogoutButton: {
         paddingVertical: 12,
         paddingHorizontal: 49,
