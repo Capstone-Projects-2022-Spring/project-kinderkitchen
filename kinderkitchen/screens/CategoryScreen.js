@@ -115,7 +115,7 @@ const CategoryScreen = () => {
     alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
 
     let localData = categoryData;
-    localData[categoryName] = null;
+    delete localData[categoryName];
     /* Once Items Have DB Ref. Remove Category From Items DB Table */
     setCategoryData(localData);
     const updates = {};
@@ -147,7 +147,6 @@ const CategoryScreen = () => {
     }//Future Bug - CaseSensitive
 
     let localCategoryData = categoryData;
-    let localItemData;
     const updates = {};
 
     alert("Changing " + oldCategoryName + " To " + newCategoryName);
