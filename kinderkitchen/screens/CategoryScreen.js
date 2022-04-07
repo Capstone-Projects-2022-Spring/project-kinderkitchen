@@ -58,8 +58,8 @@ const CategoryScreen = () => {
             items.push(
                 <View key={key}>
                     <CategoryItem
-                        categoryName={key} d
-                        eleteCategoryFunction={deleteCategory}
+                        categoryName={key} 
+                        deleteCategoryFunction={deleteCategory}
                         editCategoryFunction={editCategory}                       
                     />
                 </View>);

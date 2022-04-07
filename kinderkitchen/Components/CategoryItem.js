@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 {
   /*   This is a class that is related to the content of the list (design + displaying ) */
 }
-export default function CategoryItem({ categoryName, deleteCategoryFunction, editCategoryFunction }) {
+export default function CategoryItem({ categoryName, deleteCategoryFunction, editCategoryFunction, passingCategoryData }) {
   const navigation = useNavigation();
 
 
@@ -16,7 +16,7 @@ export default function CategoryItem({ categoryName, deleteCategoryFunction, edi
   return (
     <TouchableOpacity
       //pressHandler(item.categoryKey)}
-      onPress={() => navigation.navigate("Items",{categoryName: categoryName})}
+      onPress={() => navigation.navigate("Items",{categoryName, passingCategoryData})}
       >
           <View style={styles.item}>
               <AntDesign
