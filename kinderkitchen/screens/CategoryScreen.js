@@ -173,12 +173,12 @@ const CategoryScreen = () => {
       updates['users/' + currentUserID + '/items/' + oldCategoryName +'/'] = null; //Remove All DB Items
       //remove(ref(db, `users/${currentUserID}/items/${oldCategoryName}`)); //ALT
       updates['users/' +currentUserID + '/items/' + newCategoryName +'/'] = itemData; //Add Data Back As New Category
-      localCategoryData[oldCategoryName] = null;//remove old
+      delete localCategoryData[oldCategoryName]; //delete old
       localCategoryData[newCategoryName] = true;//add new
       updates["users/" + currentUserID + "/categories/"] = localCategoryData;
 
     } else {  //FALSE
-      localCategoryData[oldCategoryName] = null;//remove old
+      delete localCategoryData[oldCategoryName]; //remove old
       localCategoryData[newCategoryName] = false;//add new
       updates["users/" + currentUserID + "/categories/"] = localCategoryData;
     }
