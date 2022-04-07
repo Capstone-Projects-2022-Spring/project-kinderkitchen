@@ -190,182 +190,6 @@ const ItemScreen = ({ props, route, navigation }) => {
         ...prevItemObject,
       ];
     });
-
-//     // ***********************************************************
-
-//     const [open, setOpen] = useState(false);
-//     const [value, setValue] = useState(categoryID);
-//     const [items, setItems] = useState([
-//         { label: "Fridge", value: 1 },
-//         { label: "Pantry", value: 2 },
-//     ]);
-
-    
-//     /*Textbox Fields*/
-//     const [itemName, setItemName] = useState("");
-//     const [expirationDate, setExpirationDate] = useState("");
-
-  
-
-//     const pressHandler = (key) => {
-//         setItemObject((prevItemObject) => {
-//             return prevItemObject.filter((obj) => obj.item_id != key);
-//         });
-//     };
-
-//     const submitHandler = (props) => {
-//         setItemObject((prevItemObject) => {
-//             //Change account_id
-//             //get from routes to pass in all available categories
-//             //console.log(props);
-//             return [
-//                 {
-//                     item_id: Math.random().toString(),
-//                     item_name: props.itemName,
-//                     expiration_date: props.expirationDate,
-//                     category_id: props.value,
-//                     account_id: "1",
-//                 },
-//                 ...prevItemObject,
-//             ];
-//         });
-//     };
-
-//     const [status, setStatus] = useState(0); //STATUS STATES (0: Good , 1: Aproaching EXP, 2: Expired)
-
-//     const [modalVisible, setModalVisible] = useState(false);
-
-//     //props.category name
-//     //props.category_id
-//     //props.obj?
-//     //props.item_name
-
-//     return (
-//         <View style={styles.container}>
-//             <View style={styles.body}>
-//                 {
-//                     categoryName ? (
-//                         <HeaderComponent title={categoryName} />
-//                     ) : (
-//                         <HeaderComponent title="CATEGORY_NAME" />
-//                     ) /*If no title provided*/
-//                 }
-//                 <ScrollView style={styles.scrollView}>
-//                     {itemObject.map((obj, key) => (
-//                         <View key={key}>
-//                             <ItemInfoComponent
-//                                 sysDate={format(new Date(), "yyyy-MM-dd")}
-//                                 item={obj}
-//                                 pressHandler={pressHandler}
-//                             />
-//                         </View>
-//                     ))}
-
-//                     {/*Add Item Form Pop-Up*/}
-//                     <Modal
-//                         animationType='slide'
-//                         transparent={true}
-//                         visible={modalVisible}
-//                         onRequestClose={() => {
-//                             Alert.alert("Modal has been closed.");
-//                             setModalVisible(!modalVisible);
-//                         }}
-//                     >
-//                         <View style={styles.centeredView}>
-//                             <View style={styles.modalView}>
-
-//                                 <MaterialIcons
-//                                     name='close'
-//                                     size={24}
-//                                     style={{ ...styles.modalToggle, ...styles.modalClose }}
-//                                     onPress={() => setModalVisible(false)}
-//                                 />
-
-//                                 {/*Header*/}
-//                                 <View style={styles.modalHeader}>
-//                                     <Text style={styles.modalText}>Add Item</Text>
-//                                 </View>
-                            
-//                                {/*Item Name*/}
-//                                 <View style={styles.inputView}>
-//                                     <View style={styles.inputTitle}>
-//                                         <Text>Item Name:</Text>
-//                                     </View>
-//                                     <TextInput
-//                                         style={styles.input}
-//                                         onChangeText={(newText) => setItemName(newText)}
-//                                     /*Make CharacterLimit*/
-//                                     />
-//                                 </View>
-
-//                                 {/*Expiration Date*/}
-//                                 <View style={styles.inputView}>
-//                                     <View style={styles.inputTitle}>
-//                                         <Text>Expiration Date:</Text>
-//                                     </View>
-                                                                 
-//                                     <TextInput
-//                                         style={styles.input}
-//                                         placeholder="YYYY-MM-DD"
-//                                         onChangeText={(newText) => setExpirationDate(newText)}
-//                                     // defaultValue = "0001-01-28"
-//                                     Make CharacterLimit
-//                                     />
-//                                 </View>
-
-//                                 {/*Category:*/}
-//                                 <View style={styles.inputView}>
-//                                     <View style={styles.inputTitle}>
-//                                         <Text>Category:</Text>
-//                                     </View>
-//                                     <DropDownPicker
-//                                         style={{ width: "40%" }}
-//                                         dropDownContainerStyle={{ width: "40%" }}
-//                                         placeholder={categoryName}
-//                                         open={open}
-//                                         value={value}
-//                                         items={items}
-//                                         setOpen={setOpen}
-//                                         setValue={setValue}
-//                                         setItems={setItems}
-//                                     />
-//                                 </View> 
-
-//                                 {/*ButtonField*/}
-//                                 <View style={styles.submissionField}>
-//                                     {/*Submit Button*/}
-//                                     <Pressable
-//                                         style={[styles.button, styles.buttonSubmit]}
-//                                         onPress={() => {
-//                                             submitHandler({ itemName, expirationDate, value });
-//                                             setModalVisible(!modalVisible);
-//                                         }}
-//                                     >
-//                                         <Text style={styles.textStyle}>Submit</Text>
-//                                     </Pressable>
-
-//                                     {/*Scan Button*/}
-//                                     <Pressable
-//                                         style={[
-//                                             styles.button,
-//                                             styles.buttonScan,
-//                                             { marginLeft: 60, paddingHorizontal: 20 },
-//                                         ]}
-//                                         onPress={() => navigation.navigate("Barcode")}
-//                                     >
-//                                         <MaterialCommunityIcons name="barcode-scan" size={24} color="black" />
-//                                         <Text style={styles.textStyle}></Text>
-//                                     </Pressable>
-//                                 </View>
-//                                 {/*END - ButtonField*/}
-//                             </View>
-//                         </View>
-//                     </Modal>
-//                 </ScrollView>
-
-//                 <Pressable
-//                     style={styles.button}
-
   };
 
   return (
@@ -431,7 +255,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                     <Text>Expiration Date:</Text>
                   </View>
 
-                  <Button
+                  {/* <Button
                     title="Date Picker"
                     onPress={() => showMode("date")}
                   />
@@ -445,15 +269,16 @@ const ItemScreen = ({ props, route, navigation }) => {
                       display="default"
                       onChange={onChange}
                     />
-                  )}
+                  )} */}
 
-                  {/*<TextInput*/}
-                  {/*    style={styles.input}*/}
-                  {/*    placeholder="YYYY-MM-DD"*/}
-                  {/*    //onChangeText={(newText) => setExpirationDate(newText)}*/}
-                  {/*// defaultValue = "0001-01-28"*/}
-                  {/*Make CharacterLimit*/}
-                  {/*/>*/}
+                  <TextInput
+                    style={styles.input}
+                    placeholder="YYYY-MM-DD"
+                    onChangeText={(newText) => setExpirationDate(newText)}
+                    defaultValue="0001-01-28"
+                    Make
+                    CharacterLimit
+                  />
                 </View>
 
                 {/*Category:*/}
@@ -479,7 +304,6 @@ const ItemScreen = ({ props, route, navigation }) => {
                   {/*Submit Button*/}
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
-
                     onPress={() => {
                       submitHandler({ itemName, expirationDate, value }); //Replace when Read is available
                       addItem({
