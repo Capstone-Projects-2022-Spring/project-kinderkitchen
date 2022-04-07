@@ -17,53 +17,62 @@ const RecipeSaved = () => {
     readSavedRecipes();
   }, []);
 
-  function deleteSavedRecipe(recipeName){
-    alert(`Deleting ${recipeName}. This Cannot be Undone! \nSecondary Confirm To be Initialized`);
+  function deleteSavedRecipe(recipeName) {
+    alert(
+      `Deleting ${recipeName}. This Cannot be Undone! \nSecondary Confirm To be Initialized`
+    );
     remove(ref(db, `users/${auth.currentUser.uid}/savedRecipes/${recipeName}`));
     //readSavedRecipes(); //This might Update page on each delete Needs to be tested.
   }
 
   const readSavedRecipes = async () => {
-    get(child(ref(getDatabase()), `users/${getAuth().currentUser.uid}/savedRecipes/`)).then((snapshot) => {
-      if (snapshot.exists()) {
-        setRecipeData(snapshot.val());
-      } else {
-        console.log("No data available");
-        //......
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-  }
+    get(
+      child(
+        ref(getDatabase()),
+        `users/${getAuth().currentUser.uid}/savedRecipes/`
+      )
+    )
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setRecipeData(snapshot.val());
+        } else {
+          console.log("No data available");
+          //......
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   function displaySavedRecipes() {
     let items = [];
     for (var key in recipeData) {
       items.push(
         <Recipe
-              key={key}
-              title={key}
-              calories={recipeData[key].calories}
-              image={recipeData[key].image}
-              ingredients={recipeData[key].ingredients}
-              shareAs={recipeData[key].shareAs}
-              deleteRecipeFunction={deleteSavedRecipe}
-            />)}
+          key={key}
+          title={key}
+          calories={recipeData[key].calories}
+          image={recipeData[key].image}
+          ingredients={recipeData[key].ingredients}
+          shareAs={recipeData[key].shareAs}
+          deleteRecipeFunction={deleteSavedRecipe}
+        />
+      );
+    }
     return items;
   }
 
   return (
     <View style={styles.container}>
-      
       <View style={styles.body}>
         <Text>Saved Recipes</Text>
 
         <ScrollView style={styles.recipeList}>
-          { recipeData.length === 0 ? null//alert("Undefined!") 
-          : displaySavedRecipes()
-        }
-          </ScrollView>
-
+          {recipeData.length === 0
+            ? null //alert("Undefined!")
+            : displaySavedRecipes()}
+        </ScrollView>
       </View>
       <MyNavMenu />
     </View>
