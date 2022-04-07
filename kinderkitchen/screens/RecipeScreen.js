@@ -11,23 +11,21 @@ const RecipeScreen = ({ navigation }) => {
           style={styles.customBtn}
           onPress={() => navigation.navigate("Recipe Search")}
         >
-          <Text style={{ color: "black" }}>Search for Recipes</Text>
+          <Text>Search for Recipes</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => navigation.navigate("Custom Recipe Search")}
         >
-                  <Text style={{ color: "black" }}>
-            Search for Recipes using your items
-          </Text>
+          <Text>Search for Recipes using your items</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => navigation.navigate("Saved Recipes")}
         >
-                  <Text style={{ color: "black" }}>Saved Recipes</Text>
+          <Text>Saved Recipes</Text>
         </TouchableOpacity>
       </View>
       <MyNavMenu />
@@ -55,6 +53,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: "90%",
     borderWidth: 0.5,
+    borderRadius: 4,
   },
 });
 
