@@ -29,7 +29,7 @@ export default function CategoryItem({
           name="edit"
           size={24}
           color="black"
-          onPress={() => editCategoryFunction()}
+          onPress={() => editCategoryFunction(categoryName)}
         />
         <MaterialIcons
           style={styles.delete}
