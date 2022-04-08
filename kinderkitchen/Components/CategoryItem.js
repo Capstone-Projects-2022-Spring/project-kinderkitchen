@@ -18,7 +18,6 @@ export default function CategoryItem({
 
   return (
     <TouchableOpacity
-      //pressHandler(item.categoryKey)}
       onPress={() =>
         navigation.navigate("Items", { categoryName, passingCategoryData })
       }
@@ -37,7 +36,6 @@ export default function CategoryItem({
           size={18}
           color="#333"
           onPress={() => deleteCategoryFunction(categoryName)}
-          /*alert("Backend Delete Coming Soon!")}*/
         />
         <Text style={styles.itemText}>{categoryName}</Text>
       </View>

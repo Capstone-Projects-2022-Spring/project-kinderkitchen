@@ -209,31 +209,9 @@ const ItemScreen = ({ props, route, navigation }) => {
     localData[newItemObj.categoryName] = true;
     const updates = {};
     updates[
-      "users/" +
-      auth.currentUser.uid +
-      "/items/" +
-      newItemObj.categoryName +
-      "/" +
-      newItemObj.itemName
-    ] = newItemObj;
-    updates[
-      "users/" + auth.currentUser.uid + "/categories/"] = localData; //Bug Fix
+      "users/" + auth.currentUser.uid + "/items/" +newItemObj.categoryName + "/" + newItemObj.itemName ] = newItemObj;
+    updates[ "users/" + auth.currentUser.uid + "/categories/" ] = localData;
     return update(ref(database), updates);
-  };
-
-  const submitHandler = (props) => {
-    setItemObject((prevItemObject) => {
-      return [
-        {
-          item_id: Math.random().toString(),
-          item_name: props.itemName,
-          expiration_date: props.expirationDate,
-          category_id: props.value,
-          account_id: "1",
-        },
-        ...prevItemObject,
-      ];
-    });
   };
 
   return (
@@ -249,16 +227,6 @@ const ItemScreen = ({ props, route, navigation }) => {
         <ScrollView style={styles.scrollView}>
 
           {displayItemData()}
-          {/* Cannot use Map with DB-Data for ... Reasons */}
-          {/* {itemData.map((obj, key) => (
-            <View key={key}>
-              <ItemInfoComponent
-                sysDate={format(new Date(), "yyyy-MM-dd")}
-                item={obj}
-                pressHandler={pressHandler}
-              />
-            </View>
-          ))} */}
 
           {/*Add Item Form Pop-Up*/}
           <Modal
@@ -352,7 +320,6 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      submitHandler({ itemName, expirationDate, value }); //Replace when Read is available
                       addItem({
                         itemName: itemName,
                         expirationDate: expirationDate,
