@@ -19,7 +19,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, set, ref, child, push, update } from "firebase/database";
+import { getDatabase, get, set, ref, child, push, update, remove } from "firebase/database";
 
 import HeaderComponent from "../Components/HeaderComponent";
 
@@ -60,36 +60,30 @@ const ItemScreen = ({ props, route, navigation }) => {
 
   //ONPRESS Events for Item Component (DELETE, EDIT,)
 
-  /*Dummy Data*/
+
   const [itemData, setItemData] = useState(readItemData());
+  
+  //Example Obj
   const [itemObject, setItemObject] = useState([
     {
-      item_id: 1,
-      item_name: "Milk",
-      expiration_date: "2022-03-06",
-      category_id: 1,
-      account_id: 1,
+      categoryName: "Fridge",
+      itemName: "Milk",
+      expirationDate: "2022-03-06",
     },
     {
-      item_id: 2,
-      item_name: "Lucky Charms",
-      expiration_date: "2022-03-17",
-      category_id: 2,
-      account_id: 1,
+      categoryName: "Pantry",
+      itemName: "LuckyCharns",
+      expirationDate: "2022-03-06",
     },
     {
-      item_id: 3,
-      item_name: "Eggs",
-      expiration_date: "2022-04-20",
-      category_id: 1,
-      account_id: 1,
+      categoryName: "Fridge",
+      itemName: "Eggs",
+      expirationDate: "2022-03-06",
     },
     {
-      item_id: 4,
-      item_name: "Goldfish",
-      expiration_date: "2022-03-28",
-      category_id: 2,
-      account_id: 1,
+      categoryName: "Pantry",
+      itemName: "Gold Fish",
+      expirationDate: "2022-03-06",
     },
   ]);
 
@@ -119,42 +113,41 @@ const ItemScreen = ({ props, route, navigation }) => {
   const [expirationDate, setExpirationDate] = useState("");
 
   /* For the date Picker func   */
-  const [mode, setMode] = useState("date");
-  const [show, setShow] = useState(false);
-  const [text, setText] = useState("Empty");
-  const [date, setDate] = useState(new Date());
+  // const [mode, setMode] = useState("date");
+  // const [show, setShow] = useState(false);
+  // const [text, setText] = useState("Empty");
+  // const [date, setDate] = useState(new Date());
 
   /* For the date Picker func   */
-  const onChange = (event, selectDate) => {
-    const currentDate = selectDate || date;
-    setShow(Platform.OS == "ios");
-    setDate(currentDate);
+  // const onChange = (event, selectDate) => {
+  //   const currentDate = selectDate || date;
+  //   setShow(Platform.OS == "ios");
+  //   setDate(currentDate);
 
-    let tempDate = new Date(currentDate);
-    let fDate =
-      tempDate.getDate() +
-      "/" +
-      (tempDate.getMonth() + 1) +
-      "/" +
-      tempDate.getFullYear();
-    let ftime =
-      "Hours: " + tempDate / getHours() + "| Minutes: " + tempDate.getMinutes();
-    setText(fDate + "\n" + ftime);
+  //   let tempDate = new Date(currentDate);
+  //   let fDate =
+  //     tempDate.getDate() +
+  //     "/" +
+  //     (tempDate.getMonth() + 1) +
+  //     "/" +
+  //     tempDate.getFullYear();
+  //   let ftime =
+  //     "Hours: " + tempDate / getHours() + "| Minutes: " + tempDate.getMinutes();
+  //   setText(fDate + "\n" + ftime);
 
-    console.log(fDate + "(" + ftime + ")");
-  };
+  //   console.log(fDate + "(" + ftime + ")");
+  // };
 
-  /* For the date Picker func   */
-  const showMode = (currentMode) => {
-    setShow(true);
-    setMode(currentMode);
-  };
+  // const showMode = (currentMode) => {
+  //   setShow(true);
+  //   setMode(currentMode);
+  // };
 
-  const pressHandler = (key) => {
-    setItemObject((prevItemObject) => {
-      return prevItemObject.filter((obj) => obj.item_id != key);
-    });
-  };
+  // const pressHandler = (key) => {
+  //   setItemObject((prevItemObject) => {
+  //     return prevItemObject.filter((obj) => obj.item_id != key);
+  //   });
+  // };
 
   /* DB Functions */
   function readItemData() {
@@ -172,6 +165,23 @@ const ItemScreen = ({ props, route, navigation }) => {
       });
   }
 
+  function deleteItem(itemName) {
+    alert("Secondary Confirmation Coming soon!\n Proceeding with deletion of " + itemName);
+
+    remove(ref(database, `users/${currentUserID}/items/${thisCategoryName}/${itemName}`));
+
+    let localData = itemData;
+    delete localData[itemName];
+    setItemData(localData);
+    if (Object.keys(itemData).length < 1) { //NEW
+      categoryData[thisCategoryName] = false;
+      const updates = {};
+      updates["users/" + currentUserID + "/categories/"] = categoryData;
+      alert("Last Item Deleted : \n Bug with not removing Last Entry On-screen");
+      return update(ref(database), updates);
+    }
+  }
+
   function displayItemData() {
     let items = [];
     for (var key in itemData) {
@@ -180,7 +190,7 @@ const ItemScreen = ({ props, route, navigation }) => {
           <ItemInfoComponent
             sysDate={format(new Date(), "yyyy-MM-dd")}
             item={itemData[key]}
-            pressHandler={pressHandler}
+            deleteItemFunction={deleteItem}
           />
         </View>
       )

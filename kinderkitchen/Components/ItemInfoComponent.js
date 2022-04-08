@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { parseISO, subDays } from "date-fns";
 
-export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
+export default function ItemInfoComponent({ sysDate, item, deleteItemFunction }) {
   //placeholder to demonstrate Style sheet
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
@@ -28,7 +28,7 @@ export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
   //Status Handler Function
   return (
     <TouchableOpacity
-      onLongPress={() => pressHandler(item.itemName)}
+      onLongPress={() => deleteItemFunction(item.itemName)}
       onPress={() => {
         //console.log(item);
         console.log(item.itemName + " Pressed!");
