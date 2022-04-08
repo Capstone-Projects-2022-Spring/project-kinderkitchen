@@ -19,7 +19,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
 import { getAuth } from "firebase/auth";
-import { getDatabase, set, ref, child, push, update } from "firebase/database";
+import { getDatabase, get, set, ref, child, push, update } from "firebase/database";
 
 import HeaderComponent from "../Components/HeaderComponent";
 
@@ -44,6 +44,7 @@ const ItemScreen = ({ props, route, navigation }) => {
   const database = getDatabase();
   const DBref = ref(database);
   const auth = getAuth();
+  const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -60,6 +61,7 @@ const ItemScreen = ({ props, route, navigation }) => {
   //ONPRESS Events for Item Component (DELETE, EDIT,)
 
   /*Dummy Data*/
+  const [itemData, setItemData] = useState(readItemData());
   const [itemObject, setItemObject] = useState([
     {
       item_id: 1,
@@ -154,6 +156,39 @@ const ItemScreen = ({ props, route, navigation }) => {
     });
   };
 
+  /* DB Functions */
+  function readItemData() {
+    get(child(ref(database), `users/${currentUserID}/items/${thisCategoryName}/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setItemData(snapshot.val());
+        } else {
+          console.log("No data available");
+          // ....
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function displayItemData() {
+    let items = [];
+    for (var key in itemData) {
+      items.push(
+        <View key={key}>
+          <ItemInfoComponent
+            sysDate={format(new Date(), "yyyy-MM-dd")}
+            item={itemData[key]}
+            pressHandler={pressHandler}
+          />
+        </View>
+      )
+    }
+    return items;
+
+  }
+
   /* Database Adding Of Item */
   const addItem = (newItemObj) => {
     let localData = categoryData;
@@ -165,11 +200,11 @@ const ItemScreen = ({ props, route, navigation }) => {
     const updates = {};
     updates[
       "users/" +
-        auth.currentUser.uid +
-        "/items/" +
-        newItemObj.categoryName +
-        "/" +
-        newItemObj.itemName
+      auth.currentUser.uid +
+      "/items/" +
+      newItemObj.categoryName +
+      "/" +
+      newItemObj.itemName
     ] = newItemObj;
     updates[
       "users/" + auth.currentUser.uid + "/categories/"] = localData; //Bug Fix
@@ -202,7 +237,10 @@ const ItemScreen = ({ props, route, navigation }) => {
           ) /*If no title provided*/
         }
         <ScrollView style={styles.scrollView}>
-          {itemObject.map((obj, key) => (
+
+          {displayItemData()}
+          {/* Cannot use Map with DB-Data for ... Reasons */}
+          {/* {itemData.map((obj, key) => (
             <View key={key}>
               <ItemInfoComponent
                 sysDate={format(new Date(), "yyyy-MM-dd")}
@@ -210,7 +248,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                 pressHandler={pressHandler}
               />
             </View>
-          ))}
+          ))} */}
 
           {/*Add Item Form Pop-Up*/}
           <Modal
@@ -244,7 +282,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <TextInput
                     style={styles.input}
                     onChangeText={(newText) => setItemName(newText)}
-                    /*Make CharacterLimit*/
+                  /*Make CharacterLimit*/
                   />
                 </View>
 
