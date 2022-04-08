@@ -22,9 +22,8 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     padding: 15,
     paddingHorizontal: 20,
-        backgroundColor: "#E8EAED",
-        //backgroundColor: "coral",
-
+    backgroundColor: "#E8EAED",
+    //backgroundColor: "coral",
   },
   title: {
     textAlign: "center",

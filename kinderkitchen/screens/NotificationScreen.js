@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Switch, Menu, Button } from "react-native";
+import { StyleSheet, Text, View, Switch } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
@@ -26,8 +26,8 @@ const NotificationScreen = () => {
         <View style={styles.bodyAllowNot}>
           <Text style={styles.allowNot}>{allowNot}</Text>
           <Switch
-            trackColor={{ false: "#767577", true: "#81b0ff" }}
-            thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
+            trackColor={{ false: "#767577", true: "darkturquoise" }}
+            thumbColor={isEnabled ? "#fff" : "#fff"}
             onValueChange={toggleSwitch}
             value={isEnabled}
           />
@@ -55,18 +55,15 @@ const NotificationScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#56ff9f",
     flex: 1,
     justifyContent: "center",
   },
   body: {
     flex: 1,
-    backgroundColor: "#1e90ff",
     alignItems: "center",
     justifyContent: "center",
   },
   bodyAllowNot: {
-    backgroundColor: "#1e90ff",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -74,19 +71,16 @@ const styles = StyleSheet.create({
   },
   bodyReminder: {
     flex: 1,
-    backgroundColor: "#1e90ff",
     flexDirection: "row",
     justifyContent: "space-between",
     width: "90%",
   },
   allowNot: {
     fontSize: 20,
-    color: "#fff",
   },
   reminder: {
     flex: 1,
     fontSize: 20,
-    color: "#fff",
   },
   dropDown: {
     width: "33%",
