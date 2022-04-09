@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { parseISO, subDays } from "date-fns";
 
-export default function ItemInfoComponent({ sysDate, item, deleteItemFunction }) {
+export default function ItemInfoComponent({ sysDate, item, deleteItemFunction, editItemFunction }) {
   //placeholder to demonstrate Style sheet
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
@@ -29,10 +29,7 @@ export default function ItemInfoComponent({ sysDate, item, deleteItemFunction })
   return (
     <TouchableOpacity
       onLongPress={() => deleteItemFunction(item.itemName)}
-      onPress={() => {
-        //console.log(item);
-        console.log(item.itemName + " Pressed!");
-      }}
+      onPress={() => editItemFunction(item, "Pantry", "Honey", "2023-01-01")}
     >
       {statusValue === 2 ? (
         <View style={[styles.itemContainer, Status.expired]}>

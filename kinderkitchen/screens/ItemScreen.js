@@ -182,6 +182,19 @@ const ItemScreen = ({ props, route, navigation }) => {
     }
   }
 
+
+  //I Cannot Accuratley Perfom edit until i get user Input OR If someone makes a TEST
+  function editItem(thisItemData, newCategory, newName, newExpDate){
+    deleteItem(thisItemData.itemName);
+    
+    thisItemData.categoryName = newCategory;
+    thisItemData.expirationDate = newExpDate;
+    thisItemData.itemName = newName;
+    
+    
+    addItem(thisItemData);
+  }
+
   function displayItemData() {
     let items = [];
     for (var key in itemData) {
@@ -191,6 +204,7 @@ const ItemScreen = ({ props, route, navigation }) => {
             sysDate={format(new Date(), "yyyy-MM-dd")}
             item={itemData[key]}
             deleteItemFunction={deleteItem}
+            editItemFunction={editItem}
           />
         </View>
       )
