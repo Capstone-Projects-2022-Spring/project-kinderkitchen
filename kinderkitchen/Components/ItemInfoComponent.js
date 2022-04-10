@@ -29,7 +29,7 @@ export default function ItemInfoComponent({ sysDate, item, deleteItemFunction, e
   return (
     <TouchableOpacity
       onLongPress={() => deleteItemFunction(item.itemName)}
-      onPress={() => editItemFunction(item, "Pantry", "Honey", "2023-01-01")}
+      onPress={() => editItemFunction(item)}
     >
       {statusValue === 2 ? (
         <View style={[styles.itemContainer, Status.expired]}>
