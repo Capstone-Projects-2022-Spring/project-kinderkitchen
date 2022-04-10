@@ -22,6 +22,8 @@ const DonateScreen = ({ navigation }) => {
   const API_KEY = '5f20539b0f6383f1f2118885331abaecfa3e003ec92a5febc2a45707e758667f';
 
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
+  const [currentLatitude, setCurrentLatitude] = useState();
+  const [currentLongitude, setCurrentLongitude] = useState();
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     'Wait, we are fetching you location...'
   );
@@ -62,6 +64,8 @@ const DonateScreen = ({ navigation }) => {
   
     if (coords) {
       const { latitude, longitude } = coords;
+      setCurrentLatitude(latitude);
+      setCurrentLongitude(longitude);
       let response = await Location.reverseGeocodeAsync({
         latitude,
         longitude
@@ -120,8 +124,8 @@ const DonateScreen = ({ navigation }) => {
           >
             <Marker 
               coordinate={{
-                latitude: 37.78825,
-                longitude: -122.4324
+                latitude: currentLatitude,
+                longitude: currentLongitude
               }}>
               <Callout>
                 <Text> {displayCurrentAddress}</Text>
