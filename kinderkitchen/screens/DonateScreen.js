@@ -79,7 +79,11 @@ const DonateScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        
+      <TextInput
+        placeholder= {displayCurrentAddress}
+
+        ></TextInput>
+               
 
         <View style={{flex: 1}}>
           <GooglePlacesAutocomplete 
@@ -112,7 +116,7 @@ const DonateScreen = ({ navigation }) => {
               longitude: -122.4324,
               latitudeDelta: 0.0922,
               longitudeDelta: 0.0421,
-            }} 
+            }}
           >
             <Marker 
               coordinate={{
@@ -120,7 +124,7 @@ const DonateScreen = ({ navigation }) => {
                 longitude: -122.4324
               }}>
               <Callout>
-                <Text>You are here</Text>
+                <Text> {displayCurrentAddress}</Text>
               </Callout>
             </Marker>
           </MapView>
