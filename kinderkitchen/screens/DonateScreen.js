@@ -22,8 +22,8 @@ const DonateScreen = ({ navigation }) => {
   const API_KEY = '5f20539b0f6383f1f2118885331abaecfa3e003ec92a5febc2a45707e758667f';
 
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
-  const [currentLatitude, setCurrentLatitude] = useState();
-  const [currentLongitude, setCurrentLongitude] = useState();
+  const [currentLatitude, setCurrentLatitude] = useState(37.78825);
+  const [currentLongitude, setCurrentLongitude] = useState(-122.4324);
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     'Wait, we are fetching you location...'
   );
