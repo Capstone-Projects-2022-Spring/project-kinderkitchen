@@ -63,6 +63,9 @@ expo install @react-native-firebase/app
 expo install @react-native-firebase/auth
 expo install @react-native-firebase/database
 expo install react-native-paper
+npm i react-native-google-places-autocomplete
+expo install react-native-maps
+expo install expo-location
 ```
 - Clone Repo
 ```
