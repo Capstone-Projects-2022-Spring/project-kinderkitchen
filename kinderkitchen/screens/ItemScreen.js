@@ -22,6 +22,7 @@ import { getAuth } from "firebase/auth";
 import { getDatabase, get, set, ref, child, push, update, remove } from "firebase/database";
 
 import HeaderComponent from "../Components/HeaderComponent";
+import EditItemModal from "../Components/EditItemModal";
 
 const ItemScreen = ({ props, route, navigation }) => {
   function consoleLogTesting() {
@@ -47,6 +48,7 @@ const ItemScreen = ({ props, route, navigation }) => {
   const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [editItemModalVisable, setEditItemModalVisable] = useState(false)
 
   //FUTURE PLANING:
   //ITEM EDITING Prompt and Alert - We could vote to remove this feature. make user delete then re add.
@@ -62,6 +64,11 @@ const ItemScreen = ({ props, route, navigation }) => {
 
 
   const [itemData, setItemData] = useState(readItemData());
+  const [itemToEdit, setItemToEdit] = useState({
+    categoryName: "",
+    itemName: "Milk",
+    expirationDate: "2022-03-06",
+  });
   
   //Example Obj
   const [itemObject, setItemObject] = useState([
@@ -111,6 +118,9 @@ const ItemScreen = ({ props, route, navigation }) => {
   /*Textbox Fields*/
   const [itemName, setItemName] = useState("");
   const [expirationDate, setExpirationDate] = useState("");
+
+  const [newItemName, setNewItemName] = useState("");
+  const [newExpirationDate, setNewExpirationDate] = useState("");
 
   /* For the date Picker func   */
   // const [mode, setMode] = useState("date");
@@ -182,6 +192,18 @@ const ItemScreen = ({ props, route, navigation }) => {
     }
   }
 
+  //This Function will be called when the Item is pressed
+  function beginItemEdit(item) {
+    setItemToEdit(item);
+    setEditItemModalVisable(true);
+  }
+
+  //This Function will process when the submitEdit button is pressed
+  function editItem(thisItemData, oldItemName){
+    remove(ref(database, `users/${currentUserID}/items/${thisCategoryName}/${oldItemName}`));
+    addItem(thisItemData);
+  }
+
   function displayItemData() {
     let items = [];
     for (var key in itemData) {
@@ -191,6 +213,7 @@ const ItemScreen = ({ props, route, navigation }) => {
             sysDate={format(new Date(), "yyyy-MM-dd")}
             item={itemData[key]}
             deleteItemFunction={deleteItem}
+            editItemFunction={beginItemEdit}//Will show the modal
           />
         </View>
       )
@@ -249,7 +272,7 @@ const ItemScreen = ({ props, route, navigation }) => {
         <ScrollView style={styles.scrollView}>
 
           {displayItemData()}
-          {/* Cannot use Map with DB-Data for ... Reasons */}
+          {/* Cannot use Map with DB-Data for ... Reasons ... there may be a solution*/}
           {/* {itemData.map((obj, key) => (
             <View key={key}>
               <ItemInfoComponent
@@ -322,9 +345,6 @@ const ItemScreen = ({ props, route, navigation }) => {
                     style={styles.input}
                     placeholder="YYYY-MM-DD"
                     onChangeText={(newText) => setExpirationDate(newText)}
-                    defaultValue="0001-01-28"
-                    Make
-                    CharacterLimit
                   />
                 </View>
 
@@ -385,6 +405,114 @@ const ItemScreen = ({ props, route, navigation }) => {
               </View>
             </View>
           </Modal>
+
+          {/******************
+             EDIT ITEM MODAL 
+          ********************/}
+
+
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={editItemModalVisable}
+            onRequestClose={() => {
+              Alert.alert("Modal has been closed.");
+              setEditItemModalVisable(!editItemModalVisable);
+            }}
+          >
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <MaterialIcons
+                  name="close"
+                  size={24}
+                  style={{ ...styles.modalToggle, ...styles.modalClose }}
+                  onPress={() => setEditItemModalVisable(false)}
+                />
+
+                {/*Header*/}
+                <View style={styles.modalHeader}>
+                  <Text style={styles.modalText}>Edit Item</Text>
+                </View>
+
+                {/*Item Name*/}
+                <View style={styles.inputView}>
+                  <View style={styles.inputTitle}>
+                    <Text>Item Name:</Text>
+                  </View>
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(newText) => setNewItemName(newText)}
+                    placeholder={itemToEdit.itemName}
+                    maxLength={15}
+                  />
+                </View>
+
+                {/*Expiration Date*/}
+                <View style={styles.inputView}>
+                  <View style={styles.inputTitle}>
+                    <Text>Expiration Date:</Text>
+                  </View>
+
+                  <TextInput
+                    style={styles.input}
+                    placeholder="YYYY-MM-DD"
+                    onChangeText={(newText) => setNewExpirationDate(newText)}
+                    maxLength={10}
+                  //Additional User Input Handling - user inputs only #, dashes are put in when user types
+                  />
+                </View>
+
+                {/*Category:*/}
+                <View style={styles.inputView}>
+                  <View style={styles.inputTitle}>
+                    <Text>Category:</Text>
+                  </View>
+                  <DropDownPicker
+                    style={{ width: "40%" }}
+                    dropDownContainerStyle={{ width: "40%" }}
+                    placeholder={thisCategoryName}
+                    open={open}
+                    value={value}
+                    items={items}
+                    setOpen={setOpen}
+                    setValue={setValue}
+                    setItems={setItems}
+                  />
+                </View>
+
+                {/*ButtonField*/}
+                <View style={styles.submissionField}>
+                  {/*Submit Button*/}
+                  <Pressable
+                    style={[styles.button, styles.buttonSubmit]}
+                    onPress={() => {
+                      let oldItemName = itemToEdit.itemName
+                      setEditItemModalVisable(!editItemModalVisable);
+                      itemToEdit.categoryName = value;
+                      itemToEdit.expirationDate = newExpirationDate;
+                      itemToEdit.itemName = newItemName;
+                      editItem(itemToEdit, oldItemName);
+                      setValue(thisCategoryName);//reset Default Value
+                    }}
+                  >
+                    <Text style={styles.textStyle}>Submit</Text>
+                  </Pressable>
+                </View>
+                {/*END - ButtonField*/}
+
+              </View>
+            </View>
+          </Modal>
+
+          {/* I tried to make it its own modal but hit a wall */}
+
+          {/* <EditItemModal 
+            thisItemData={itemData}
+            categoryData={categoryData}
+            submitEditItem={editItem}
+            showModalFunction
+            /> */}
+
         </ScrollView>
 
         <Pressable
