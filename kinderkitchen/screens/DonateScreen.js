@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -6,58 +6,127 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Alert,
+  Dimensions,
 } from "react-native";
+
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
+import * as Location from 'expo-location';
+import MapView, { Marker, Callout, AnimatedRegion, Animated } from 'react-native-maps';
+import { Searchbar } from "react-native-paper";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const DonateScreen = ({ navigation }) => {
+
+  const API_KEY = '5f20539b0f6383f1f2118885331abaecfa3e003ec92a5febc2a45707e758667f';
+
+  const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
+  const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
+    'Wait, we are fetching you location...'
+  );
+
+  useEffect(() => {
+    CheckIfLocationEnabled();
+    GetCurrentLocation();
+  }, []);
+
+  const CheckIfLocationEnabled = async () => {
+    let enabled = await Location.hasServicesEnabledAsync();
+
+    if (!enabled) {
+      Alert.alert(
+        'Location Service not enabled',
+        'Please enable your location services to continue',
+        [{ text: 'OK' }],
+        { cancelable: false }
+      );
+    } else {
+      setLocationServiceEnabled(enabled);
+    }
+  };
+
+  const GetCurrentLocation = async () => {
+    let { status } = await Location.requestPermissionsAsync();
+  
+    if (status !== 'granted') {
+      Alert.alert(
+        'Permission not granted',
+        'Allow the app to use location service.',
+        [{ text: 'OK' }],
+        { cancelable: false }
+      );
+    }
+  
+    let { coords } = await Location.getCurrentPositionAsync();
+  
+    if (coords) {
+      const { latitude, longitude } = coords;
+      let response = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude
+      });
+  
+      for (let item of response) {
+        let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
+  
+        setDisplayCurrentAddress(address);
+      }
+    }
+  };
+  
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <View style={styles.searchBar}>
-          <TextInput style={styles.input} placeholder="Enter Address" />
-          <TouchableOpacity style={styles.userBtn}>
-            <Text
-              style={styles.btnTxt}
-              onPress={() =>
-                alert(
-                  "This will search and display on the map any nearby foodbanks."
-                )
-              }
-            >
-              Search
-            </Text>
-          </TouchableOpacity>
-        </View>
+        
 
-        <View style={styles.mapBox}>
-          <Text>Map</Text>
-        </View>
+        <View style={{flex: 1}}>
+          <GooglePlacesAutocomplete 
+            styles={{container: {flex: 0, position: 'absolute', width: "100%", zIndex: 1},
+                     listView: {backgroundColor: 'white'}}}
 
-        <ScrollView style={styles.addressList}>
-          <TouchableOpacity
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Food Bank")}
+            placeholder='Search'
+            fetchDetails={true}
+            GooglePlacesSearchQuery={{
+                rankby: "distance"
+
+            }}
+            onPress={(data, details = null) => {
+              // 'details' is provided when fetchDetails = true
+              console.log(data, details);
+            }}
+            query={{
+              key: 'AIzaSyBf6Gc2aa1cznIUyFro-KQihb-3KZTNFYo',
+              language: 'en',
+              components: "country:us",
+              types: "establishment",
+              radius: 30000,
+              location: {displayCurrentAddress}
+            }}
+            
+          />
+          <MapView style={styles.map}
+            initialRegion={{
+              latitude: 37.78825,
+              longitude: -122.4324,
+              latitudeDelta: 0.0922,
+              longitudeDelta: 0.0421,
+            }} 
           >
-            <Text>Address 1</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Food Bank")}
-          >
-            <Text>Address 2</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.touchable}
-            onPress={() => navigation.navigate("Food Bank")}
-          >
-            <Text>Address 3</Text>
-          </TouchableOpacity>
-        </ScrollView>
+            <Marker 
+              coordinate={{
+                latitude: 37.78825,
+                longitude: -122.4324
+              }}>
+              <Callout>
+                <Text>You are here</Text>
+              </Callout>
+            </Marker>
+          </MapView>
       </View>
-      <MyNavMenu />
+    </View>
+    <MyNavMenu />
     </View>
   );
 };
@@ -99,7 +168,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     alignItems: "center",
     justifyContent: "center",
-    height: "50%",
+    height: "80%",
     width: "100%",
     borderWidth: 1,
   },
@@ -115,6 +184,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 5,
     height: 50,
+  },
+  map: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
 });
 
