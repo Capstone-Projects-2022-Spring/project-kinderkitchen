@@ -3,12 +3,11 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { parseISO, subDays } from "date-fns";
 
-
-export default function ItemSelect({ sysDate, itemObject }) {
+export default function ItemSelect({ sysDate, item }) {
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
   let systemDate = parseISO(sysDate);
-  let expDate = parseISO(itemObject.expirationDate);
+  let expDate = parseISO(item.expirationDate);
 
   let temp = subDays(expDate, 7);
 
@@ -26,7 +25,7 @@ export default function ItemSelect({ sysDate, itemObject }) {
   //Status Handler Function
   return (
     <TouchableOpacity
-      onPress={() => alert("this will mark as selected")/* Mark as selected */}
+      onPress={() => alert("this will mark as selected") /* Mark as selected */}
     >
       {statusValue === 2 ? (
         <View style={[styles.itemContainer, Status.expired]}>
@@ -37,8 +36,8 @@ export default function ItemSelect({ sysDate, itemObject }) {
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{itemObject.itemName + " "}</Text>
-          <Text style={styles.expDate}>{itemObject.expirationDate}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : statusValue === 0 ? (
         <View style={[styles.itemContainer, Status.good]}>
@@ -49,8 +48,8 @@ export default function ItemSelect({ sysDate, itemObject }) {
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{itemObject.itemName + " "}</Text>
-          <Text style={styles.expDate}>{itemObject.expirationDate}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : (
         <View style={[styles.itemContainer, Status.soon]}>
@@ -61,8 +60,8 @@ export default function ItemSelect({ sysDate, itemObject }) {
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{itemObject.itemName + " "}</Text>
-          <Text style={styles.expDate}>{itemObject.expirationDate}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       )}
     </TouchableOpacity>

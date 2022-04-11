@@ -3,7 +3,12 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { parseISO, subDays } from "date-fns";
 
-export default function ItemInfoComponent({ sysDate, item, deleteItemFunction, editItemFunction }) {
+export default function ItemInfoComponent({
+  sysDate,
+  item,
+  deleteItemFunction,
+  editItemFunction,
+}) {
   //placeholder to demonstrate Style sheet
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
@@ -40,7 +45,7 @@ export default function ItemInfoComponent({ sysDate, item, deleteItemFunction, e
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.item}>{item.itemName}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : statusValue === 0 ? (
@@ -52,7 +57,7 @@ export default function ItemInfoComponent({ sysDate, item, deleteItemFunction, e
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.item}>{item.itemName}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : (
@@ -64,7 +69,7 @@ export default function ItemInfoComponent({ sysDate, item, deleteItemFunction, e
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.item}>{item.itemName}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       )}
