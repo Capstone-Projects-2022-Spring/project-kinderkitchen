@@ -3,14 +3,14 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { parseISO, subDays } from "date-fns";
 
-export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
+export default function ItemInfoComponent({ sysDate, item, deleteItemFunction, editItemFunction }) {
   //placeholder to demonstrate Style sheet
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
   // Expiration Date Checker ***********************************
   let systemDate = parseISO(sysDate);
 
-  let expDate = parseISO(item.expiration_date);
+  let expDate = parseISO(item.expirationDate);
 
   let temp = subDays(expDate, 7);
 
@@ -28,11 +28,8 @@ export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
   //Status Handler Function
   return (
     <TouchableOpacity
-      onLongPress={() => pressHandler(item.item_id)}
-      onPress={() => {
-        //console.log(item);
-        console.log(item.item_name + " Pressed!");
-      }}
+      onLongPress={() => deleteItemFunction(item.itemName)}
+      onPress={() => editItemFunction(item)}
     >
       {statusValue === 2 ? (
         <View style={[styles.itemContainer, Status.expired]}>
@@ -43,8 +40,8 @@ export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.item_name + " "}</Text>
-          <Text style={styles.expDate}>{item.expiration_date}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : statusValue === 0 ? (
         <View style={[styles.itemContainer, Status.good]}>
@@ -55,8 +52,8 @@ export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.item_name + " "}</Text>
-          <Text style={styles.expDate}>{item.expiration_date}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : (
         <View style={[styles.itemContainer, Status.soon]}>
@@ -67,8 +64,8 @@ export default function ItemInfoComponent({ sysDate, item, pressHandler }) {
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.item_name + " "}</Text>
-          <Text style={styles.expDate}>{item.expiration_date}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
+          <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       )}
     </TouchableOpacity>

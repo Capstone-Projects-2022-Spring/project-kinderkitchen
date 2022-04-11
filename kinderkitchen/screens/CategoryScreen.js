@@ -47,9 +47,15 @@ const CategoryScreen = () => {
 
   /*  These are for the edit name func */
   const [modalVisible, setModalVisible] = useState(false);
-  const [newCategoryName, setNewCategoryName] = useState();
-  const [categoryNameToEdit, setCategoryNameToEdit] = useState();
+  const [newCategoryName, setNewCategoryName] = useState("");
+  const [oldCategoryName, setOldCategoryName] = useState("");
+  const [itemData, setItemData] = useState([]);
 
+  
+  /**********************
+   *      Functions     *
+   **********************/
+  
   function ReadCategory() {
     get(child(ref(database), `users/${currentUserID}/categories`))
       .then((snapshot) => {
@@ -101,14 +107,15 @@ const CategoryScreen = () => {
 
   function deleteCategory(categoryName) {
     //category name is the Key, Check if False, if False Delete is good
-    alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
     let hasItems = categoryData[categoryName];
     if (hasItems) {
       alert("Cannot Delete, Category has Items! \nOverride comming soon!");
       return;
     }
+    alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
+
     let localData = categoryData;
-    localData[categoryName] = null;
+    delete localData[categoryName];
     /* Once Items Have DB Ref. Remove Category From Items DB Table */
     setCategoryData(localData);
     const updates = {};
@@ -122,16 +129,68 @@ const CategoryScreen = () => {
   //This Function will Reveal the Modal to edit specified Category
   function editCategory(categoryNameToEdit) {
     setModalVisible(true);
-    setCategoryNameToEdit(categoryNameToEdit);
+    setOldCategoryName(categoryNameToEdit);
   }
 
+  //DOES the DB Edits
   function onPressSaveEdit() {
     setModalVisible(false); //closing the model
-    ////Something going on here that I cant solve
-    alert("Changing " + categoryNameToEdit + " To " + newCategoryName);
+
+    /*User Input Handling*/
+    if (newCategoryName === "") {
+      alert("New Category Name Cannot Be Blank");
+      return;
+    } //Future Bug - Spaces and extra white space
+    if (newCategoryName in categoryData) {
+      alert("Category Already Exists!");
+      return;
+    }//Future Bug - CaseSensitive
+
+    let localCategoryData = categoryData;
+    const updates = {};
+
+    alert("Changing " + oldCategoryName + " To " + newCategoryName);
+
+    /*Check If Category Has Items*/
+    if (categoryData[oldCategoryName]) { //TRUE
+      get(child(ref(database), `users/${currentUserID}/items/${oldCategoryName}/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setItemData(snapshot.val());
+        } else {
+          console.log("No data available");
+          // ....
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+      for (var key in itemData){
+        itemData[key].categoryName = newCategoryName;
+      }
+      updates['users/' + currentUserID + '/items/' + oldCategoryName +'/'] = null; //Remove All DB Items
+      //remove(ref(db, `users/${currentUserID}/items/${oldCategoryName}`)); //ALT
+      updates['users/' +currentUserID + '/items/' + newCategoryName +'/'] = itemData; //Add Data Back As New Category
+      delete localCategoryData[oldCategoryName]; //delete old
+      localCategoryData[newCategoryName] = true;//add new
+      updates["users/" + currentUserID + "/categories/"] = localCategoryData;
+
+    } else {  //FALSE
+      delete localCategoryData[oldCategoryName]; //remove old
+      localCategoryData[newCategoryName] = false;//add new
+      updates["users/" + currentUserID + "/categories/"] = localCategoryData;
+    }
+
+    setCategoryData(localCategoryData);
+    setNewCategoryName("");//clearEntry
+    return update(ref(database), updates);
   }
 
-  /* Display Content */
+
+  /******************* 
+   * Display Content *
+   *******************/
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.body}>
