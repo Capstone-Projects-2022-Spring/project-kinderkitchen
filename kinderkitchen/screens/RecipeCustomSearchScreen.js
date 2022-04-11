@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
@@ -10,8 +10,59 @@ import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
+import { getAuth } from "firebase/auth";
+import { getDatabase } from "firebase/database";
 
 const RecipeCustomSearchScreen = () => {
+
+  useEffect(() => {
+    setCurrentUserID(getAuth().currentUser.uid);
+    setDB(getDatabase);
+
+    getAllItems();
+    setAllItemsNoCategories();
+  }, []);
+
+  const [DBItems, setDBItems] = useState();
+  const [allItems, setAllItems] = useState();
+  const [currentUserID, setCurrentUserID] = useState();
+  const [DB, setDB] = useState();
+
+  function getAllItems() {
+    get(child(ref(DB), `users/${currentUserID}/items/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setDBItems(snapshot.val());
+        } else {
+          console.log("No data available");
+          // ....
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function setAllItemsNoCategories() {
+    let items = [];
+    var itemKey = 0;
+    let CatObj;
+    for (var cat in DBItems) {
+      CatObj = DBItems[cat];
+      for (var Item in CatObj) {
+        items[itemKey] = {
+          itemName: CatObj[Item].itemName,
+          expirationDate: CatObj[Item].expirationDate,
+          categoryName: CatObj[Item].categoryName
+        }
+        itemKey++;
+      }
+    }
+    setAllItems(items);
+  }
+
+
+
   /*Dummy Data*/
   const [itemObject, setItemObject] = useState([
     {
