@@ -50,19 +50,6 @@ const ItemScreen = ({ props, route, navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editItemModalVisable, setEditItemModalVisable] = useState(false)
 
-  //FUTURE PLANING:
-  //ITEM EDITING Prompt and Alert - We could vote to remove this feature. make user delete then re add.
-  //Item Editing w/ DB
-  //      -> Make Sure on Category Change -> it changes to new Category
-
-  //Item Deleting:
-  //      -> Check If Last Item Deleted
-  //            -> check if category name is in users items category
-  //             => Alternate, Create a counter for each Item added, not True/False?
-
-  //ONPRESS Events for Item Component (DELETE, EDIT,)
-
-
   const [itemData, setItemData] = useState(readItemData());
   const [itemToEdit, setItemToEdit] = useState({
     categoryName: "",
@@ -70,33 +57,9 @@ const ItemScreen = ({ props, route, navigation }) => {
     expirationDate: "2022-03-06",
   });
   
-  //Example Obj
-  const [itemObject, setItemObject] = useState([
-    {
-      categoryName: "Fridge",
-      itemName: "Milk",
-      expirationDate: "2022-03-06",
-    },
-    {
-      categoryName: "Pantry",
-      itemName: "LuckyCharns",
-      expirationDate: "2022-03-06",
-    },
-    {
-      categoryName: "Fridge",
-      itemName: "Eggs",
-      expirationDate: "2022-03-06",
-    },
-    {
-      categoryName: "Pantry",
-      itemName: "Gold Fish",
-      expirationDate: "2022-03-06",
-    },
-  ]);
-
   // Sort by expiration date, soonest first ********************
-  itemObject.sort((a, b) => {
-    return parseISO(a.expiration_date) - parseISO(b.expiration_date);
+  itemData.sort((a, b) => {
+    return parseISO(a.expirationDate) - parseISO(b.expirationDate);
   });
   // ***********************************************************
 
@@ -116,48 +79,10 @@ const ItemScreen = ({ props, route, navigation }) => {
   }
 
   /*Textbox Fields*/
-  const [itemName, setItemName] = useState("");
-  const [expirationDate, setExpirationDate] = useState("");
-
-  const [newItemName, setNewItemName] = useState("");
-  const [newExpirationDate, setNewExpirationDate] = useState("");
-
-  /* For the date Picker func   */
-  // const [mode, setMode] = useState("date");
-  // const [show, setShow] = useState(false);
-  // const [text, setText] = useState("Empty");
-  // const [date, setDate] = useState(new Date());
-
-  /* For the date Picker func   */
-  // const onChange = (event, selectDate) => {
-  //   const currentDate = selectDate || date;
-  //   setShow(Platform.OS == "ios");
-  //   setDate(currentDate);
-
-  //   let tempDate = new Date(currentDate);
-  //   let fDate =
-  //     tempDate.getDate() +
-  //     "/" +
-  //     (tempDate.getMonth() + 1) +
-  //     "/" +
-  //     tempDate.getFullYear();
-  //   let ftime =
-  //     "Hours: " + tempDate / getHours() + "| Minutes: " + tempDate.getMinutes();
-  //   setText(fDate + "\n" + ftime);
-
-  //   console.log(fDate + "(" + ftime + ")");
-  // };
-
-  // const showMode = (currentMode) => {
-  //   setShow(true);
-  //   setMode(currentMode);
-  // };
-
-  // const pressHandler = (key) => {
-  //   setItemObject((prevItemObject) => {
-  //     return prevItemObject.filter((obj) => obj.item_id != key);
-  //   });
-  // };
+  const [itemName, setItemName] = useState("");                     //Used for AddingItems, and current ItemSelected
+  const [expirationDate, setExpirationDate] = useState("");         //Used for AddingItems, and current ItemSelected
+  const [newItemName, setNewItemName] = useState("");               //Used for EditItem
+  const [newExpirationDate, setNewExpirationDate] = useState("");   //Used for EditItem
 
   /* DB Functions */
   function readItemData() {
@@ -232,31 +157,9 @@ const ItemScreen = ({ props, route, navigation }) => {
     localData[newItemObj.categoryName] = true;
     const updates = {};
     updates[
-      "users/" +
-      auth.currentUser.uid +
-      "/items/" +
-      newItemObj.categoryName +
-      "/" +
-      newItemObj.itemName
-    ] = newItemObj;
-    updates[
-      "users/" + auth.currentUser.uid + "/categories/"] = localData; //Bug Fix
+      "users/" + auth.currentUser.uid + "/items/" +newItemObj.categoryName + "/" + newItemObj.itemName ] = newItemObj;
+    updates[ "users/" + auth.currentUser.uid + "/categories/" ] = localData;
     return update(ref(database), updates);
-  };
-
-  const submitHandler = (props) => {
-    setItemObject((prevItemObject) => {
-      return [
-        {
-          item_id: Math.random().toString(),
-          item_name: props.itemName,
-          expiration_date: props.expirationDate,
-          category_id: props.value,
-          account_id: "1",
-        },
-        ...prevItemObject,
-      ];
-    });
   };
 
   return (
@@ -272,16 +175,6 @@ const ItemScreen = ({ props, route, navigation }) => {
         <ScrollView style={styles.scrollView}>
 
           {displayItemData()}
-          {/* Cannot use Map with DB-Data for ... Reasons ... there may be a solution*/}
-          {/* {itemData.map((obj, key) => (
-            <View key={key}>
-              <ItemInfoComponent
-                sysDate={format(new Date(), "yyyy-MM-dd")}
-                item={obj}
-                pressHandler={pressHandler}
-              />
-            </View>
-          ))} */}
 
           {/*Add Item Form Pop-Up*/}
           <Modal
@@ -325,22 +218,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                     <Text>Expiration Date:</Text>
                   </View>
 
-                  {/* <Button
-                    title="Date Picker"
-                    onPress={() => showMode("date")}
-                  />
-
-                  {show && (
-                    <DateTimePicker
-                      testid="datetimepicker"
-                      value={date}
-                      mode={mode}
-                      is24hour={true}
-                      display="default"
-                      onChange={onChange}
-                    />
-                  )} */}
-
+                  {/* ExpirationDate */}
                   <TextInput
                     style={styles.input}
                     placeholder="YYYY-MM-DD"
@@ -372,7 +250,6 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      submitHandler({ itemName, expirationDate, value }); //Replace when Read is available
                       addItem({
                         itemName: itemName,
                         expirationDate: expirationDate,
