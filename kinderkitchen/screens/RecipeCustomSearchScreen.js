@@ -47,27 +47,6 @@ const RecipeCustomSearchScreen = () => {
       });
   }
 
-  function setAllItemsNoCategories() {
-    let items = [];
-    var itemKey = 0;
-    let CatObj;
-    for (var cat in DBItems) {
-      console.log("Inside Category: " + cat);
-      CatObj = DBItems[cat];
-      for (var Item in CatObj) {
-        console.log("Adding Item: " + Item);
-        items[itemKey] = {
-          itemName: CatObj[Item].itemName,
-          expirationDate: CatObj[Item].expirationDate,
-          categoryName: CatObj[Item].categoryName,
-        };
-        itemKey++;
-      }
-    }
-    setAllItems(items);
-    //console.log(allItems);
-  }
-
   function displayData() {
     //console.log(allItems);
     let items = [];
@@ -77,7 +56,7 @@ const RecipeCustomSearchScreen = () => {
       console.log("Inside Category: " + cat);
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        console.log("Adding Item: " + Item);
+        console.log("Adding Item: " + Item + " with Key: "+ itemKey);
         items.push(
           <View key={itemKey}>
             <ItemSelect
@@ -86,51 +65,11 @@ const RecipeCustomSearchScreen = () => {
             />
           </View>
         );
+        itemKey++;
       }
-      itemKey++;
     }
     return items;
   }
-
-  /*Dummy Data*/
-  const [itemObject, setItemObject] = useState([
-    {
-      item_id: 1,
-      item_name: "Milk",
-      expiration_date: "2022-03-06",
-      category_id: 1,
-      account_id: 1,
-    },
-    {
-      item_id: 2,
-      item_name: "Lucky Charms",
-      expiration_date: "2022-03-17",
-      category_id: 2,
-      account_id: 1,
-    },
-    {
-      item_id: 3,
-      item_name: "Eggs",
-      expiration_date: "2022-04-20",
-      category_id: 1,
-      account_id: 1,
-    },
-    {
-      item_id: 4,
-      item_name: "Goldfish",
-      expiration_date: "2022-03-28",
-      category_id: 2,
-      account_id: 1,
-    },
-  ]);
-
-
-
-  const pressHandler = (key) => {
-    setItemObject((prevItemObject) => {
-      return prevItemObject.filter((obj) => obj.item_id != key);
-    });
-  };
 
   //let [itemArray, setItem] = useState([""]);
 
