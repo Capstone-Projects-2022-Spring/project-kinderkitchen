@@ -1,9 +1,29 @@
-import React from "react";
+import { getAuth } from "firebase/auth";
+import { getDatabase, get, ref, child } from "firebase/database";
+import React, { useState } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const RecipeScreen = ({ navigation }) => {
+  const DB = getDatabase();
+  const currentUserID = getAuth().currentUser.uid;
+  const [DBItems, setDBItems] = useState(readDBItems());
+  function readDBItems() {
+    get(child(ref(DB), `users/${currentUserID}/items/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setDBItems(snapshot.val());
+        } else {
+          console.log("No data available");
+          // ....
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -16,7 +36,7 @@ const RecipeScreen = ({ navigation }) => {
 
         <TouchableOpacity
           style={styles.customBtn}
-          onPress={() => navigation.navigate("Custom Recipe Search")}
+          onPress={() => navigation.navigate("Custom Recipe Search", { DBItems })}
         >
           <Text>Search for Recipes using your items</Text>
         </TouchableOpacity>

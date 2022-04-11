@@ -23,41 +23,26 @@ import {
   remove,
 } from "firebase/database";
 
-const RecipeCustomSearchScreen = () => {
+const RecipeCustomSearchScreen = ({ route }) => {
   // useEffect(() => {
   //   getAllItems();
   //   setAllItemsNoCategories();
   // }, []);
   const DB = getDatabase();
+  const passedDBItems = route.params.DBItems;
 
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
   //const [DB, setDB] = useState(getDatabase());
-  const [DBItems, setDBItems] = useState(getAllItems());
-  const [allItems, setAllItems] = useState(setAllItemsNoCategories());
-
-  function getAllItems() {
-    get(child(ref(DB), `users/${currentUserID}/items/`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setDBItems(snapshot.val());
-        } else {
-          console.log("No data available");
-          // ....
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    console.log(DBItems);
-  }
+  // const [DBItems, setDBItems] = useState(readDBItems());
+  const [allItems, setAllItems] = useState();
 
   function setAllItemsNoCategories() {
     let items = [];
     var itemKey = 0;
     let CatObj;
-    for (var cat in DBItems) {
+    for (var cat in passedDBItems) {
       console.log("Inside Category: " + cat);
-      CatObj = DBItems[cat];
+      CatObj = passedDBItems[cat];
       for (var Item in CatObj) {
         console.log("Adding Item: " + Item);
         items[itemKey] = {
@@ -70,6 +55,29 @@ const RecipeCustomSearchScreen = () => {
     }
     setAllItems(items);
     //console.log(allItems);
+  }
+
+  function displayData() {
+    //console.log(allItems);
+    let items = [];
+    var itemKey = 0;
+    let CatObj;
+    for (var cat in passedDBItems) {
+      console.log("Inside Category: " + cat);
+      CatObj = passedDBItems[cat];
+      for (var Item in CatObj) {
+        console.log("Adding Item: " + Item);
+        items.push(
+          <View key={Item}>
+            <ItemSelect
+              sysDate={format(new Date(), "yyyy-MM-dd")}
+              item={CatObj[Item]}
+            />
+          </View>
+        );
+      }
+      return items;
+    }
   }
 
   /*Dummy Data*/
@@ -104,21 +112,7 @@ const RecipeCustomSearchScreen = () => {
     },
   ]);
 
-  function displayData() {
-    //console.log(allItems);
-    let items = [];
-    for (var key in allItems) {
-      items.push(
-        <View key={key}>
-          <ItemSelect
-            sysDate={format(new Date(), "yyyy-MM-dd")}
-            item={allItems[key]}
-          />
-        </View>
-      );
-    }
-    return items;
-  }
+
 
   const pressHandler = (key) => {
     setItemObject((prevItemObject) => {
