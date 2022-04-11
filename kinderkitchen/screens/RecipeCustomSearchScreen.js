@@ -23,26 +23,37 @@ import {
   remove,
 } from "firebase/database";
 
-const RecipeCustomSearchScreen = ({ route }) => {
-  // useEffect(() => {
-  //   getAllItems();
-  //   setAllItemsNoCategories();
-  // }, []);
+const RecipeCustomSearchScreen = () => {
+  useEffect(() => {
+    readDBItems();
+  }, []);
   const DB = getDatabase();
-  const passedDBItems = route.params.DBItems;
-
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
-  //const [DB, setDB] = useState(getDatabase());
-  // const [DBItems, setDBItems] = useState(readDBItems());
-  const [allItems, setAllItems] = useState();
+
+  const [DBItems, setDBItems] = useState();
+
+  function readDBItems() {
+    get(child(ref(DB), `users/${currentUserID}/items/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setDBItems(snapshot.val());
+        } else {
+          console.log("No data available");
+          // ....
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
   function setAllItemsNoCategories() {
     let items = [];
     var itemKey = 0;
     let CatObj;
-    for (var cat in passedDBItems) {
+    for (var cat in DBItems) {
       console.log("Inside Category: " + cat);
-      CatObj = passedDBItems[cat];
+      CatObj = DBItems[cat];
       for (var Item in CatObj) {
         console.log("Adding Item: " + Item);
         items[itemKey] = {
@@ -62,13 +73,13 @@ const RecipeCustomSearchScreen = ({ route }) => {
     let items = [];
     var itemKey = 0;
     let CatObj;
-    for (var cat in passedDBItems) {
+    for (var cat in DBItems) {
       console.log("Inside Category: " + cat);
-      CatObj = passedDBItems[cat];
+      CatObj = DBItems[cat];
       for (var Item in CatObj) {
         console.log("Adding Item: " + Item);
         items.push(
-          <View key={Item}>
+          <View key={itemKey}>
             <ItemSelect
               sysDate={format(new Date(), "yyyy-MM-dd")}
               item={CatObj[Item]}
@@ -76,8 +87,9 @@ const RecipeCustomSearchScreen = ({ route }) => {
           </View>
         );
       }
-      return items;
+      itemKey++;
     }
+    return items;
   }
 
   /*Dummy Data*/
