@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
@@ -9,32 +9,16 @@ import {
 import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import ItemInfoComponent from "../Components/ItemInfoComponent";
 import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
-import {
-  getDatabase,
-  get,
-  set,
-  ref,
-  child,
-  push,
-  update,
-  remove,
-} from "firebase/database";
+import { getDatabase, get, ref, child } from "firebase/database";
 
 const RecipeCustomSearchScreen = () => {
-  // useEffect(() => {
-  //   getAllItems();
-  //   setAllItemsNoCategories();
-  // }, []);
-  const DB = getDatabase();
-
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
-  //const [DB, setDB] = useState(getDatabase());
+  const [DB, setDB] = useState(getDatabase());
   const [DBItems, setDBItems] = useState(getAllItems());
-  const [allItems, setAllItems] = useState(setAllItemsNoCategories());
 
+  // get items from database
   function getAllItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
       .then((snapshot) => {
@@ -48,88 +32,27 @@ const RecipeCustomSearchScreen = () => {
       .catch((error) => {
         console.error(error);
       });
-    console.log(DBItems);
   }
 
-  function setAllItemsNoCategories() {
+  // iterate through each category and display all items
+  function displayData() {
     let items = [];
-    var itemKey = 0;
     let CatObj;
     for (var cat in DBItems) {
-      console.log("Inside Category: " + cat);
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        console.log("Adding Item: " + Item);
-        items[itemKey] = {
-          itemName: CatObj[Item].itemName,
-          expirationDate: CatObj[Item].expirationDate,
-          categoryName: CatObj[Item].categoryName,
-        };
-        itemKey++;
+        items.push(
+          <View key={Item}>
+            <ItemSelect
+              sysDate={format(new Date(), "yyyy-MM-dd")}
+              item={CatObj[Item]}
+            />
+          </View>
+        );
       }
-    }
-    setAllItems(items);
-    //console.log(allItems);
-  }
-
-  /*Dummy Data*/
-  const [itemObject, setItemObject] = useState([
-    {
-      item_id: 1,
-      item_name: "Milk",
-      expiration_date: "2022-03-06",
-      category_id: 1,
-      account_id: 1,
-    },
-    {
-      item_id: 2,
-      item_name: "Lucky Charms",
-      expiration_date: "2022-03-17",
-      category_id: 2,
-      account_id: 1,
-    },
-    {
-      item_id: 3,
-      item_name: "Eggs",
-      expiration_date: "2022-04-20",
-      category_id: 1,
-      account_id: 1,
-    },
-    {
-      item_id: 4,
-      item_name: "Goldfish",
-      expiration_date: "2022-03-28",
-      category_id: 2,
-      account_id: 1,
-    },
-  ]);
-
-  function displayData() {
-    //console.log(allItems);
-    let items = [];
-    for (var key in allItems) {
-      items.push(
-        <View key={key}>
-          <ItemSelect
-            sysDate={format(new Date(), "yyyy-MM-dd")}
-            item={allItems[key]}
-          />
-        </View>
-      );
     }
     return items;
   }
-
-  const pressHandler = (key) => {
-    setItemObject((prevItemObject) => {
-      return prevItemObject.filter((obj) => obj.item_id != key);
-    });
-  };
-
-  //let [itemArray, setItem] = useState([""]);
-
-  // setItem((prevItemArray) => [...prevItemArray, item.item_name]);
-  // console.log(itemArray);
 
   return (
     <View style={styles.container}>
