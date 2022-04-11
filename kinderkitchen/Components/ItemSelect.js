@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 import { parseISO, subDays } from "date-fns";
 
 
-export default function ItemSelect({ itemObject }) {
+export default function ItemSelect({ sysDate, itemObject }) {
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
   let systemDate = parseISO(sysDate);
