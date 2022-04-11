@@ -56,12 +56,12 @@ const ItemScreen = ({ props, route, navigation }) => {
     itemName: "Milk",
     expirationDate: "2022-03-06",
   });
-  
+
   // Sort by expiration date, soonest first ********************
-  itemData.sort((a, b) => {
-    return parseISO(a.expirationDate) - parseISO(b.expirationDate);
-  });
-  // ***********************************************************
+  // itemData.sort((a, b) => {
+  //   return parseISO(a.expirationDate) - parseISO(b.expirationDate);
+  // });
+  // // ***********************************************************
 
   /* Drop Down */
   const [open, setOpen] = useState(false);
@@ -81,8 +81,8 @@ const ItemScreen = ({ props, route, navigation }) => {
   /*Textbox Fields*/
   const [itemName, setItemName] = useState("");                     //Used for AddingItems, and current ItemSelected
   const [expirationDate, setExpirationDate] = useState("");         //Used for AddingItems, and current ItemSelected
-  const [newItemName, setNewItemName] = useState("");               //Used for EditItem
-  const [newExpirationDate, setNewExpirationDate] = useState("");   //Used for EditItem
+  const [oldItemName, setOldItemName] = useState("");               //Used for EditItem
+
 
   /* DB Functions */
   function readItemData() {
@@ -120,11 +120,12 @@ const ItemScreen = ({ props, route, navigation }) => {
   //This Function will be called when the Item is pressed
   function beginItemEdit(item) {
     setItemToEdit(item);
+    setOldItemName(item.itemName);
     setEditItemModalVisable(true);
   }
 
   //This Function will process when the submitEdit button is pressed
-  function editItem(thisItemData, oldItemName){
+  function editItem(thisItemData, oldItemName) {
     remove(ref(database, `users/${currentUserID}/items/${thisCategoryName}/${oldItemName}`));
     addItem(thisItemData);
   }
@@ -157,8 +158,8 @@ const ItemScreen = ({ props, route, navigation }) => {
     localData[newItemObj.categoryName] = true;
     const updates = {};
     updates[
-      "users/" + auth.currentUser.uid + "/items/" +newItemObj.categoryName + "/" + newItemObj.itemName ] = newItemObj;
-    updates[ "users/" + auth.currentUser.uid + "/categories/" ] = localData;
+      "users/" + auth.currentUser.uid + "/items/" + newItemObj.categoryName + "/" + newItemObj.itemName] = newItemObj;
+    updates["users/" + auth.currentUser.uid + "/categories/"] = localData;
     return update(ref(database), updates);
   };
 
@@ -318,9 +319,12 @@ const ItemScreen = ({ props, route, navigation }) => {
                   </View>
                   <TextInput
                     style={styles.input}
-                    onChangeText={(newText) => setNewItemName(newText)}
+                    onChangeText={(newText) => itemToEdit.itemName = newText}
+                    // onEndEditing={(newText) => itemToEdit.itemName = newText}
                     placeholder={itemToEdit.itemName}
+                    defaultValue={itemToEdit.itemName}
                     maxLength={15}
+
                   />
                 </View>
 
@@ -333,7 +337,9 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <TextInput
                     style={styles.input}
                     placeholder="YYYY-MM-DD"
-                    onChangeText={(newText) => setNewExpirationDate(newText)}
+                    onChangeText={(newText) => itemToEdit.expirationDate = newText}
+                    // onEndEditing={(newText) => itemToEdit.expirationDate = newText}
+                    defaultValue={itemToEdit.expirationDate}
                     maxLength={10}
                   //Additional User Input Handling - user inputs only #, dashes are put in when user types
                   />
@@ -363,12 +369,15 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      let oldItemName = itemToEdit.itemName
                       setEditItemModalVisable(!editItemModalVisable);
                       itemToEdit.categoryName = value;
-                      itemToEdit.expirationDate = newExpirationDate;
-                      itemToEdit.itemName = newItemName;
                       editItem(itemToEdit, oldItemName);
+                      //alert(oldItemName);
+                      // alert(
+                      //   `CategoryName: ${itemToEdit.categoryName}\n
+                      // ExpirationDate: ${itemToEdit.expirationDate}\n
+                      // ItemNane: ${itemToEdit.itemName}`
+                      // );
                       setValue(thisCategoryName);//reset Default Value
                     }}
                   >
