@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
@@ -9,24 +9,16 @@ import {
 import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import ItemInfoComponent from "../Components/ItemInfoComponent";
 import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
-import {
-  getDatabase,
-  get,
-  set,
-  ref,
-  child,
-  push,
-  update,
-  remove,
-} from "firebase/database";
+import { getDatabase, get, ref, child } from "firebase/database";
 
 const RecipeCustomSearchScreen = () => {
+  
   useEffect(() => {
     readDBItems();
   }, []);
+  
   const DB = getDatabase();
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
 
@@ -47,13 +39,11 @@ const RecipeCustomSearchScreen = () => {
       });
   }
 
+  // iterate through each category and display all items
   function displayData() {
-    //console.log(allItems);
     let items = [];
-    var itemKey = 0;
     let CatObj;
     for (var cat in DBItems) {
-      console.log("Inside Category: " + cat);
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
         console.log("Adding Item: " + Item + " with Key: "+ itemKey);
@@ -70,11 +60,6 @@ const RecipeCustomSearchScreen = () => {
     }
     return items;
   }
-
-  //let [itemArray, setItem] = useState([""]);
-
-  // setItem((prevItemArray) => [...prevItemArray, item.item_name]);
-  // console.log(itemArray);
 
   return (
     <View style={styles.container}>
