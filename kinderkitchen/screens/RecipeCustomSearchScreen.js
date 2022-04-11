@@ -11,22 +11,19 @@ import { format } from "date-fns";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
 import { getAuth } from "firebase/auth";
-import { getDatabase } from "firebase/database";
+import { getDatabase, get, set, ref, child, push, update, remove } from "firebase/database";
 
 const RecipeCustomSearchScreen = () => {
 
   useEffect(() => {
-    setCurrentUserID(getAuth().currentUser.uid);
-    setDB(getDatabase);
-
     getAllItems();
     setAllItemsNoCategories();
   }, []);
 
   const [DBItems, setDBItems] = useState();
   const [allItems, setAllItems] = useState();
-  const [currentUserID, setCurrentUserID] = useState();
-  const [DB, setDB] = useState();
+  const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
+  const [DB, setDB] = useState(getDatabase());
 
   function getAllItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
@@ -48,8 +45,10 @@ const RecipeCustomSearchScreen = () => {
     var itemKey = 0;
     let CatObj;
     for (var cat in DBItems) {
+      console.log("Inside Category: " + cat);
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
+        console.log("Adding Item: "+ Item);
         items[itemKey] = {
           itemName: CatObj[Item].itemName,
           expirationDate: CatObj[Item].expirationDate,
@@ -95,6 +94,22 @@ const RecipeCustomSearchScreen = () => {
     },
   ]);
 
+  function displayData(){
+    let items = []
+    for (var key in allItems){
+      items.push(
+      <View key={key}>
+        <ItemSelect
+          sysDate={format(new Date(), "yyyy-MM-dd")}
+          item={allItems[key]}
+          
+        />
+      </View>
+      )
+  }
+  return items;
+}
+
   const pressHandler = (key) => {
     setItemObject((prevItemObject) => {
       return prevItemObject.filter((obj) => obj.item_id != key);
@@ -120,15 +135,8 @@ const RecipeCustomSearchScreen = () => {
                   [ ] 3. remove item from list/array if unchecked
                   [ ] 4. search buttom uses every item in list/array to find a recipe */}
         <ScrollView style={styles.scrollView}>
-          {itemObject.map((obj, key) => (
-            <View key={key}>
-              <ItemInfoComponent
-                sysDate={format(new Date(), "yyyy-MM-dd")}
-                item={obj}
-                pressHandler={pressHandler}
-              />
-            </View>
-          ))}
+          
+          {displayData}
         </ScrollView>
 
         <TouchableOpacity
