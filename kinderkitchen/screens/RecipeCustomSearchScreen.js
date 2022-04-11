@@ -10,20 +10,30 @@ import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
+import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, set, ref, child, push, update, remove } from "firebase/database";
+import {
+  getDatabase,
+  get,
+  set,
+  ref,
+  child,
+  push,
+  update,
+  remove,
+} from "firebase/database";
 
 const RecipeCustomSearchScreen = () => {
+  // useEffect(() => {
+  //   getAllItems();
+  //   setAllItemsNoCategories();
+  // }, []);
+  const DB = getDatabase();
 
-  useEffect(() => {
-    getAllItems();
-    setAllItemsNoCategories();
-  }, []);
-
-  const [DBItems, setDBItems] = useState();
-  const [allItems, setAllItems] = useState();
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
-  const [DB, setDB] = useState(getDatabase());
+  //const [DB, setDB] = useState(getDatabase());
+  const [DBItems, setDBItems] = useState(getAllItems());
+  const [allItems, setAllItems] = useState(setAllItemsNoCategories());
 
   function getAllItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
@@ -38,6 +48,7 @@ const RecipeCustomSearchScreen = () => {
       .catch((error) => {
         console.error(error);
       });
+    console.log(DBItems);
   }
 
   function setAllItemsNoCategories() {
@@ -48,19 +59,18 @@ const RecipeCustomSearchScreen = () => {
       console.log("Inside Category: " + cat);
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        console.log("Adding Item: "+ Item);
+        console.log("Adding Item: " + Item);
         items[itemKey] = {
           itemName: CatObj[Item].itemName,
           expirationDate: CatObj[Item].expirationDate,
-          categoryName: CatObj[Item].categoryName
-        }
+          categoryName: CatObj[Item].categoryName,
+        };
         itemKey++;
       }
     }
     setAllItems(items);
+    //console.log(allItems);
   }
-
-
 
   /*Dummy Data*/
   const [itemObject, setItemObject] = useState([
@@ -94,21 +104,21 @@ const RecipeCustomSearchScreen = () => {
     },
   ]);
 
-  function displayData(){
-    let items = []
-    for (var key in allItems){
+  function displayData() {
+    //console.log(allItems);
+    let items = [];
+    for (var key in allItems) {
       items.push(
-      <View key={key}>
-        <ItemSelect
-          sysDate={format(new Date(), "yyyy-MM-dd")}
-          item={allItems[key]}
-          
-        />
-      </View>
-      )
+        <View key={key}>
+          <ItemSelect
+            sysDate={format(new Date(), "yyyy-MM-dd")}
+            item={allItems[key]}
+          />
+        </View>
+      );
+    }
+    return items;
   }
-  return items;
-}
 
   const pressHandler = (key) => {
     setItemObject((prevItemObject) => {
@@ -134,10 +144,7 @@ const RecipeCustomSearchScreen = () => {
                   [ ] 2. add item to a list/array if checked
                   [ ] 3. remove item from list/array if unchecked
                   [ ] 4. search buttom uses every item in list/array to find a recipe */}
-        <ScrollView style={styles.scrollView}>
-          
-          {displayData}
-        </ScrollView>
+        <ScrollView style={styles.scrollView}>{displayData()}</ScrollView>
 
         <TouchableOpacity
           style={styles.customBtn}

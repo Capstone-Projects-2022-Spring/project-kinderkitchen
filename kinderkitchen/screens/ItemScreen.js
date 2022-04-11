@@ -19,7 +19,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, set, ref, child, push, update, remove } from "firebase/database";
+import {
+  getDatabase,
+  get,
+  set,
+  ref,
+  child,
+  push,
+  update,
+  remove,
+} from "firebase/database";
 
 import HeaderComponent from "../Components/HeaderComponent";
 import EditItemModal from "../Components/EditItemModal";
@@ -48,7 +57,7 @@ const ItemScreen = ({ props, route, navigation }) => {
   const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [editItemModalVisable, setEditItemModalVisable] = useState(false)
+  const [editItemModalVisable, setEditItemModalVisable] = useState(false);
 
   //FUTURE PLANING:
   //ITEM EDITING Prompt and Alert - We could vote to remove this feature. make user delete then re add.
@@ -62,14 +71,13 @@ const ItemScreen = ({ props, route, navigation }) => {
 
   //ONPRESS Events for Item Component (DELETE, EDIT,)
 
-
   const [itemData, setItemData] = useState(readItemData());
   const [itemToEdit, setItemToEdit] = useState({
     categoryName: "",
     itemName: "Milk",
     expirationDate: "2022-03-06",
   });
-  
+
   //Example Obj
   const [itemObject, setItemObject] = useState([
     {
@@ -161,7 +169,9 @@ const ItemScreen = ({ props, route, navigation }) => {
 
   /* DB Functions */
   function readItemData() {
-    get(child(ref(database), `users/${currentUserID}/items/${thisCategoryName}/`))
+    get(
+      child(ref(database), `users/${currentUserID}/items/${thisCategoryName}/`)
+    )
       .then((snapshot) => {
         if (snapshot.exists()) {
           setItemData(snapshot.val());
@@ -176,18 +186,29 @@ const ItemScreen = ({ props, route, navigation }) => {
   }
 
   function deleteItem(itemName) {
-    alert("Secondary Confirmation Coming soon!\n Proceeding with deletion of " + itemName);
+    alert(
+      "Secondary Confirmation Coming soon!\n Proceeding with deletion of " +
+        itemName
+    );
 
-    remove(ref(database, `users/${currentUserID}/items/${thisCategoryName}/${itemName}`));
+    remove(
+      ref(
+        database,
+        `users/${currentUserID}/items/${thisCategoryName}/${itemName}`
+      )
+    );
 
     let localData = itemData;
     delete localData[itemName];
     setItemData(localData);
-    if (Object.keys(itemData).length < 1) { //NEW
+    if (Object.keys(itemData).length < 1) {
+      //NEW
       categoryData[thisCategoryName] = false;
       const updates = {};
       updates["users/" + currentUserID + "/categories/"] = categoryData;
-      alert("Last Item Deleted : \n Bug with not removing Last Entry On-screen");
+      alert(
+        "Last Item Deleted : \n Bug with not removing Last Entry On-screen"
+      );
       return update(ref(database), updates);
     }
   }
@@ -199,8 +220,13 @@ const ItemScreen = ({ props, route, navigation }) => {
   }
 
   //This Function will process when the submitEdit button is pressed
-  function editItem(thisItemData, oldItemName){
-    remove(ref(database, `users/${currentUserID}/items/${thisCategoryName}/${oldItemName}`));
+  function editItem(thisItemData, oldItemName) {
+    remove(
+      ref(
+        database,
+        `users/${currentUserID}/items/${thisCategoryName}/${oldItemName}`
+      )
+    );
     addItem(thisItemData);
   }
 
@@ -213,13 +239,12 @@ const ItemScreen = ({ props, route, navigation }) => {
             sysDate={format(new Date(), "yyyy-MM-dd")}
             item={itemData[key]}
             deleteItemFunction={deleteItem}
-            editItemFunction={beginItemEdit}//Will show the modal
+            editItemFunction={beginItemEdit} //Will show the modal
           />
         </View>
-      )
+      );
     }
     return items;
-
   }
 
   /* Database Adding Of Item */
@@ -233,14 +258,13 @@ const ItemScreen = ({ props, route, navigation }) => {
     const updates = {};
     updates[
       "users/" +
-      auth.currentUser.uid +
-      "/items/" +
-      newItemObj.categoryName +
-      "/" +
-      newItemObj.itemName
+        auth.currentUser.uid +
+        "/items/" +
+        newItemObj.categoryName +
+        "/" +
+        newItemObj.itemName
     ] = newItemObj;
-    updates[
-      "users/" + auth.currentUser.uid + "/categories/"] = localData; //Bug Fix
+    updates["users/" + auth.currentUser.uid + "/categories/"] = localData; //Bug Fix
     return update(ref(database), updates);
   };
 
@@ -270,7 +294,6 @@ const ItemScreen = ({ props, route, navigation }) => {
           ) /*If no title provided*/
         }
         <ScrollView style={styles.scrollView}>
-
           {displayItemData()}
           {/* Cannot use Map with DB-Data for ... Reasons ... there may be a solution*/}
           {/* {itemData.map((obj, key) => (
@@ -315,7 +338,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <TextInput
                     style={styles.input}
                     onChangeText={(newText) => setItemName(newText)}
-                  /*Make CharacterLimit*/
+                    /*Make CharacterLimit*/
                   />
                 </View>
 
@@ -410,7 +433,6 @@ const ItemScreen = ({ props, route, navigation }) => {
              EDIT ITEM MODAL 
           ********************/}
 
-
           <Modal
             animationType="slide"
             transparent={true}
@@ -458,7 +480,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                     placeholder="YYYY-MM-DD"
                     onChangeText={(newText) => setNewExpirationDate(newText)}
                     maxLength={10}
-                  //Additional User Input Handling - user inputs only #, dashes are put in when user types
+                    //Additional User Input Handling - user inputs only #, dashes are put in when user types
                   />
                 </View>
 
@@ -486,20 +508,19 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      let oldItemName = itemToEdit.itemName
+                      let oldItemName = itemToEdit.itemName;
                       setEditItemModalVisable(!editItemModalVisable);
                       itemToEdit.categoryName = value;
                       itemToEdit.expirationDate = newExpirationDate;
                       itemToEdit.itemName = newItemName;
                       editItem(itemToEdit, oldItemName);
-                      setValue(thisCategoryName);//reset Default Value
+                      setValue(thisCategoryName); //reset Default Value
                     }}
                   >
                     <Text style={styles.textStyle}>Submit</Text>
                   </Pressable>
                 </View>
                 {/*END - ButtonField*/}
-
               </View>
             </View>
           </Modal>
@@ -512,7 +533,6 @@ const ItemScreen = ({ props, route, navigation }) => {
             submitEditItem={editItem}
             showModalFunction
             /> */}
-
         </ScrollView>
 
         <Pressable
