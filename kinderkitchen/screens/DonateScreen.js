@@ -115,11 +115,11 @@ const DonateScreen = ({ navigation }) => {
             
           />
           <MapView style={styles.map}
-            initialRegion={{
+            region={{
               latitude: currentLatitude,
               longitude: currentLongitude,
-              // latitudeDelta: 0.0922,
-              // longitudeDelta: 0.0421,
+              latitudeDelta: 0.1,
+              longitudeDelta: 0.1,
             }}
           >
             <Marker 
