@@ -14,12 +14,17 @@ import { getAuth } from "firebase/auth";
 import { getDatabase, get, ref, child } from "firebase/database";
 
 const RecipeCustomSearchScreen = () => {
+  
+  useEffect(() => {
+    readDBItems();
+  }, []);
+  
+  const DB = getDatabase();
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
-  const [DB, setDB] = useState(getDatabase());
-  const [DBItems, setDBItems] = useState(getAllItems());
 
-  // get items from database
-  function getAllItems() {
+  const [DBItems, setDBItems] = useState();
+
+  function readDBItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
       .then((snapshot) => {
         if (snapshot.exists()) {
@@ -41,14 +46,16 @@ const RecipeCustomSearchScreen = () => {
     for (var cat in DBItems) {
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
+        console.log("Adding Item: " + Item + " with Key: "+ itemKey);
         items.push(
-          <View key={Item}>
+          <View key={itemKey}>
             <ItemSelect
               sysDate={format(new Date(), "yyyy-MM-dd")}
               item={CatObj[Item]}
             />
           </View>
         );
+        itemKey++;
       }
     }
     return items;
