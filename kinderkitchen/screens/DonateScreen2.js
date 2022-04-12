@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
-const SelectedFoodBank = ({ navigation }) => {
+const DonateScreen2 = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -87,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SelectedFoodBank;
+export default DonateScreen2;

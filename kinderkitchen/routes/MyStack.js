@@ -9,8 +9,9 @@ import CategoryScreen from "../screens/CategoryScreen";
 import NotificationScreen from "../screens/NotificationScreen";
 import AchievementScreen from "../screens/AchievementScreen";
 import DonationFrontPage from "../screens/DonationFrontPage";
-import SearchFoodBanks from "../screens/SearchFoodBanks";
-import SelectedFoodBank from "../screens/SelectedFoodBank";
+
+import DonateScreen from "../screens/DonateScreen";
+import DonateScreen2 from "../screens/DonateScreen2";
 import DonateSelect from "../screens/DonateSelect";
 import DonationQueue from "../screens/DonationQueue";
 import DonateConfirm from "../screens/DonateConfirm";
@@ -33,8 +34,8 @@ const MyStack = () => {
       <Stack.Screen name="Notifications" component={NotificationScreen} />
       <Stack.Screen name="Achievements" component={AchievementScreen} />
       <Stack.Screen name="Donate" component={DonationFrontPage} />
-      <Stack.Screen name="Search Food Banks" component={SearchFoodBanks} />
-      <Stack.Screen name="Food Bank" component={SelectedFoodBank} />
+      <Stack.Screen name="Search Food Banks" component={DonateScreen} />
+      <Stack.Screen name="Food Bank" component={DonateScreen2} />
       <Stack.Screen name="Select Items to Donate" component={DonateSelect} />
       <Stack.Screen name="Saved Donation Queue" component={DonationQueue} />
       <Stack.Screen name="Confirm Donation" component={DonateConfirm} />
