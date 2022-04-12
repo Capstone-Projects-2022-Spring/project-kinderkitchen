@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  Button,
   Dimensions,
 } from "react-native";
 
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import * as Location from 'expo-location';
 import MapView, { Marker, Callout, AnimatedRegion, Animated } from 'react-native-maps';
-import { Searchbar } from "react-native-paper";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
@@ -27,6 +27,12 @@ const DonateScreen = ({ navigation }) => {
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     'Wait, we are fetching you location...'
   );
+  const [region, setRegion] = useState({
+    latitude: 37.78825,
+    longitude: -122.4324,
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.1,
+  })
 
   useEffect(() => {
     CheckIfLocationEnabled();
@@ -103,6 +109,12 @@ const DonateScreen = ({ navigation }) => {
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
               console.log(data, details);
+              setRegion({
+                latitude: details.geometry.location.lat,
+                longitude: details.geometry.location.lng,
+                latitudeDelta: 0.1,
+                longitudeDelta: 0.1,
+              })
             }}
             query={{
               key: 'AIzaSyBf6Gc2aa1cznIUyFro-KQihb-3KZTNFYo',
@@ -122,7 +134,14 @@ const DonateScreen = ({ navigation }) => {
               longitudeDelta: 0.1,
             }}
           >
-            <Marker 
+              <Marker
+                coordinate={{latitude: region.latitude, longitude: region.longitude}}
+              >
+                <Callout>
+                  <Button title="Directions"></Button>
+                </Callout>
+              </Marker>
+             <Marker 
               coordinate={{
                 latitude: currentLatitude,
                 longitude: currentLongitude
