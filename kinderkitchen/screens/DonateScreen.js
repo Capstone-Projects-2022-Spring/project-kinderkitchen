@@ -19,12 +19,9 @@ import MapView, { Marker, Callout, AnimatedRegion, Animated } from 'react-native
 
 import { MaterialIcons } from "@expo/vector-icons";
 
-
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const DonateScreen = ({ navigation }) => {
-
-  const API_KEY = '5f20539b0f6383f1f2118885331abaecfa3e003ec92a5febc2a45707e758667f';
 
   const [modalVisible, setModalVisible] = useState(false);
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
@@ -129,7 +126,7 @@ const DonateScreen = ({ navigation }) => {
               setNewMarkerAddress(data.description);
             }}
             query={{
-              key: 'AIzaSyBf6Gc2aa1cznIUyFro-KQihb-3KZTNFYo',
+              key: '',            /////////////NAVIGATION API KEY HERE
               language: 'en',
               components: "country:us",
               types: "establishment",
