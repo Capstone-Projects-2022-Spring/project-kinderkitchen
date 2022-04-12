@@ -1,9 +1,10 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
+import { CheckBox } from "react-native-elements";
 
 import { parseISO, subDays } from "date-fns";
 
-export default function ItemSelect({ sysDate, item }) {
+export default function ItemSelect({ sysDate, item, addItemToList }) {
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
   let systemDate = parseISO(sysDate);
@@ -22,13 +23,23 @@ export default function ItemSelect({ sysDate, item }) {
     : (statusValue = 2);
   // ***********************************************************
 
+  // set state of checkbox to true/false
+  const [selectItem, setSelectItem] = useState(false);
+
   //Status Handler Function
   return (
-    <TouchableOpacity
-      onPress={() => alert("this will mark as selected") /* Mark as selected */}
-    >
+    <View>
       {statusValue === 2 ? (
         <View style={[styles.itemContainer, Status.expired]}>
+          <CheckBox
+            uncheckedColor="black"
+            checkedColor="black"
+            checked={selectItem}
+            onPress={() => {
+              setSelectItem(!selectItem);
+              addItemToList(!selectItem, item.itemName);
+            }}
+          />
           <Image
             // Change this to an image that is saved to
             // database that corresponds to each item
@@ -41,6 +52,15 @@ export default function ItemSelect({ sysDate, item }) {
         </View>
       ) : statusValue === 0 ? (
         <View style={[styles.itemContainer, Status.good]}>
+          <CheckBox
+            uncheckedColor="black"
+            checkedColor="black"
+            checked={selectItem}
+            onPress={() => {
+              setSelectItem(!selectItem);
+              addItemToList(!selectItem, item.itemName);
+            }}
+          />
           <Image
             // Change this to an image that is saved to
             // database that corresponds to each item
@@ -53,6 +73,15 @@ export default function ItemSelect({ sysDate, item }) {
         </View>
       ) : (
         <View style={[styles.itemContainer, Status.soon]}>
+          <CheckBox
+            uncheckedColor="black"
+            checkedColor="black"
+            checked={selectItem}
+            onPress={() => {
+              setSelectItem(!selectItem);
+              addItemToList(!selectItem, item.itemName);
+            }}
+          />
           <Image
             // Change this to an image that is saved to
             // database that corresponds to each item
@@ -64,7 +93,7 @@ export default function ItemSelect({ sysDate, item }) {
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       )}
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -74,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     backgroundColor: "gray",
     margin: 5,
   },
@@ -83,16 +112,18 @@ const styles = StyleSheet.create({
     flex: 1,
     width: undefined,
     height: undefined,
-    padding: 10,
+    padding: 15,
   },
 
   item: {
-    flex: 6.5,
+    flex: 5,
+    alignSelf: "center",
     padding: 10,
   },
 
   expDate: {
-    flex: 2.5,
+    flex: 3,
+    alignSelf: "center",
     padding: 10,
   },
 });

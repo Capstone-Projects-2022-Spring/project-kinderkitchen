@@ -10,19 +10,23 @@ import {
   Button,
   Dimensions,
   Modal,
-  Pressable
+  Pressable,
 } from "react-native";
 
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import * as Location from 'expo-location';
-import MapView, { Marker, Callout, AnimatedRegion, Animated } from 'react-native-maps';
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import * as Location from "expo-location";
+import MapView, {
+  Marker,
+  Callout,
+  AnimatedRegion,
+  Animated,
+} from "react-native-maps";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
 const DonateScreen = ({ navigation }) => {
-
   const [modalVisible, setModalVisible] = useState(false);
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState(37.78825);
@@ -30,14 +34,14 @@ const DonateScreen = ({ navigation }) => {
   const [newMarkerAddress, setNewMarkerAddress] = useState();
   const [pressedAddress, setPressedAddress] = useState();
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
-    'Wait, we are fetching you location...'
+    "Wait, we are fetching you location..."
   );
   const [region, setRegion] = useState({
     latitude: 37.78825,
     longitude: -122.4324,
     latitudeDelta: 0.1,
     longitudeDelta: 0.1,
-  })
+  });
 
   useEffect(() => {
     CheckIfLocationEnabled();
@@ -49,9 +53,9 @@ const DonateScreen = ({ navigation }) => {
 
     if (!enabled) {
       Alert.alert(
-        'Location Service not enabled',
-        'Please enable your location services to continue',
-        [{ text: 'OK' }],
+        "Location Service not enabled",
+        "Please enable your location services to continue",
+        [{ text: "OK" }],
         { cancelable: false }
       );
     } else {
@@ -61,58 +65,58 @@ const DonateScreen = ({ navigation }) => {
 
   const GetCurrentLocation = async () => {
     let { status } = await Location.requestPermissionsAsync();
-  
-    if (status !== 'granted') {
+
+    if (status !== "granted") {
       Alert.alert(
-        'Permission not granted',
-        'Allow the app to use location service.',
-        [{ text: 'OK' }],
+        "Permission not granted",
+        "Allow the app to use location service.",
+        [{ text: "OK" }],
         { cancelable: false }
       );
     }
-  
+
     let { coords } = await Location.getCurrentPositionAsync();
-  
+
     if (coords) {
       const { latitude, longitude } = coords;
       setCurrentLatitude(latitude);
       setCurrentLongitude(longitude);
       let response = await Location.reverseGeocodeAsync({
         latitude,
-        longitude
+        longitude,
       });
-  
+
       for (let item of response) {
         let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
-  
+
         setDisplayCurrentAddress(address);
       }
     }
   };
 
-
-  
-
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-      <TextInput
-        placeholder= {displayCurrentAddress}
-        editable = {false}
-
+        <TextInput
+          placeholder={displayCurrentAddress}
+          editable={false}
         ></TextInput>
-               
 
-        <View style={{flex: 1}}>
-          <GooglePlacesAutocomplete 
-            styles={{container: {flex: 0, position: 'absolute', width: "100%", zIndex: 1},
-                     listView: {backgroundColor: 'white'}}}
-
-            placeholder='Search'
+        <View style={{ flex: 1 }}>
+          <GooglePlacesAutocomplete
+            styles={{
+              container: {
+                flex: 0,
+                position: "absolute",
+                width: "100%",
+                zIndex: 1,
+              },
+              listView: { backgroundColor: "white" },
+            }}
+            placeholder="Search"
             fetchDetails={true}
             GooglePlacesSearchQuery={{
-                rankby: "distance"
-
+              rankby: "distance",
             }}
             onPress={(data, details = null) => {
               // 'details' is provided when fetchDetails = true
@@ -122,20 +126,20 @@ const DonateScreen = ({ navigation }) => {
                 longitude: details.geometry.location.lng,
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1,
-              })
+              });
               setNewMarkerAddress(data.description);
             }}
             query={{
-              key: '',            /////////////NAVIGATION API KEY HERE
-              language: 'en',
+              key: "", /////////////NAVIGATION API KEY HERE
+              language: "en",
               components: "country:us",
               types: "establishment",
               radius: 30000,
-              location: {displayCurrentAddress}
+              location: { displayCurrentAddress },
             }}
-            
           />
-          <MapView style={styles.map}
+          <MapView
+            style={styles.map}
             region={{
               latitude: currentLatitude,
               longitude: currentLongitude,
@@ -143,78 +147,79 @@ const DonateScreen = ({ navigation }) => {
               longitudeDelta: 0.1,
             }}
           >
-              <Marker
-                coordinate={{latitude: region.latitude, longitude: region.longitude}}
-              >
-                <Callout
+            <Marker
+              coordinate={{
+                latitude: region.latitude,
+                longitude: region.longitude,
+              }}
+            >
+              <Callout
                 onPress={() => {
                   setPressedAddress(newMarkerAddress);
                   setModalVisible(true);
-                  
-                }}>
-                  
-                  <Text>GetAddress</Text>
-                  
-                </Callout>
-              </Marker>
-             <Marker 
+                }}
+              >
+                <Text>GetAddress</Text>
+              </Callout>
+            </Marker>
+            <Marker
               coordinate={{
                 latitude: currentLatitude,
-                longitude: currentLongitude
-              }}>
+                longitude: currentLongitude,
+              }}
+            >
               <Callout>
                 <Text> {displayCurrentAddress}</Text>
               </Callout>
             </Marker>
           </MapView>
-      </View>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        </View>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <MaterialIcons
+                name="close"
+                size={24}
+                style={{ ...styles.modalToggle, ...styles.modalClose }}
+                onPress={() => setModalVisible(false)}
+              />
 
-            <MaterialIcons
-              name="close"
-              size={24}
-              style={{ ...styles.modalToggle, ...styles.modalClose }}
-              onPress={() => setModalVisible(false)}
-            />
+              {/*Header*/}
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalText}>Address</Text>
+              </View>
 
-            {/*Header*/}
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalText}>Address</Text>
-            </View>
+              {/*Address*/}
+              <View>
+                <Text style={styles.modalText}>{pressedAddress}</Text>
+              </View>
 
-            {/*Address*/}
-            <View>
-            <Text style={styles.modalText}>{pressedAddress}</Text>
-            </View>
-
-            {/*ButtonField*/}
-            <View style={styles.submissionField}>
-              {/*Submit Button*/}
-              <Pressable
-                style={[styles.button, styles.buttonSubmit]}
-                onPress={() => {
-                  setModalVisible(!modalVisible);
-                  alert("This will navigate to Doanation Page Stay Tuned!");
-                  //navigation.navigate("Category", pressedAddress);//Navigate to Donation Selection
-                }}>
-                <Text style={styles.textStyle}>Submit</Text>
-              </Pressable>
-
+              {/*ButtonField*/}
+              <View style={styles.submissionField}>
+                {/*Submit Button*/}
+                <Pressable
+                  style={[styles.button, styles.buttonSubmit]}
+                  onPress={() => {
+                    setModalVisible(!modalVisible);
+                    alert("This will navigate to Doanation Page Stay Tuned!");
+                    //navigation.navigate("Category", pressedAddress);//Navigate to Donation Selection
+                  }}
+                >
+                  <Text style={styles.textStyle}>Submit</Text>
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-    </View>
-    <MyNavMenu />
+        </Modal>
+      </View>
+      <MyNavMenu />
     </View>
   );
 };
@@ -274,8 +279,8 @@ const styles = StyleSheet.create({
     height: 50,
   },
   map: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height,
   },
   modalHeader: {
     width: "100%",

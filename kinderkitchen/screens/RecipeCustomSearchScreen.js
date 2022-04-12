@@ -10,10 +10,11 @@ import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemSelect from "../Components/ItemSelect";
+
 import { getAuth } from "firebase/auth";
 import { getDatabase, get, ref, child } from "firebase/database";
 
-const RecipeCustomSearchScreen = () => {
+const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
   useEffect(() => {
     readDBItems();
   }, []);
@@ -46,12 +47,13 @@ const RecipeCustomSearchScreen = () => {
     for (var cat in DBItems) {
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        console.log("Adding Item: " + Item + " with Key: " + itemKey);
+        //console.log("Adding Item: " + Item + " with Key: " + itemKey);
         items.push(
           <View key={itemKey}>
             <ItemSelect
               sysDate={format(new Date(), "yyyy-MM-dd")}
               item={CatObj[Item]}
+              addItemToList={addItemToList}
             />
           </View>
         );
@@ -60,6 +62,20 @@ const RecipeCustomSearchScreen = () => {
     }
     return items;
   }
+
+  // Add items to array when checked; remove when unchecked ****
+  const _ = require("lodash");
+  const itemList = [];
+  const addItemToList = (selectItem, itemName) => {
+    if (selectItem === true) {
+      itemList.push(itemName);
+    } else {
+      _.pull(itemList, itemName);
+    }
+  };
+
+  //const [itemNames, setItemNames] =
+  // ***********************************************************
 
   return (
     <View style={styles.container}>
@@ -79,9 +95,8 @@ const RecipeCustomSearchScreen = () => {
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => {
-            alert(
-              "This will eventually search for recipes based on which items were selected"
-            );
+            //console.log(itemList);
+            navigation.navigate("Recipe Search", itemList);
           }}
         >
           <Text>Search Recipes</Text>
