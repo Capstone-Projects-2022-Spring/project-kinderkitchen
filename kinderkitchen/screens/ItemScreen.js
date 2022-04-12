@@ -124,10 +124,9 @@ const ItemScreen = ({ props, route, navigation }) => {
   }
 
   /*Textbox Fields*/
-  const [itemName, setItemName] = useState("");                     //Used for AddingItems, and current ItemSelected
-  const [expirationDate, setExpirationDate] = useState("");         //Used for AddingItems, and current ItemSelected
-  const [oldItemName, setOldItemName] = useState("");               //Used for EditItem
-
+  const [itemName, setItemName] = useState(""); //Used for AddingItems, and current ItemSelected
+  const [expirationDate, setExpirationDate] = useState(""); //Used for AddingItems, and current ItemSelected
+  const [oldItemName, setOldItemName] = useState(""); //Used for EditItem
 
   /* DB Functions */
   function readItemData() {
@@ -385,12 +384,11 @@ const ItemScreen = ({ props, route, navigation }) => {
                   </View>
                   <TextInput
                     style={styles.input}
-                    onChangeText={(newText) => itemToEdit.itemName = newText}
+                    onChangeText={(newText) => (itemToEdit.itemName = newText)}
                     // onEndEditing={(newText) => itemToEdit.itemName = newText}
                     placeholder={itemToEdit.itemName}
                     defaultValue={itemToEdit.itemName}
                     maxLength={15}
-
                   />
                 </View>
 
@@ -403,7 +401,9 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <TextInput
                     style={styles.input}
                     placeholder="YYYY-MM-DD"
-                    onChangeText={(newText) => itemToEdit.expirationDate = newText}
+                    onChangeText={(newText) =>
+                      (itemToEdit.expirationDate = newText)
+                    }
                     // onEndEditing={(newText) => itemToEdit.expirationDate = newText}
                     defaultValue={itemToEdit.expirationDate}
                     maxLength={10}
@@ -435,10 +435,15 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      let oldItemName = itemToEdit.itemName;
                       setEditItemModalVisable(!editItemModalVisable);
                       itemToEdit.categoryName = value;
                       editItem(itemToEdit, oldItemName);
+                      //alert(oldItemName);
+                      // alert(
+                      //   `CategoryName: ${itemToEdit.categoryName}\n
+                      // ExpirationDate: ${itemToEdit.expirationDate}\n
+                      // ItemNane: ${itemToEdit.itemName}`
+                      // );
                       setValue(thisCategoryName); //reset Default Value
                     }}
                   >
