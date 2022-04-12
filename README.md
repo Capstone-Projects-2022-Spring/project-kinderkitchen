@@ -38,7 +38,9 @@ Kinder Kitchen will be developed using React Native and JavaScript so that it ca
 
 please Follow our testing guide [here](https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen/edit/ReadMe/README.md#testing-1) 
 
-If there are difficulties, Scan this QR Code to gain access 
+If there are difficulties, Scan this QR Code to gain access. 
+Android users should have no issues. If you are using iOS please sign in with KinderKitchen Expo account. 
+Let the them know if you are using iOS and need assistance.
 
 ![image](https://user-images.githubusercontent.com/60050903/158704139-75985964-b0d8-4890-8c02-88602d0b7a9d.png) 
 
