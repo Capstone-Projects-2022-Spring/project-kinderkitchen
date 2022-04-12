@@ -10,6 +10,8 @@ import {
   StyleSheet,
   Button,
   Platform,
+  SafeAreaView,
+  KeyboardAvoidingView
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { format, getHours, parseISO } from "date-fns";
@@ -288,11 +290,13 @@ const ItemScreen = ({ props, route, navigation }) => {
             animationType="slide"
             transparent={true}
             visible={modalVisible}
+            
             onRequestClose={() => {
               Alert.alert("Modal has been closed.");
               setModalVisible(!modalVisible);
             }}
           >
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <MaterialIcons
@@ -404,6 +408,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                 {/*END - ButtonField*/}
               </View>
             </View>
+            </KeyboardAvoidingView>
           </Modal>
 
           {/******************
