@@ -10,7 +10,7 @@ import {
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
-const DonateScreen = ({ navigation }) => {
+const SearchFoodBanks = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -118,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DonateScreen;
+export default SearchFoodBanks;
