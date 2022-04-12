@@ -24,6 +24,7 @@ const DonateScreen = ({ navigation }) => {
   const [locationServiceEnabled, setLocationServiceEnabled] = useState(false);
   const [currentLatitude, setCurrentLatitude] = useState(37.78825);
   const [currentLongitude, setCurrentLongitude] = useState(-122.4324);
+  const [newMarkerAddress, setNewMarkerAddress] = useState();
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
     'Wait, we are fetching you location...'
   );
@@ -115,6 +116,7 @@ const DonateScreen = ({ navigation }) => {
                 latitudeDelta: 0.1,
                 longitudeDelta: 0.1,
               })
+              setNewMarkerAddress(data.description);
             }}
             query={{
               key: 'AIzaSyBf6Gc2aa1cznIUyFro-KQihb-3KZTNFYo',
@@ -137,8 +139,11 @@ const DonateScreen = ({ navigation }) => {
               <Marker
                 coordinate={{latitude: region.latitude, longitude: region.longitude}}
               >
-                <Callout>
-                  <Button title="Directions"></Button>
+                <Callout
+                onPress={() => alert(newMarkerAddress)}>
+                  
+                  <Text>GetAddress</Text>
+                  
                 </Callout>
               </Marker>
              <Marker 
