@@ -9,51 +9,57 @@ import {
 import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import ItemInfoComponent from "../Components/ItemInfoComponent";
+import ItemSelect from "../Components/ItemSelect";
+import { getAuth } from "firebase/auth";
+import { getDatabase, get, ref, child } from "firebase/database";
 
 const RecipeCustomSearchScreen = () => {
-  /*Dummy Data*/
-  const [itemObject, setItemObject] = useState([
-    {
-      item_id: 1,
-      item_name: "Milk",
-      expiration_date: "2022-03-06",
-      category_id: 1,
-      account_id: 1,
-    },
-    {
-      item_id: 2,
-      item_name: "Lucky Charms",
-      expiration_date: "2022-03-17",
-      category_id: 2,
-      account_id: 1,
-    },
-    {
-      item_id: 3,
-      item_name: "Eggs",
-      expiration_date: "2022-04-20",
-      category_id: 1,
-      account_id: 1,
-    },
-    {
-      item_id: 4,
-      item_name: "Goldfish",
-      expiration_date: "2022-03-28",
-      category_id: 2,
-      account_id: 1,
-    },
-  ]);
+  
+  useEffect(() => {
+    readDBItems();
+  }, []);
+  
+  const DB = getDatabase();
+  const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
 
-  const pressHandler = (key) => {
-    setItemObject((prevItemObject) => {
-      return prevItemObject.filter((obj) => obj.item_id != key);
-    });
-  };
+  const [DBItems, setDBItems] = useState();
 
-  //let [itemArray, setItem] = useState([""]);
+  function readDBItems() {
+    get(child(ref(DB), `users/${currentUserID}/items/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setDBItems(snapshot.val());
+        } else {
+          console.log("No data available");
+          // ....
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 
-  // setItem((prevItemArray) => [...prevItemArray, item.item_name]);
-  // console.log(itemArray);
+  // iterate through each category and display all items
+  function displayData() {
+    let items = [];
+    let CatObj;
+    for (var cat in DBItems) {
+      CatObj = DBItems[cat];
+      for (var Item in CatObj) {
+        console.log("Adding Item: " + Item + " with Key: "+ itemKey);
+        items.push(
+          <View key={itemKey}>
+            <ItemSelect
+              sysDate={format(new Date(), "yyyy-MM-dd")}
+              item={CatObj[Item]}
+            />
+          </View>
+        );
+        itemKey++;
+      }
+    }
+    return items;
+  }
 
   return (
     <View style={styles.container}>
@@ -68,17 +74,7 @@ const RecipeCustomSearchScreen = () => {
                   [ ] 2. add item to a list/array if checked
                   [ ] 3. remove item from list/array if unchecked
                   [ ] 4. search buttom uses every item in list/array to find a recipe */}
-        <ScrollView style={styles.scrollView}>
-          {itemObject.map((obj, key) => (
-            <View key={key}>
-              <ItemInfoComponent
-                sysDate={format(new Date(), "yyyy-MM-dd")}
-                item={obj}
-                pressHandler={pressHandler}
-              />
-            </View>
-          ))}
-        </ScrollView>
+        <ScrollView style={styles.scrollView}>{displayData()}</ScrollView>
 
         <TouchableOpacity
           style={styles.customBtn}
