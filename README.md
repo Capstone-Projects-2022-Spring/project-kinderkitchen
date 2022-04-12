@@ -149,12 +149,12 @@ Scan the QR Code that it generates and open the app with Expo Go
 https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen/tree/v2.0
 ```
 
-Storing new user and verifying user login
-Storing user data and saving info for logins (add/deleting items and categories)
-Recipe API connection using Edamam API
-Search recipe functionality
-Bug fixes for navigation bar
-Color coding for expiration date
+- Storing new user and verifying user login
+- Storing user data and saving info for logins (add/deleting items and categories)
+- Recipe API connection using Edamam API
+- Search recipe functionality
+- Bug fixes for navigation bar
+- Color coding for expiration date
 
 ## Testing 2
 
@@ -188,3 +188,58 @@ Color coding for expiration date
     - Click "More About Recipe" button (Android) or text (iPhone)
   - Expected Results
     - The user should be able to find recipes based on searching the recipe name or ingredient(s). The user can click on the recipe and view the instructions and nutrition information through their browser.
+
+## v3.0 Release Notes
+```
+https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen/releases/tag/v.3.0
+```
+
+- Editing items/categories
+- Custom recipe search using items in categories
+- Donation screen with connected Google Maps API
+
+## Testing 3
+
+### Test 1:
+- Personal Categorization Ingredient Storage:
+  -  Actions/Steps
+     - Edit Category name by clicking the edit button and submitting a new name.
+  - Expected Results
+     - Category will automatically be renamed based on user entry.
+
+### Test 2:
+- Multi-Method Ingredient Entry:
+  - Actions/Steps
+    - Click on item in category 
+    - Edit name, expiration date, and/or category
+    - Submit the changes
+  - Expected Results
+    - Once clicking on an item and saving any edits the user makes, the changes should be automatically be displayed to the user.
+
+### Test 3:
+- Recipe Recommendation Based on Ingredients
+  - Actions/Steps
+    - Navigate to Recipes screen via navigation bar
+    - Click on Recipe Search by items
+    - Select which items you would like to use in a recipe and submit
+    - Click Search icon (bug: names of items will not show in search bar yet)
+    - Click Save on one of the recipes
+    - Navigate back to main Recips screen and click Saved Recipes
+    - Click Delete to remove from Saved list
+  - Expected Results
+    - The user will be able to search for recipes using the items in their categories. They can also save and unsave recipes.
+
+### Test 4:
+- Nearest Mapped Ingredient Donation
+  - Actions/Steps
+    - Navigate to Donation screen (map icon) via navigation bar
+    - Allow app to access your current location
+    - Use search bar to search "Food Banks" or "Food Pantry"
+    - Click one that is suggested and zoom out to see pin of the location
+    - Click pin and click get address to view the address of the location
+  - Expected Results
+    - The user should be able to see food banks based off their locations to allow them in the future to confirm a donation. 
+
+
+
+
