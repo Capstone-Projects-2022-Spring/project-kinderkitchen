@@ -13,7 +13,7 @@ import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
 import { getDatabase, get, ref, child } from "firebase/database";
 
-const RecipeCustomSearchScreen = () => {
+const DonateSelect = () => {
   useEffect(() => {
     readDBItems();
   }, []);
@@ -66,25 +66,26 @@ const RecipeCustomSearchScreen = () => {
       <View style={styles.body}>
         <View style={styles.textBox}>
           <Text style={{ fontSize: 20 }} adjustsFontSizeToFit>
-            Select items to include in recipe search
+            Select items to add to Donation Queue
           </Text>
         </View>
 
         {/* TODO: [ ] 1. convert views to checkboxes (CheckBox for Android; Switch for iOS?)
                   [ ] 2. add item to a list/array if checked
                   [ ] 3. remove item from list/array if unchecked
-                  [ ] 4. search buttom uses every item in list/array to find a recipe */}
+                  [ ] 4. search buttom uses every item in list/array to add to donation queue */}
         <ScrollView style={styles.scrollView}>{displayData()}</ScrollView>
 
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => {
             alert(
-              "This will eventually search for recipes based on which items were selected"
+              "This will eventually add to the donation queue the items that were selected.\n\n" +
+                "Navigate to your Donation Queue to confirm donation."
             );
           }}
         >
-          <Text>Search Recipes</Text>
+          <Text>Add to Donation Queue</Text>
         </TouchableOpacity>
       </View>
       <MyNavMenu />
@@ -130,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecipeCustomSearchScreen;
+export default DonateSelect;

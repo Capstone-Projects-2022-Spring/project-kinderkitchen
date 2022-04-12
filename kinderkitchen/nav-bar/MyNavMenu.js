@@ -1,23 +1,14 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, SafeAreaView } from "react-native";
+import React from "react";
+import { View, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { TouchableHighlight } from "react-native-gesture-handler";
-import { getAuth, signOut } from "firebase/auth";
-import { Ionicons } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-
-
-
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const MyNavMenu = () => {
   const navigation = useNavigation();
-  const auth = getAuth();
-
-  const user = auth.currentUser;
-
 
   return (
-    
     <View style={styles.navmenu}>
       <TouchableHighlight
         style={styles.touchable}
@@ -32,7 +23,11 @@ const MyNavMenu = () => {
         onPress={() => navigation.navigate("Recipe")}
         underlayColor="limegreen"
       >
-        <MaterialCommunityIcons name="silverware-fork-knife" size={24} color="black" />
+        <MaterialCommunityIcons
+          name="silverware-fork-knife"
+          size={24}
+          color="black"
+        />
       </TouchableHighlight>
 
       <TouchableHighlight
@@ -50,10 +45,7 @@ const MyNavMenu = () => {
       >
         <MaterialCommunityIcons name="account" size={24} color="black" />
       </TouchableHighlight>
-
-      
     </View>
-    
   );
 };
 
@@ -61,18 +53,19 @@ const styles = StyleSheet.create({
   navmenu: {
     flex: 0.05,
     borderWidth: 1,
-        backgroundColor: "lightgray",
+    backgroundColor: "lightgray",
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "flex-end",
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   touchable: {
     flex: 1,
     backgroundColor: "lightgray",
     justifyContent: "center",
     alignItems: "center",
-    width: 99,
+    width: 97,
+    borderRadius: 4,
   },
 });
 

@@ -3,18 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
 
 import { parseISO, subDays } from "date-fns";
 
-export default function ItemInfoComponent({
-  sysDate,
-  item,
-  deleteItemFunction,
-  editItemFunction,
-}) {
-  //placeholder to demonstrate Style sheet
+export default function ItemSelect({ sysDate, item }) {
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
-  // Expiration Date Checker ***********************************
   let systemDate = parseISO(sysDate);
-
   let expDate = parseISO(item.expirationDate);
 
   let temp = subDays(expDate, 7);
@@ -33,8 +25,7 @@ export default function ItemInfoComponent({
   //Status Handler Function
   return (
     <TouchableOpacity
-      onLongPress={() => deleteItemFunction(item.itemName)}
-      onPress={() => editItemFunction(item)}
+      onPress={() => alert("this will mark as selected") /* Mark as selected */}
     >
       {statusValue === 2 ? (
         <View style={[styles.itemContainer, Status.expired]}>
@@ -45,7 +36,7 @@ export default function ItemInfoComponent({
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : statusValue === 0 ? (
@@ -57,7 +48,7 @@ export default function ItemInfoComponent({
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : (
@@ -69,7 +60,7 @@ export default function ItemInfoComponent({
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       )}
