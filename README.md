@@ -149,12 +149,12 @@ Scan the QR Code that it generates and open the app with Expo Go
 https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen/tree/v2.0
 ```
 
-Storing new user and verifying user login
-Storing user data and saving info for logins (add/deleting items and categories)
-Recipe API connection using Edamam API
-Search recipe functionality
-Bug fixes for navigation bar
-Color coding for expiration date
+- Storing new user and verifying user login
+- Storing user data and saving info for logins (add/deleting items and categories)
+- Recipe API connection using Edamam API
+- Search recipe functionality
+- Bug fixes for navigation bar
+- Color coding for expiration date
 
 ## Testing 2
 
@@ -190,10 +190,13 @@ Color coding for expiration date
     - The user should be able to find recipes based on searching the recipe name or ingredient(s). The user can click on the recipe and view the instructions and nutrition information through their browser.
 
 ## v3.0 Release Notes
+```
+https://github.com/Capstone-Projects-2022-Spring/project-kinderkitchen/releases/tag/v.3.0
+```
 
-Editing items/categories
-Custom recipe search using items in categories
-Donation screen with connected Google Maps API
+- Editing items/categories
+- Custom recipe search using items in categories
+- Donation screen with connected Google Maps API
 
 ## Testing 3
 
