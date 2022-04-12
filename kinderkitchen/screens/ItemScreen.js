@@ -425,6 +425,7 @@ const ItemScreen = ({ props, route, navigation }) => {
               setEditItemModalVisable(!editItemModalVisable);
             }}
           >
+            <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <MaterialIcons
@@ -507,6 +508,7 @@ const ItemScreen = ({ props, route, navigation }) => {
 
               </View>
             </View>
+            </KeyboardAvoidingView>
           </Modal>
 
           {/* I tried to make it its own modal but hit a wall */}
