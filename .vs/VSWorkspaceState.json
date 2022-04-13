@@ -1,12 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\.expo",
     "\\kinderkitchen",
-    "\\kinderkitchen\\Components",
     "\\kinderkitchen\\nav-bar",
     "\\kinderkitchen\\routes",
     "\\kinderkitchen\\screens"
   ],
-  "SelectedNode": "\\kinderkitchen\\screens\\AccountScreen.js",
+  "SelectedNode": "\\kinderkitchen\\screens\\ItemScreen.js",
   "PreviewInSolutionExplorer": false
 }

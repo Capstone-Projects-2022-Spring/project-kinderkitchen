@@ -1,10 +1,68 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, Switch } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, Text, View, Switch, TouchableOpacity } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-
+import * as Notifications from 'react-native';
+import Constants from 'expo-constants';
+import storage from "@react-native-async-storage/async-storage";
+import { ALERT_TYPE, Dialog, Root, Toast } from 'react-native-alert-notification';
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
+
+
+//Notifications.setNotificationHandler({
+//    handleNotification: async () => ({
+//        shouldShowAlert: true,
+//        shouldPlaySound: true,
+//        shouldSetBadge: true
+//    })
+//});
+
+
 const NotificationScreen = () => {
+
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
+  
+    useEffect(() => {
+        const getPermission = async () => {
+            if (Constants.isDevice) {
+                const { status: existingStatus } = await Notifications.getPermissionsAsync();
+                let finalStatus = existingStatus;
+                if (existingStatus !== 'granted') {
+                    const { status } = await Notifications.requestPermissionsAsync();
+                    finalStatus = status;
+                }
+                if (finalStatus !== 'granted') {
+                    alert('Enable push notifications to use the app!');
+                    await storage.setItem('expopushtoken', "");
+                    return;
+                }
+                const token = (await Notifications.getExpoPushTokenAsync()).data;
+                await storage.setItem('expopushtoken', token);
+            } else {
+                alert('Must use physical device for Push Notifications');
+            }
+
+            if (Platform.OS === 'android') {
+                Notifications.setNotificationChannelAsync('default', {
+                    name: 'default',
+                    importance: Notifications.AndroidImportance.MAX,
+                    vibrationPattern: [0, 250, 250, 250],
+                    lightColor: '#FF231F7C',
+                });
+            }
+        }
+        getPermission();
+
+    }, []);
+    const onClick = () => {
+
+
+    }
+
+
   const textNot = "Notifications";
   const allowNot = "Allow Notifications";
   const reminder = "Reminder for Expiration Date";
@@ -30,6 +88,7 @@ const NotificationScreen = () => {
             thumbColor={isEnabled ? "#fff" : "#fff"}
             onValueChange={toggleSwitch}
             value={isEnabled}
+
           />
         </View>
 
@@ -46,6 +105,7 @@ const NotificationScreen = () => {
               setItems={setItems}
             />
           </View>
+                  
         </View>
       </View>
       <MyNavMenu />
@@ -84,7 +144,12 @@ const styles = StyleSheet.create({
   },
   dropDown: {
     width: "33%",
-  },
+    },
+    TouchableOpacity: {
+        backgroundColor: "red",
+        top: 500,
+        color: 'white'
+    },
 });
 
 export default NotificationScreen;
