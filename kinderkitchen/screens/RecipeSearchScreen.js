@@ -16,9 +16,10 @@ const RecipeSearchScreen = ({ route }) => {
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("fish");
 
-  const itemNames = route.params;
+  let itemNames = route.params;
 
   useEffect(() => {
+    fillSearchBar();
     getRecipeData();
   }, [query]);
 
@@ -28,21 +29,16 @@ const RecipeSearchScreen = ({ route }) => {
     );
     const data = await response.json();
     setRecipeData(data.hits);
+
+    // checks if no recipes were found when user inputs at least one item
+    if (data.hits.length != null && data.hits.length === 0 && query != "") {
+      alert("No recipes found.");
+    }
   };
 
   const getSearch = (e) => {
     e.preventDefault();
-    if (
-      typeof itemNames != "undefined" &&
-      itemNames != null &&
-      itemNames.length != null &&
-      itemNames.length > 0
-    ) {
-      //console.log(itemNames);
-      setQuery(itemNames);
-    } else {
-      setQuery(search);
-    }
+    setQuery(search);
     setSearch("");
   };
 
@@ -52,25 +48,24 @@ const RecipeSearchScreen = ({ route }) => {
       "users/" + getAuth().currentUser.uid + "/savedRecipes/" + recipeData.title
     ] = recipeData;
     return update(ref(getDatabase()), updates);
-    // set(ref(getDatabase(), 'users/' + auth.currentUser.uid +'/savedRecipes/' + title), {
-    //   title: title,
-    //   calories: calories,
-    //   image: image,
-    //   ingredients: ingredients,
-    //   shareAs: shareAs});
   }
 
-  // function fillSearchBar(itemNames) {
-  //   if (
-  //     typeof itemNames != "undefined" &&
-  //     itemNames != null &&
-  //     itemNames.length != null &&
-  //     itemNames.length > 0
-  //   ) {
-  //     console.log(itemNames);
-  //     setSearch(itemNames);
-  //   }
-  // }
+  // will search using the user selected items if navigated to from RecipeCustomSearchScreen
+  function fillSearchBar() {
+    if (
+      typeof itemNames != "undefined" &&
+      itemNames != null &&
+      itemNames.length != null &&
+      itemNames.length > 0
+    ) {
+      let items = itemNames[0];
+      for (let i = 1; i < itemNames.length; i++) {
+        items = items + ", " + itemNames[i];
+      }
+      setQuery(items);
+      route.params = null; // clear the params
+    }
+  }
 
   return (
     <View style={styles.container}>
