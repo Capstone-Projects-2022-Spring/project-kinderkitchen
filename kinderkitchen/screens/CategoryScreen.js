@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -38,7 +38,7 @@ const CategoryScreen = () => {
   const auth = getAuth();
   const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
-  const [categoryData, setCategoryData] = useState(ReadCategory); //similar to placeHolderData
+  const [categoryData, setCategoryData] = useState(); //similar to placeHolderData
   const [placeHolderData, setPlaceHolderData] = useState({
     Fridge: false, //True  ->  Category Has Items
     Pantry: false, //False ->  Category does not have items
@@ -51,6 +51,9 @@ const CategoryScreen = () => {
   const [oldCategoryName, setOldCategoryName] = useState("");
   const [itemData, setItemData] = useState([]);
 
+  useEffect(() => {
+    ReadCategory();
+  }, []);
   
   /**********************
    *      Functions     *
