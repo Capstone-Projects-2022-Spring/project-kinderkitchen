@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
-const DonateScreen2 = ({ navigation }) => {
+const DonateScreen2 = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -12,13 +12,15 @@ const DonateScreen2 = ({ navigation }) => {
         </View>
 
         <View style={styles.textBox}>
-          <Text>Address that was selected and is displayed on map</Text>
+          <Text>{route.params}</Text>
         </View>
 
         <View style={styles.clickable}>
           <TouchableOpacity
             style={styles.customBtn}
-            onPress={() => alert("This will copy the address.")}
+            onPress={() =>
+              alert("This will copy the address. Not currently functional.")
+            }
           >
             <Text>Copy Address</Text>
           </TouchableOpacity>

@@ -32,7 +32,7 @@ const MyNavMenu = () => {
 
       <TouchableHighlight
         style={styles.touchable}
-        onPress={() => navigation.navigate("Donate")}
+        onPress={() => navigation.navigate("Search Food Banks")}
         underlayColor="limegreen"
       >
         <MaterialCommunityIcons name="map-search" size={24} color="black" />
