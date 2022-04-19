@@ -19,8 +19,8 @@ const RecipeSearchScreen = ({ route }) => {
   let itemNames = route.params;
 
   useEffect(() => {
-    fillSearchBar();
     getRecipeData();
+    fillSearchBar();
   }, [query]);
 
   const getRecipeData = async () => {
@@ -63,8 +63,8 @@ const RecipeSearchScreen = ({ route }) => {
         items = items + ", " + itemNames[i];
       }
       setQuery(items);
-      route.params = null; // clear the params
     }
+    route.params = null; // clear the params
   }
 
   return (
