@@ -27,7 +27,7 @@ const DonateScreen2 = ({ navigation, route }) => {
 
           <TouchableOpacity
             style={styles.customBtn}
-            onPress={() => navigation.navigate("Select Items to Donate")}
+            onPress={() => navigation.navigate("Donate Items")}
           >
             <Text>Donate</Text>
           </TouchableOpacity>

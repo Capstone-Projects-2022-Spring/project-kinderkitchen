@@ -32,7 +32,7 @@ const MyStack = () => {
       <Stack.Screen name="Achievements" component={AchievementScreen} />
       <Stack.Screen name="Search Food Banks" component={DonateScreen} />
       <Stack.Screen name="Food Bank" component={DonateScreen2} />
-      <Stack.Screen name="Select Items to Donate" component={DonateSelect} />
+      <Stack.Screen name="Donate Items" component={DonateSelect} />
       <Stack.Screen name="Barcode" component={BarcodeScreen} />
       <Stack.Screen name="Recipe" component={RecipeScreen} />
       <Stack.Screen name="Recipe Search" component={RecipeSearchScreen} />
