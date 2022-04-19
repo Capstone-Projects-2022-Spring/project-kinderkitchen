@@ -9,6 +9,7 @@ import {
   Modal,
   SafeAreaView,
   Button,
+  Alert
 } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
@@ -48,6 +49,8 @@ const CategoryScreen = () => {
 
   const [text, setText] = useState("");
 
+  const [categoryToDelete, setCategoryToDelete] = useState("");
+
   /*  These are for the edit name func */
   const [modalVisible, setModalVisible] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState("");
@@ -84,7 +87,7 @@ const CategoryScreen = () => {
         <View key={key}>
           <CategoryItem
             categoryName={key}
-            deleteCategoryFunction={deleteCategory}
+            deleteCategoryFunction={getCategoryToDelete}
             passingCategoryData={categoryData}
             editCategoryFunction={editCategory}
           />
@@ -111,6 +114,22 @@ const CategoryScreen = () => {
     return update(ref(database), updates);
   }
 
+  function getCategoryToDelete(categoryName){
+    setCategoryToDelete(categoryName)
+    Alert.alert(
+      "Deleting Category: " + categoryName,
+      "Do You Wish to Continue?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => {deleteCategory(categoryName); setCategoryToDelete();} }
+      ]
+    );
+  }
+
   function deleteCategory(categoryName) {
     //category name is the Key, Check if False, if False Delete is good
     let hasItems = categoryData[categoryName];
@@ -118,17 +137,12 @@ const CategoryScreen = () => {
       alert("Cannot Delete, Category has Items! \nOverride comming soon!");
       return;
     }
-    alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
-
     let localData = categoryData;
     delete localData[categoryName];
     /* Once Items Have DB Ref. Remove Category From Items DB Table */
     setCategoryData(localData);
     const updates = {};
     updates["users/" + auth.currentUser.uid + "/categories/"] = categoryData;
-    alert(
-      "Deletion Success!\nKnown Bug: Page does not update.\n\nLog out and back in to see change."
-    );
     return update(ref(database), updates);
   }
 
@@ -211,7 +225,6 @@ const CategoryScreen = () => {
             style={styles.TextInput}
             placeholder="Enter Category Name"
             onChangeText={(text) => setText(text)}
-            defaultValue={""}
             placeholderTextColor="#fff"
             underlineColorAndroid="transparent"
           ></TextInput>
@@ -219,7 +232,7 @@ const CategoryScreen = () => {
           <Button
             onPress={() => {
               addCategory(text);
-              setText("");
+              setText(""); //THIS IS WHAT HELPS REFRESH PAGE ---- Ugh useStates are weird.
             }}
             title="Add Category"
             style={styles.button2}
