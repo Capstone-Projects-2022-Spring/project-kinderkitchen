@@ -8,13 +8,15 @@ import Recipe from "../Components/Recipe";
 import { getDatabase, ref, update } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-const RecipeSearchScreen = () => {
+const RecipeSearchScreen = ({ route }) => {
   const APP_ID = ""; //INSERT APP ID HERE!!!!!!!
   const API_KEY = ""; //INSERT API KEY HERE!!!!!!!
 
   const [recipeData, setRecipeData] = useState([]);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("fish");
+
+  const itemNames = route.params;
 
   useEffect(() => {
     getRecipeData();
@@ -30,7 +32,17 @@ const RecipeSearchScreen = () => {
 
   const getSearch = (e) => {
     e.preventDefault();
-    setQuery(search);
+    if (
+      typeof itemNames != "undefined" &&
+      itemNames != null &&
+      itemNames.length != null &&
+      itemNames.length > 0
+    ) {
+      //console.log(itemNames);
+      setQuery(itemNames);
+    } else {
+      setQuery(search);
+    }
     setSearch("");
   };
 
@@ -47,6 +59,18 @@ const RecipeSearchScreen = () => {
     //   ingredients: ingredients,
     //   shareAs: shareAs});
   }
+
+  // function fillSearchBar(itemNames) {
+  //   if (
+  //     typeof itemNames != "undefined" &&
+  //     itemNames != null &&
+  //     itemNames.length != null &&
+  //     itemNames.length > 0
+  //   ) {
+  //     console.log(itemNames);
+  //     setSearch(itemNames);
+  //   }
+  // }
 
   return (
     <View style={styles.container}>

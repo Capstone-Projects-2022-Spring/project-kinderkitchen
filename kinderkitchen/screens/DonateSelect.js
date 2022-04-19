@@ -10,11 +10,10 @@ import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemSelect from "../Components/ItemSelect";
-
 import { getAuth } from "firebase/auth";
 import { getDatabase, get, ref, child } from "firebase/database";
 
-const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
+const DonateSelect = () => {
   useEffect(() => {
     readDBItems();
   }, []);
@@ -47,13 +46,12 @@ const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
     for (var cat in DBItems) {
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        //console.log("Adding Item: " + Item + " with Key: " + itemKey);
+        console.log("Adding Item: " + Item + " with Key: " + itemKey);
         items.push(
           <View key={itemKey}>
             <ItemSelect
               sysDate={format(new Date(), "yyyy-MM-dd")}
               item={CatObj[Item]}
-              addItemToList={addItemToList}
             />
           </View>
         );
@@ -63,43 +61,31 @@ const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
     return items;
   }
 
-  // Add items to array when checked; remove when unchecked ****
-  const _ = require("lodash");
-  const itemList = [];
-  const addItemToList = (selectItem, itemName) => {
-    if (selectItem === true) {
-      itemList.push(itemName);
-    } else {
-      _.pull(itemList, itemName);
-    }
-  };
-
-  //const [itemNames, setItemNames] =
-  // ***********************************************************
-
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.textBox}>
           <Text style={{ fontSize: 20 }} adjustsFontSizeToFit>
-            Select items to include in recipe search
+            Select items to add to Donation Queue
           </Text>
         </View>
 
         {/* TODO: [ ] 1. convert views to checkboxes (CheckBox for Android; Switch for iOS?)
                   [ ] 2. add item to a list/array if checked
                   [ ] 3. remove item from list/array if unchecked
-                  [ ] 4. search buttom uses every item in list/array to find a recipe */}
+                  [ ] 4. search buttom uses every item in list/array to add to donation queue */}
         <ScrollView style={styles.scrollView}>{displayData()}</ScrollView>
 
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => {
-            //console.log(itemList);
-            navigation.navigate("Recipe Search", itemList);
+            alert(
+              "This will eventually add to the donation queue the items that were selected.\n\n" +
+                "Navigate to your Donation Queue to confirm donation."
+            );
           }}
         >
-          <Text>Search Recipes</Text>
+          <Text>Add to Donation Queue</Text>
         </TouchableOpacity>
       </View>
       <MyNavMenu />
@@ -145,4 +131,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecipeCustomSearchScreen;
+export default DonateSelect;

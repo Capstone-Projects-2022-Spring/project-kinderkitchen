@@ -1,20 +1,13 @@
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View, Image } from "react-native";
+import { CheckBox } from "react-native-elements";
 
 import { parseISO, subDays } from "date-fns";
 
-export default function ItemInfoComponent({
-  sysDate,
-  item,
-  deleteItemFunction,
-  editItemFunction,
-}) {
-  //placeholder to demonstrate Style sheet
+export default function ItemSelect({ sysDate, item, addItemToList }) {
   let statusValue = 0; //0:Good, 1: Soon 2: Bad
 
-  // Expiration Date Checker ***********************************
   let systemDate = parseISO(sysDate);
-
   let expDate = parseISO(item.expirationDate);
 
   let temp = subDays(expDate, 7);
@@ -30,14 +23,23 @@ export default function ItemInfoComponent({
     : (statusValue = 2);
   // ***********************************************************
 
+  // set state of checkbox to true/false
+  const [selectItem, setSelectItem] = useState(false);
+
   //Status Handler Function
   return (
-    <TouchableOpacity
-      onLongPress={() => deleteItemFunction(item.itemName)}
-      onPress={() => editItemFunction(item)}
-    >
+    <View>
       {statusValue === 2 ? (
         <View style={[styles.itemContainer, Status.expired]}>
+          <CheckBox
+            uncheckedColor="black"
+            checkedColor="black"
+            checked={selectItem}
+            onPress={() => {
+              setSelectItem(!selectItem);
+              addItemToList(!selectItem, item.itemName);
+            }}
+          />
           <Image
             // Change this to an image that is saved to
             // database that corresponds to each item
@@ -45,11 +47,20 @@ export default function ItemInfoComponent({
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : statusValue === 0 ? (
         <View style={[styles.itemContainer, Status.good]}>
+          <CheckBox
+            uncheckedColor="black"
+            checkedColor="black"
+            checked={selectItem}
+            onPress={() => {
+              setSelectItem(!selectItem);
+              addItemToList(!selectItem, item.itemName);
+            }}
+          />
           <Image
             // Change this to an image that is saved to
             // database that corresponds to each item
@@ -57,11 +68,20 @@ export default function ItemInfoComponent({
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       ) : (
         <View style={[styles.itemContainer, Status.soon]}>
+          <CheckBox
+            uncheckedColor="black"
+            checkedColor="black"
+            checked={selectItem}
+            onPress={() => {
+              setSelectItem(!selectItem);
+              addItemToList(!selectItem, item.itemName);
+            }}
+          />
           <Image
             // Change this to an image that is saved to
             // database that corresponds to each item
@@ -69,11 +89,11 @@ export default function ItemInfoComponent({
             style={styles.image}
             resizeMode="cover"
           />
-          <Text style={styles.item}>{item.itemName}</Text>
+          <Text style={styles.item}>{item.itemName + " "}</Text>
           <Text style={styles.expDate}>{item.expirationDate}</Text>
         </View>
       )}
-    </TouchableOpacity>
+    </View>
   );
 }
 
@@ -83,7 +103,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 4,
     backgroundColor: "gray",
     margin: 5,
   },
@@ -92,16 +112,18 @@ const styles = StyleSheet.create({
     flex: 1,
     width: undefined,
     height: undefined,
-    padding: 10,
+    padding: 15,
   },
 
   item: {
-    flex: 6.5,
+    flex: 5,
+    alignSelf: "center",
     padding: 10,
   },
 
   expDate: {
-    flex: 2.5,
+    flex: 3,
+    alignSelf: "center",
     padding: 10,
   },
 });
