@@ -10,8 +10,6 @@ import auth from "../firebase";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, set, ref, child, push, update } from "firebase/database";
 
-import Achievement from "../Components/Achievment";
-
 const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +23,10 @@ const SignUpScreen = ({ navigation }) => {
       Fridge: false,
       Pantry: false,
     }); //On New Item Add, Set to true
+    set(ref(database, "users/" + userId + "/achievementData/"), {
+      recipesCompleted: 0,
+      donationsCompleted: 0,
+    });
   }
 
   const createUserHandler = () => {
@@ -99,7 +101,6 @@ const SignUpScreen = ({ navigation }) => {
           <Text style={styles.btnTxt}> Cancel </Text>
         </TouchableOpacity>
       </View>
-      <Achievement donationCount={0} recipesCompleted={0}></Achievement>
     </View>
   );
 };
