@@ -48,6 +48,7 @@ const CategoryScreen = () => {
   });
 
   const [text, setText] = useState("");
+  const [refresh, setRefresh] = useState(0);
 
   const [categoryToDelete, setCategoryToDelete] = useState("");
 
@@ -232,7 +233,7 @@ const CategoryScreen = () => {
           <Button
             onPress={() => {
               addCategory(text);
-              setText(""); //THIS IS WHAT HELPS REFRESH PAGE ---- Ugh useStates are weird.
+              setRefresh(refresh+1); //- Ugh useStates are weird.
             }}
             title="Add Category"
             style={styles.button2}
