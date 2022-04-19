@@ -7,6 +7,7 @@ import {
   Linking,
   Alert,
   Button,
+  Share,
 } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -44,6 +45,26 @@ const Recipe = ({
     return <Button color="brown" title={children} onPress={handlePress} />;
   };
 
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          shareAs
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.safeView}>
       <Text style={styles.recipeName}>{title}</Text>
@@ -53,16 +74,12 @@ const Recipe = ({
         <Text style={styles.ingredients}>{ingredient.text}</Text>
       ))}
       <OpenURLButton url={shareAs}>More about recipe</OpenURLButton>
-
+      <Button color="brown" title="Share" onPress={onShare}></Button>
       {/* Conditional Statement for Saving or Deleting */}
       {saveRecipeFunction ? (
-        <TouchableOpacity onPress={() => saveRecipeFunction(recipeData)}>
-          <Text>SAVE</Text>
-        </TouchableOpacity>
+        <Button title="SAVE" color="brown" onPress={() => saveRecipeFunction(recipeData)}></Button>
       ) : deleteRecipeFunction ? (
-        <TouchableOpacity onPress={() => deleteRecipeFunction(title)}>
-          <Text>DELETE</Text>
-        </TouchableOpacity>
+        <Button title="DELETE" color="brown" onPress={() => deleteRecipeFunction(title)}></Button>
       ) : null}
     </SafeAreaView>
   );
