@@ -130,7 +130,7 @@ const DonateScreen = ({ navigation }) => {
               setNewMarkerAddress(data.description);
             }}
             query={{
-              key: "AIzaSyBf6Gc2aa1cznIUyFro-KQihb-3KZTNFYo", /////////////NAVIGATION API KEY HERE
+              key: "", /////////////NAVIGATION API KEY HERE
               language: "en",
               components: "country:us",
               types: "establishment",
