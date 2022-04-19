@@ -20,7 +20,7 @@ const RecipeSearchScreen = ({ route }) => {
 
   useEffect(() => {
     getRecipeData();
-    fillSearchBar();
+    fillSearchQuery();
   }, [query]);
 
   const getRecipeData = async () => {
@@ -51,7 +51,7 @@ const RecipeSearchScreen = ({ route }) => {
   }
 
   // will search using the user selected items if navigated to from RecipeCustomSearchScreen
-  function fillSearchBar() {
+  function fillSearchQuery() {
     if (
       typeof itemNames != "undefined" &&
       itemNames != null &&
