@@ -37,7 +37,7 @@ export default function ItemSelect({ sysDate, item, addItemToList }) {
             checked={selectItem}
             onPress={() => {
               setSelectItem(!selectItem);
-              addItemToList(!selectItem, item.itemName);
+              addItemToList(!selectItem, item.itemName, item.categoryName);
               if (!selectItem) {
                 alert("WARNING!\nYou have selected an expired item.");
               }
@@ -61,7 +61,7 @@ export default function ItemSelect({ sysDate, item, addItemToList }) {
             checked={selectItem}
             onPress={() => {
               setSelectItem(!selectItem);
-              addItemToList(!selectItem, item.itemName);
+              addItemToList(!selectItem, item.itemName, item.categoryName);
             }}
           />
           <Image
@@ -82,7 +82,7 @@ export default function ItemSelect({ sysDate, item, addItemToList }) {
             checked={selectItem}
             onPress={() => {
               setSelectItem(!selectItem);
-              addItemToList(!selectItem, item.itemName);
+              addItemToList(!selectItem, item.itemName, item.categoryName);
             }}
           />
           <Image
