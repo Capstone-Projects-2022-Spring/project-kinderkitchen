@@ -38,6 +38,9 @@ export default function ItemSelect({ sysDate, item, addItemToList }) {
             onPress={() => {
               setSelectItem(!selectItem);
               addItemToList(!selectItem, item.itemName);
+              if (!selectItem) {
+                alert("WARNING!\nYou have selected an expired item.");
+              }
             }}
           />
           <Image
