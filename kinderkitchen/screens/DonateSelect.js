@@ -11,17 +11,19 @@ import { format } from "date-fns";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, ref, child, remove } from "firebase/database";
+import { getDatabase, get, ref, child, remove, update } from "firebase/database";
 
 const DonateSelect = () => {
   useEffect(() => {
     readDBItems();
+    getAllCat();
   }, []);
 
   const DB = getDatabase();
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
 
   const [DBItems, setDBItems] = useState();
+  const [allCat, setAllCat] = useState({});
 
   function readDBItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
@@ -33,6 +35,23 @@ const DonateSelect = () => {
           // ....
         }
       })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getAllCat() {
+    get(
+      child(ref(DB), `users/${currentUserID}/categories/`)
+    ).then((snapshot) => {
+      if (snapshot.exists()) {
+        setAllCat(snapshot.val());
+        console.log("CAT");
+      } else {
+        console.log("No data available");
+        // Should Not Get Here
+      }
+    })
       .catch((error) => {
         console.error(error);
       });
@@ -61,39 +80,50 @@ const DonateSelect = () => {
     return items;
   }
 
-  function donationConfirm(donateArray){
+  function donationConfirm(donateArray) {
     const arrayObj = Object.create(donateArray);
-    if (arrayObj.length < 1){
+    if (arrayObj.length < 1) {
       alert("No Items Selected!");
       return;
     }
-    var itemDonateCount=0;// if we want to add #ItemsDonated Achievement
-    for (var obj in arrayObj){
-      console.log(arrayObj[obj]);
+    var itemDonateCount = 0;// if we want to add #ItemsDonated Achievement
+    let itemObj = {}
+
+    //Remove All Donated Items
+    for (var obj in arrayObj) {
+      itemObj = arrayObj[obj]
+      remove(
+        ref(
+          DB,
+          `users/${currentUserID}/items/${itemObj["categoryName"]}/${itemObj["itemName"]}`
+        )
+      );
       itemDonateCount++;
     }
 
-    // remove(
-    //   ref(
-    //     database,
-    //     `users/${currentUserID}/items/${thisCategoryName}/${itemName}`
-    //   )
-    // );
+    //Check if Items are still In Category
+    let temp = allCat;
+    for (var key in allCat) {
+      get(
+        child(ref(DB), `users/${currentUserID}/items/${key}`)
+      ).then((snapshot) => {
+        if (snapshot.exists()) {
+          // DO Nothing
+        } else {
+          temp[key] = false;
+          setAllCat(temp);
+        }
+      })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }
 
-    // let localData = itemData;
-    // delete localData[itemName];
-    // setItemData(localData);
-    // if (Object.keys(itemData).length < 1) {
-    //   //NEW
-    //   categoryData[thisCategoryName] = false;
-    //   const updates = {};
-    //   updates["users/" + currentUserID + "/categories/"] = categoryData;
-    //   alert(
-    //     "Last Item Deleted : \n Bug with not removing Last Entry On-screen"
-    //   );
-    //   return update(ref(database), updates);
-    // }
-    return;
+  function finalizeUpdates(){
+    const updates = {};
+    updates["users/" + currentUserID + "/categories/"] = allCat;
+    return update(ref(DB), updates);
   }
 
   // Add items to array when checked; remove when unchecked ****
@@ -101,14 +131,14 @@ const DonateSelect = () => {
   const itemList = [];
   const addItemToList = (selectItem, itemName, categoryName) => {
     if (selectItem === true) {
-      itemList.push({"itemName": itemName, "categoryName": categoryName});
+      itemList.push({ "itemName": itemName, "categoryName": categoryName });
     } else {
       //I found difficulty in doing this - this was the only thing i could come up with
       let innerObj = {};
       var i = 0;
-      for(var obj in itemList){
+      for (var obj in itemList) {
         innerObj = itemList[obj];
-        if (innerObj["itemName"] === itemName && innerObj["categoryName"] === categoryName){
+        if (innerObj["itemName"] === itemName && innerObj["categoryName"] === categoryName) {
           _.pull(itemList, itemList[i]);
           break;
         }
@@ -132,12 +162,8 @@ const DonateSelect = () => {
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => {
-            alert(
-              "This will eventually remove items from inventory.\n\n" +
-                "For now, it will print an array of the items to console log."
-            );
-            console.log(itemList);
             donationConfirm(itemList);
+            finalizeUpdates();
           }}
         >
           <Text>Donate</Text>
