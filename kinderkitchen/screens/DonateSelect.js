@@ -11,7 +11,7 @@ import { format } from "date-fns";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, ref, child } from "firebase/database";
+import { getDatabase, get, ref, child, remove } from "firebase/database";
 
 const DonateSelect = () => {
   useEffect(() => {
@@ -61,14 +61,59 @@ const DonateSelect = () => {
     return items;
   }
 
+  function donationConfirm(donateArray){
+    const arrayObj = Object.create(donateArray);
+    if (arrayObj.length < 1){
+      alert("No Items Selected!");
+      return;
+    }
+    var itemDonateCount=0;// if we want to add #ItemsDonated Achievement
+    for (var obj in arrayObj){
+      console.log(arrayObj[obj]);
+      itemDonateCount++;
+    }
+
+    // remove(
+    //   ref(
+    //     database,
+    //     `users/${currentUserID}/items/${thisCategoryName}/${itemName}`
+    //   )
+    // );
+
+    // let localData = itemData;
+    // delete localData[itemName];
+    // setItemData(localData);
+    // if (Object.keys(itemData).length < 1) {
+    //   //NEW
+    //   categoryData[thisCategoryName] = false;
+    //   const updates = {};
+    //   updates["users/" + currentUserID + "/categories/"] = categoryData;
+    //   alert(
+    //     "Last Item Deleted : \n Bug with not removing Last Entry On-screen"
+    //   );
+    //   return update(ref(database), updates);
+    // }
+    return;
+  }
+
   // Add items to array when checked; remove when unchecked ****
   const _ = require("lodash");
   const itemList = [];
-  const addItemToList = (selectItem, itemName) => {
+  const addItemToList = (selectItem, itemName, categoryName) => {
     if (selectItem === true) {
-      itemList.push(itemName);
+      itemList.push({"itemName": itemName, "categoryName": categoryName});
     } else {
-      _.pull(itemList, itemName);
+      //I found difficulty in doing this - this was the only thing i could come up with
+      let innerObj = {};
+      var i = 0;
+      for(var obj in itemList){
+        innerObj = itemList[obj];
+        if (innerObj["itemName"] === itemName && innerObj["categoryName"] === categoryName){
+          _.pull(itemList, itemList[i]);
+          break;
+        }
+        i++;
+      }
     }
   };
   // ***********************************************************
@@ -92,6 +137,7 @@ const DonateSelect = () => {
                 "For now, it will print an array of the items to console log."
             );
             console.log(itemList);
+            donationConfirm(itemList);
           }}
         >
           <Text>Donate</Text>
