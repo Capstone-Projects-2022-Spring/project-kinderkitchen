@@ -11,17 +11,19 @@ import { format } from "date-fns";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, ref, child } from "firebase/database";
+import { getDatabase, get, ref, child, remove, update } from "firebase/database";
 
 const DonateSelect = () => {
   useEffect(() => {
     readDBItems();
+    getAllCat();
   }, []);
 
   const DB = getDatabase();
   const [currentUserID, setCurrentUserID] = useState(getAuth().currentUser.uid);
 
   const [DBItems, setDBItems] = useState();
+  const [allCat, setAllCat] = useState({});
 
   function readDBItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
@@ -38,6 +40,23 @@ const DonateSelect = () => {
       });
   }
 
+  function getAllCat() {
+    get(
+      child(ref(DB), `users/${currentUserID}/categories/`)
+    ).then((snapshot) => {
+      if (snapshot.exists()) {
+        setAllCat(snapshot.val());
+        console.log("CAT");
+      } else {
+        console.log("No data available");
+        // Should Not Get Here
+      }
+    })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
   // iterate through each category and display all items
   function displayData() {
     let items = [];
@@ -46,12 +65,12 @@ const DonateSelect = () => {
     for (var cat in DBItems) {
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        console.log("Adding Item: " + Item + " with Key: " + itemKey);
         items.push(
           <View key={itemKey}>
             <ItemSelect
               sysDate={format(new Date(), "yyyy-MM-dd")}
               item={CatObj[Item]}
+              addItemToList={addItemToList}
             />
           </View>
         );
@@ -61,31 +80,117 @@ const DonateSelect = () => {
     return items;
   }
 
+  function donationConfirm(donateArray) {
+    const arrayObj = Object.create(donateArray);
+    if (arrayObj.length < 1) {
+      alert("No Items Selected!");
+      return;
+    }
+    var itemDonateCount = 0;// if we want to add #ItemsDonated Achievement
+    let itemObj = {}; //stores a temp object with itemName and CategoryName
+    let tempDBItems = DBItems;
+    let categoryDBItem = {}; //will hold the all items from specific categoryfrom DB items
+    let tempAllCat = allCat;
+    const updates = {};
+
+    //Remove All Donated Items
+    for (var obj in arrayObj) {
+      itemObj = arrayObj[obj]
+      categoryDBItem = tempDBItems[itemObj["categoryName"]];
+      // remove from DB
+      remove(
+        ref(
+          DB,
+          `users/${currentUserID}/items/${itemObj["categoryName"]}/${itemObj["itemName"]}`
+        )
+      );
+      itemDonateCount++;
+
+      //Remove Locally (Used for Category Emptying)
+      delete categoryDBItem[itemObj["itemName"]];
+      tempDBItems[itemObj["categoryName"]];
+
+      //Check if Items are still In Category
+      if (Object.keys(categoryDBItem).length === 0) {
+        tempAllCat[itemObj["categoryName"]] = false;
+        updates["users/" + currentUserID + "/categories/"] = tempAllCat;
+      }
+
+      //Achievement For Donation # HERE
+      
+      //Achievement For Item # HERE
+
+      // console.log(categoryDBItem[itemObj["itemName"]]);
+      // console.log(tempDBItems[itemObj["categoryName"]]);
+      // console.log(tempDBItems);
+    }
+    return update(ref(DB), updates);
+  }
+
+
+
+  //////I did workaround with object handling////////////
+  //Asynch call? there is a time conflict Bug here
+  //   let temp = allCat;
+  //   for (var key in allCat) {
+  //     get(
+  //       child(ref(DB), `users/${currentUserID}/items/${key}`)
+  //     ).then((snapshot) => {
+  //       if (snapshot.exists()) {
+  //         // DO Nothing
+  //       } else {
+  //         temp[key] = false;
+  //         setAllCat(temp);
+  //       }
+  //     })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }
+
+
+  // Add items to array when checked; remove when unchecked ****
+  const _ = require("lodash");
+  const itemList = [];
+  const addItemToList = (selectItem, itemName, categoryName) => {
+    if (selectItem === true) {
+      itemList.push({ "itemName": itemName, "categoryName": categoryName });
+    } else {
+      //I found difficulty in doing this - this was the only thing i could come up with
+      let innerObj = {};
+      var i = 0;
+      for (var obj in itemList) {
+        innerObj = itemList[obj];
+        if (innerObj["itemName"] === itemName && innerObj["categoryName"] === categoryName) {
+          _.pull(itemList, itemList[i]);
+          break;
+        }
+        i++;
+      }
+    }
+  };
+  // ***********************************************************
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.textBox}>
           <Text style={{ fontSize: 20 }} adjustsFontSizeToFit>
-            Select items to add to Donation Queue
+            Select items to Donate
           </Text>
         </View>
 
-        {/* TODO: [ ] 1. convert views to checkboxes (CheckBox for Android; Switch for iOS?)
-                  [ ] 2. add item to a list/array if checked
-                  [ ] 3. remove item from list/array if unchecked
-                  [ ] 4. search buttom uses every item in list/array to add to donation queue */}
         <ScrollView style={styles.scrollView}>{displayData()}</ScrollView>
 
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => {
-            alert(
-              "This will eventually add to the donation queue the items that were selected.\n\n" +
-                "Navigate to your Donation Queue to confirm donation."
-            );
+            donationConfirm(itemList);
+            // finalizeUpdates();
           }}
         >
-          <Text>Add to Donation Queue</Text>
+          <Text>Donate</Text>
         </TouchableOpacity>
       </View>
       <MyNavMenu />

@@ -14,7 +14,7 @@ import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
 import { getDatabase, get, ref, child } from "firebase/database";
 
-const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
+const RecipeCustomSearchScreen = ({ navigation }) => {
   useEffect(() => {
     readDBItems();
   }, []);
@@ -47,7 +47,6 @@ const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
     for (var cat in DBItems) {
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        //console.log("Adding Item: " + Item + " with Key: " + itemKey);
         items.push(
           <View key={itemKey}>
             <ItemSelect
@@ -73,8 +72,6 @@ const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
       _.pull(itemList, itemName);
     }
   };
-
-  //const [itemNames, setItemNames] =
   // ***********************************************************
 
   return (
@@ -86,16 +83,11 @@ const RecipeCustomSearchScreen = ({ navigation, fillList }) => {
           </Text>
         </View>
 
-        {/* TODO: [ ] 1. convert views to checkboxes (CheckBox for Android; Switch for iOS?)
-                  [ ] 2. add item to a list/array if checked
-                  [ ] 3. remove item from list/array if unchecked
-                  [ ] 4. search buttom uses every item in list/array to find a recipe */}
         <ScrollView style={styles.scrollView}>{displayData()}</ScrollView>
 
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => {
-            //console.log(itemList);
             navigation.navigate("Recipe Search", itemList);
           }}
         >
