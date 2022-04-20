@@ -119,14 +119,15 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    flex: 5,
+    flex: 4.5,
     alignSelf: "center",
     padding: 10,
   },
 
   expDate: {
-    flex: 3,
+    flex: 3.5,
     alignSelf: "center",
+    textAlign: "right",
     padding: 10,
   },
 });
