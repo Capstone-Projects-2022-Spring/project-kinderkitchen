@@ -34,7 +34,7 @@ const DonateScreen = ({ navigation }) => {
   const [newMarkerAddress, setNewMarkerAddress] = useState();
   const [pressedAddress, setPressedAddress] = useState();
   const [displayCurrentAddress, setDisplayCurrentAddress] = useState(
-    "Wait, we are fetching you location..."
+    "Wait, we are fetching your location..."
   );
   const [region, setRegion] = useState({
     latitude: 37.78825,
@@ -87,7 +87,7 @@ const DonateScreen = ({ navigation }) => {
       });
 
       for (let item of response) {
-        let address = `${item.name}, ${item.street}, ${item.postalCode}, ${item.city}`;
+        let address = `${item.name} ${item.street}, ${item.city}, ${item.postalCode}`;
 
         setDisplayCurrentAddress(address);
       }
@@ -159,7 +159,7 @@ const DonateScreen = ({ navigation }) => {
                   setModalVisible(true);
                 }}
               >
-                <Text>GetAddress</Text>
+                <Text>Get Address</Text>
               </Callout>
             </Marker>
             <Marker
@@ -208,8 +208,8 @@ const DonateScreen = ({ navigation }) => {
                   style={[styles.button, styles.buttonSubmit]}
                   onPress={() => {
                     setModalVisible(!modalVisible);
-                    alert("This will navigate to Doanation Page Stay Tuned!");
-                    //navigation.navigate("Category", pressedAddress);//Navigate to Donation Selection
+                    //alert("This will navigate to Donation Page Stay Tuned!");
+                    navigation.navigate("Food Bank", pressedAddress); //Navigate to Donation Selection
                   }}
                 >
                   <Text style={styles.textStyle}>Submit</Text>

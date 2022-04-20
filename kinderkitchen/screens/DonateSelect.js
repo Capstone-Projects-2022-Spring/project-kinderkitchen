@@ -46,12 +46,12 @@ const DonateSelect = () => {
     for (var cat in DBItems) {
       CatObj = DBItems[cat];
       for (var Item in CatObj) {
-        console.log("Adding Item: " + Item + " with Key: " + itemKey);
         items.push(
           <View key={itemKey}>
             <ItemSelect
               sysDate={format(new Date(), "yyyy-MM-dd")}
               item={CatObj[Item]}
+              addItemToList={addItemToList}
             />
           </View>
         );
@@ -61,31 +61,40 @@ const DonateSelect = () => {
     return items;
   }
 
+  // Add items to array when checked; remove when unchecked ****
+  const _ = require("lodash");
+  const itemList = [];
+  const addItemToList = (selectItem, itemName) => {
+    if (selectItem === true) {
+      itemList.push(itemName);
+    } else {
+      _.pull(itemList, itemName);
+    }
+  };
+  // ***********************************************************
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.textBox}>
           <Text style={{ fontSize: 20 }} adjustsFontSizeToFit>
-            Select items to add to Donation Queue
+            Select items to Donate
           </Text>
         </View>
 
-        {/* TODO: [ ] 1. convert views to checkboxes (CheckBox for Android; Switch for iOS?)
-                  [ ] 2. add item to a list/array if checked
-                  [ ] 3. remove item from list/array if unchecked
-                  [ ] 4. search buttom uses every item in list/array to add to donation queue */}
         <ScrollView style={styles.scrollView}>{displayData()}</ScrollView>
 
         <TouchableOpacity
           style={styles.customBtn}
           onPress={() => {
             alert(
-              "This will eventually add to the donation queue the items that were selected.\n\n" +
-                "Navigate to your Donation Queue to confirm donation."
+              "This will eventually remove items from inventory.\n\n" +
+                "For now, it will print an array of the items to console log."
             );
+            console.log(itemList);
           }}
         >
-          <Text>Add to Donation Queue</Text>
+          <Text>Donate</Text>
         </TouchableOpacity>
       </View>
       <MyNavMenu />
