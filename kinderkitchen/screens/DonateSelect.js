@@ -87,11 +87,17 @@ const DonateSelect = () => {
       return;
     }
     var itemDonateCount = 0;// if we want to add #ItemsDonated Achievement
-    let itemObj = {}
+    let itemObj = {}; //stores a temp object with itemName and CategoryName
+    let tempDBItems = DBItems;
+    let categoryDBItem = {}; //will hold the all items from specific categoryfrom DB items
+    let tempAllCat = allCat;
+    const updates = {};
 
     //Remove All Donated Items
     for (var obj in arrayObj) {
       itemObj = arrayObj[obj]
+      categoryDBItem = tempDBItems[itemObj["categoryName"]];
+      // remove from DB
       remove(
         ref(
           DB,
@@ -99,32 +105,50 @@ const DonateSelect = () => {
         )
       );
       itemDonateCount++;
-    }
 
-    //Check if Items are still In Category
-    let temp = allCat;
-    for (var key in allCat) {
-      get(
-        child(ref(DB), `users/${currentUserID}/items/${key}`)
-      ).then((snapshot) => {
-        if (snapshot.exists()) {
-          // DO Nothing
-        } else {
-          temp[key] = false;
-          setAllCat(temp);
-        }
-      })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
-  }
+      //Remove Locally (Used for Category Emptying)
+      delete categoryDBItem[itemObj["itemName"]];
+      tempDBItems[itemObj["categoryName"]];
 
-  function finalizeUpdates(){
-    const updates = {};
-    updates["users/" + currentUserID + "/categories/"] = allCat;
+      //Check if Items are still In Category
+      if (Object.keys(categoryDBItem).length === 0) {
+        tempAllCat[itemObj["categoryName"]] = false;
+        updates["users/" + currentUserID + "/categories/"] = tempAllCat;
+      }
+
+      //Achievement For Donation # HERE
+      
+      //Achievement For Item # HERE
+
+      // console.log(categoryDBItem[itemObj["itemName"]]);
+      // console.log(tempDBItems[itemObj["categoryName"]]);
+      // console.log(tempDBItems);
+    }
     return update(ref(DB), updates);
   }
+
+
+
+  //////I did workaround with object handling////////////
+  //Asynch call? there is a time conflict Bug here
+  //   let temp = allCat;
+  //   for (var key in allCat) {
+  //     get(
+  //       child(ref(DB), `users/${currentUserID}/items/${key}`)
+  //     ).then((snapshot) => {
+  //       if (snapshot.exists()) {
+  //         // DO Nothing
+  //       } else {
+  //         temp[key] = false;
+  //         setAllCat(temp);
+  //       }
+  //     })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   }
+  // }
+
 
   // Add items to array when checked; remove when unchecked ****
   const _ = require("lodash");
@@ -163,7 +187,7 @@ const DonateSelect = () => {
           style={styles.customBtn}
           onPress={() => {
             donationConfirm(itemList);
-            finalizeUpdates();
+            // finalizeUpdates();
           }}
         >
           <Text>Donate</Text>
