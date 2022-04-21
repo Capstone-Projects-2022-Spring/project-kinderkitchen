@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Text, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Alert } from "react-native";
 
 import { getDatabase, get, ref, child, remove } from "firebase/database";
 import { getAuth } from "firebase/auth";
@@ -18,11 +18,22 @@ const RecipeSaved = () => {
   }, []);
 
   function deleteSavedRecipe(recipeName) {
-    alert(
-      `Deleting ${recipeName}. This Cannot be Undone! \nSecondary Confirm To be Initialized`
-    );
-    remove(ref(db, `users/${auth.currentUser.uid}/savedRecipes/${recipeName}`));
-    //readSavedRecipes(); //This might Update page on each delete Needs to be tested.
+    Alert.alert("Deleting Recipe: " + recipeName, "Do You Wish to Continue?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          remove(
+            ref(db, `users/${auth.currentUser.uid}/savedRecipes/${recipeName}`)
+          );
+          //readSavedRecipes(); //This might Update page on each delete Needs to be tested.
+        },
+      },
+    ]);
   }
 
   const readSavedRecipes = async () => {
@@ -37,7 +48,6 @@ const RecipeSaved = () => {
           setRecipeData(snapshot.val());
         } else {
           console.log("No data available");
-          //......
         }
       })
       .catch((error) => {
@@ -66,8 +76,6 @@ const RecipeSaved = () => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <Text>Saved Recipes</Text>
-
         <ScrollView style={styles.recipeList}>
           {recipeData.length === 0
             ? null //alert("Undefined!")

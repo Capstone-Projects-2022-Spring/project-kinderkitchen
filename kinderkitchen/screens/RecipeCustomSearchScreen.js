@@ -31,7 +31,6 @@ const RecipeCustomSearchScreen = ({ navigation }) => {
           setDBItems(snapshot.val());
         } else {
           console.log("No data available");
-          // ....
         }
       })
       .catch((error) => {

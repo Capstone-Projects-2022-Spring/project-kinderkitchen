@@ -8,34 +8,27 @@ import {
   Pressable,
   TextInput,
   StyleSheet,
-  Button,
-  Platform,
-  SafeAreaView,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { format, getHours, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
 import { getAuth } from "firebase/auth";
 import {
   getDatabase,
   get,
-  set,
   ref,
   child,
-  push,
   update,
   remove,
 } from "firebase/database";
 
 import HeaderComponent from "../Components/HeaderComponent";
-import EditItemModal from "../Components/EditItemModal";
 
-const ItemScreen = ({ props, route, navigation }) => {
+const ItemScreen = ({ route, navigation }) => {
   function consoleLogTesting() {
     /*Route Log Test*/
     console.log("=========== Page Update ===========");
@@ -80,36 +73,6 @@ const ItemScreen = ({ props, route, navigation }) => {
     expirationDate: "2022-03-06",
   });
 
-  //Example Obj
-  const [itemObject, setItemObject] = useState([
-    {
-      categoryName: "Fridge",
-      itemName: "Milk",
-      expirationDate: "2022-03-06",
-    },
-    {
-      categoryName: "Pantry",
-      itemName: "LuckyCharns",
-      expirationDate: "2022-03-06",
-    },
-    {
-      categoryName: "Fridge",
-      itemName: "Eggs",
-      expirationDate: "2022-03-06",
-    },
-    {
-      categoryName: "Pantry",
-      itemName: "Gold Fish",
-      expirationDate: "2022-03-06",
-    },
-  ]);
-
-  // Sort by expiration date, soonest first ********************
-  // itemData.sort((a, b) => {
-  //   return parseISO(a.expirationDate) - parseISO(b.expirationDate);
-  // });
-  // // ***********************************************************
-
   /* Drop Down */
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(thisCategoryName);
@@ -139,8 +102,7 @@ const ItemScreen = ({ props, route, navigation }) => {
         if (snapshot.exists()) {
           setItemData(snapshot.val());
         } else {
-          console.log("No data available");
-          // ....
+          //console.log("No data available");
         }
       })
       .catch((error) => {
@@ -149,31 +111,40 @@ const ItemScreen = ({ props, route, navigation }) => {
   }
 
   function deleteItem(itemName) {
-    alert(
-      "Secondary Confirmation Coming soon!\n Proceeding with deletion of " +
-        itemName
-    );
+    Alert.alert("Deleting Item: " + itemName, "Do You Wish to Continue?", [
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          remove(
+            ref(
+              database,
+              `users/${currentUserID}/items/${thisCategoryName}/${itemName}`
+            )
+          );
 
-    remove(
-      ref(
-        database,
-        `users/${currentUserID}/items/${thisCategoryName}/${itemName}`
-      )
-    );
-
-    let localData = itemData;
-    delete localData[itemName];
-    setItemData(localData);
-    if (Object.keys(itemData).length < 1) {
-      //NEW
-      categoryData[thisCategoryName] = false;
-      const updates = {};
-      updates["users/" + currentUserID + "/categories/"] = categoryData;
-      alert(
-        "Last Item Deleted : \n Bug with not removing Last Entry On-screen"
-      );
-      return update(ref(database), updates);
-    }
+          let localData = itemData;
+          delete localData[itemName];
+          setItemData(localData);
+          if (Object.keys(itemData).length < 1) {
+            //NEW
+            categoryData[thisCategoryName] = false;
+            const updates = {};
+            updates["users/" + currentUserID + "/categories/"] = categoryData;
+            alert(
+              "Last Item Deleted: " +
+                itemName +
+                "\nBug: Screen does not auto-refresh to update list"
+            );
+            return update(ref(database), updates);
+          }
+        },
+      },
+    ]);
   }
 
   //This Function will be called when the Item is pressed
@@ -250,108 +221,107 @@ const ItemScreen = ({ props, route, navigation }) => {
             animationType="slide"
             transparent={true}
             visible={modalVisible}
-            
             onRequestClose={() => {
               Alert.alert("Modal has been closed.");
               setModalVisible(!modalVisible);
             }}
           >
-          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <MaterialIcons
-                  name="close"
-                  size={24}
-                  style={{ ...styles.modalToggle, ...styles.modalClose }}
-                  onPress={() => setModalVisible(false)}
-                />
-
-                {/*Header*/}
-                <View style={styles.modalHeader}>
-                  <Text style={styles.modalText}>Add Item</Text>
-                </View>
-
-                {/*Item Name*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Item Name:</Text>
-                  </View>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={(newText) => setItemName(newText)}
-                    /*Make CharacterLimit*/
+            <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <MaterialIcons
+                    name="close"
+                    size={24}
+                    style={{ ...styles.modalToggle, ...styles.modalClose }}
+                    onPress={() => setModalVisible(false)}
                   />
-                </View>
 
-                {/*Expiration Date*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Expiration Date:</Text>
+                  {/*Header*/}
+                  <View style={styles.modalHeader}>
+                    <Text style={styles.modalText}>Add Item</Text>
                   </View>
 
-                  {/* ExpirationDate */}
-                  <TextInput
-                    style={styles.input}
-                    placeholder="YYYY-MM-DD"
-                    onChangeText={(newText) => setExpirationDate(newText)}
-                  />
-                </View>
-
-                {/*Category:*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Category:</Text>
-                  </View>
-                  <DropDownPicker
-                    style={{ width: "40%" }}
-                    dropDownContainerStyle={{ width: "40%" }}
-                    placeholder={thisCategoryName}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                  />
-                </View>
-
-                {/*ButtonField*/}
-                <View style={styles.submissionField}>
-                  {/*Submit Button*/}
-                  <Pressable
-                    style={[styles.button, styles.buttonSubmit]}
-                    onPress={() => {
-                      addItem({
-                        itemName: itemName,
-                        expirationDate: expirationDate,
-                        categoryName: value,
-                      });
-                      setModalVisible(!modalVisible);
-                    }}
-                  >
-                    <Text style={styles.textStyle}>Submit</Text>
-                  </Pressable>
-
-                  {/*Scan Button*/}
-                  <Pressable
-                    style={[
-                      styles.button,
-                      styles.buttonScan,
-                      { marginLeft: 60, paddingHorizontal: 20 },
-                    ]}
-                    onPress={() => navigation.navigate("Barcode")}
-                  >
-                    <MaterialCommunityIcons
-                      name="barcode-scan"
-                      size={24}
-                      color="black"
+                  {/*Item Name*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Item Name:</Text>
+                    </View>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(newText) => setItemName(newText)}
+                      /*Make CharacterLimit*/
                     />
-                    <Text style={styles.textStyle}></Text>
-                  </Pressable>
+                  </View>
+
+                  {/*Expiration Date*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Expiration Date:</Text>
+                    </View>
+
+                    {/* ExpirationDate */}
+                    <TextInput
+                      style={styles.input}
+                      placeholder="YYYY-MM-DD"
+                      onChangeText={(newText) => setExpirationDate(newText)}
+                    />
+                  </View>
+
+                  {/*Category:*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Category:</Text>
+                    </View>
+                    <DropDownPicker
+                      style={{ width: "40%" }}
+                      dropDownContainerStyle={{ width: "40%" }}
+                      placeholder={thisCategoryName}
+                      open={open}
+                      value={value}
+                      items={items}
+                      setOpen={setOpen}
+                      setValue={setValue}
+                      setItems={setItems}
+                    />
+                  </View>
+
+                  {/*ButtonField*/}
+                  <View style={styles.submissionField}>
+                    {/*Submit Button*/}
+                    <Pressable
+                      style={[styles.button, styles.buttonSubmit]}
+                      onPress={() => {
+                        addItem({
+                          itemName: itemName,
+                          expirationDate: expirationDate,
+                          categoryName: value,
+                        });
+                        setModalVisible(!modalVisible);
+                      }}
+                    >
+                      <Text style={styles.textStyle}>Submit</Text>
+                    </Pressable>
+
+                    {/*Scan Button*/}
+                    <Pressable
+                      style={[
+                        styles.button,
+                        styles.buttonScan,
+                        { marginLeft: 60, paddingHorizontal: 20 },
+                      ]}
+                      onPress={() => navigation.navigate("Barcode")}
+                    >
+                      <MaterialCommunityIcons
+                        name="barcode-scan"
+                        size={24}
+                        color="black"
+                      />
+                      <Text style={styles.textStyle}></Text>
+                    </Pressable>
+                  </View>
+                  {/*END - ButtonField*/}
                 </View>
-                {/*END - ButtonField*/}
               </View>
-            </View>
             </KeyboardAvoidingView>
           </Modal>
 
@@ -369,107 +339,94 @@ const ItemScreen = ({ props, route, navigation }) => {
             }}
           >
             <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
-            <View style={styles.centeredView}>
-              <View style={styles.modalView}>
-                <MaterialIcons
-                  name="close"
-                  size={24}
-                  style={{ ...styles.modalToggle, ...styles.modalClose }}
-                  onPress={() => setEditItemModalVisable(false)}
-                />
-
-                {/*Header*/}
-                <View style={styles.modalHeader}>
-                  <Text style={styles.modalText}>Edit Item</Text>
-                </View>
-
-                {/*Item Name*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Item Name:</Text>
-                  </View>
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={(newText) => (itemToEdit.itemName = newText)}
-                    // onEndEditing={(newText) => itemToEdit.itemName = newText}
-                    placeholder={itemToEdit.itemName}
-                    defaultValue={itemToEdit.itemName}
-                    maxLength={15}
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <MaterialIcons
+                    name="close"
+                    size={24}
+                    style={{ ...styles.modalToggle, ...styles.modalClose }}
+                    onPress={() => setEditItemModalVisable(false)}
                   />
-                </View>
 
-                {/*Expiration Date*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Expiration Date:</Text>
+                  {/*Header*/}
+                  <View style={styles.modalHeader}>
+                    <Text style={styles.modalText}>Edit Item</Text>
                   </View>
 
-                  <TextInput
-                    style={styles.input}
-                    placeholder="YYYY-MM-DD"
-                    onChangeText={(newText) =>
-                      (itemToEdit.expirationDate = newText)
-                    }
-                    // onEndEditing={(newText) => itemToEdit.expirationDate = newText}
-                    defaultValue={itemToEdit.expirationDate}
-                    maxLength={10}
-                    //Additional User Input Handling - user inputs only #, dashes are put in when user types
-                  />
-                </View>
-
-                {/*Category:*/}
-                <View style={styles.inputView}>
-                  <View style={styles.inputTitle}>
-                    <Text>Category:</Text>
+                  {/*Item Name*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Item Name:</Text>
+                    </View>
+                    <TextInput
+                      style={styles.input}
+                      onChangeText={(newText) =>
+                        (itemToEdit.itemName = newText)
+                      }
+                      // onEndEditing={(newText) => itemToEdit.itemName = newText}
+                      placeholder={itemToEdit.itemName}
+                      defaultValue={itemToEdit.itemName}
+                      maxLength={15}
+                    />
                   </View>
-                  <DropDownPicker
-                    style={{ width: "40%" }}
-                    dropDownContainerStyle={{ width: "40%" }}
-                    placeholder={thisCategoryName}
-                    open={open}
-                    value={value}
-                    items={items}
-                    setOpen={setOpen}
-                    setValue={setValue}
-                    setItems={setItems}
-                  />
-                </View>
 
-                {/*ButtonField*/}
-                <View style={styles.submissionField}>
-                  {/*Submit Button*/}
-                  <Pressable
-                    style={[styles.button, styles.buttonSubmit]}
-                    onPress={() => {
-                      setEditItemModalVisable(!editItemModalVisable);
-                      itemToEdit.categoryName = value;
-                      editItem(itemToEdit, oldItemName);
-                      //alert(oldItemName);
-                      // alert(
-                      //   `CategoryName: ${itemToEdit.categoryName}\n
-                      // ExpirationDate: ${itemToEdit.expirationDate}\n
-                      // ItemNane: ${itemToEdit.itemName}`
-                      // );
-                      setValue(thisCategoryName); //reset Default Value
-                    }}
-                  >
-                    <Text style={styles.textStyle}>Submit</Text>
-                  </Pressable>
+                  {/*Expiration Date*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Expiration Date:</Text>
+                    </View>
+
+                    <TextInput
+                      style={styles.input}
+                      placeholder="YYYY-MM-DD"
+                      onChangeText={(newText) =>
+                        (itemToEdit.expirationDate = newText)
+                      }
+                      // onEndEditing={(newText) => itemToEdit.expirationDate = newText}
+                      defaultValue={itemToEdit.expirationDate}
+                      maxLength={10}
+                      //Additional User Input Handling - user inputs only #, dashes are put in when user types
+                    />
+                  </View>
+
+                  {/*Category:*/}
+                  <View style={styles.inputView}>
+                    <View style={styles.inputTitle}>
+                      <Text>Category:</Text>
+                    </View>
+                    <DropDownPicker
+                      style={{ width: "40%" }}
+                      dropDownContainerStyle={{ width: "40%" }}
+                      placeholder={thisCategoryName}
+                      open={open}
+                      value={value}
+                      items={items}
+                      setOpen={setOpen}
+                      setValue={setValue}
+                      setItems={setItems}
+                    />
+                  </View>
+
+                  {/*ButtonField*/}
+                  <View style={styles.submissionField}>
+                    {/*Submit Button*/}
+                    <Pressable
+                      style={[styles.button, styles.buttonSubmit]}
+                      onPress={() => {
+                        setEditItemModalVisable(!editItemModalVisable);
+                        itemToEdit.categoryName = value;
+                        editItem(itemToEdit, oldItemName);
+                        setValue(thisCategoryName); //reset Default Value
+                      }}
+                    >
+                      <Text style={styles.textStyle}>Submit</Text>
+                    </Pressable>
+                  </View>
+                  {/*END - ButtonField*/}
                 </View>
-                {/*END - ButtonField*/}
               </View>
-            </View>
             </KeyboardAvoidingView>
           </Modal>
-
-          {/* I tried to make it its own modal but hit a wall */}
-
-          {/* <EditItemModal 
-            thisItemData={itemData}
-            categoryData={categoryData}
-            submitEditItem={editItem}
-            showModalFunction
-            /> */}
         </ScrollView>
 
         <Pressable
@@ -489,7 +446,7 @@ const ItemScreen = ({ props, route, navigation }) => {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    paddingBottom: 10,
+    paddingBottom: 20,
     alignItems: "center",
   },
   container: {
@@ -538,7 +495,6 @@ const styles = StyleSheet.create({
   inputView: {
     width: "100%",
     flexDirection: "row",
-    //alignItems: "stretch",
     padding: 5,
     paddingHorizontal: 10,
   },
@@ -562,6 +518,7 @@ const styles = StyleSheet.create({
   submissionField: {
     width: "100%",
     flexDirection: "row",
+    justifyContent: "center",
     borderTopColor: "gray",
     borderTopWidth: 1,
     marginTop: 20,
@@ -573,7 +530,6 @@ const styles = StyleSheet.create({
     elevation: 2,
     backgroundColor: "skyblue",
     marginTop: 10,
-    //margin: 20
   },
   buttonSubmit: {
     width: "30%",
@@ -591,8 +547,6 @@ const styles = StyleSheet.create({
     color: "black",
     fontWeight: "bold",
     textAlign: "center",
-
-    //top: 30,
   },
   modalText: {
     marginBottom: 15,
@@ -615,7 +569,6 @@ const styles = StyleSheet.create({
     top: 7,
     right: 120,
     borderRadius: 10,
-    //alignSelf: 'center',
   },
   modalClose: {
     marginTop: 10,

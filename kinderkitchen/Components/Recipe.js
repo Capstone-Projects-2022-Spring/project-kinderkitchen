@@ -8,8 +8,8 @@ import {
   Alert,
   Button,
   Share,
+  View,
 } from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Recipe = ({
   title,
@@ -48,8 +48,7 @@ const Recipe = ({
   const onShare = async () => {
     try {
       const result = await Share.share({
-        message:
-          shareAs
+        message: shareAs,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -74,12 +73,26 @@ const Recipe = ({
         <Text style={styles.ingredients}>{ingredient.text}</Text>
       ))}
       <OpenURLButton url={shareAs}>More about recipe</OpenURLButton>
-      <Button color="brown" title="Share" onPress={onShare}></Button>
+      <View style={styles.buttonView}>
+        <Button title="Share" color="brown" onPress={onShare}></Button>
+      </View>
       {/* Conditional Statement for Saving or Deleting */}
       {saveRecipeFunction ? (
-        <Button title="SAVE" color="brown" onPress={() => saveRecipeFunction(recipeData)}></Button>
+        <View style={styles.buttonView}>
+          <Button
+            title="SAVE"
+            color="brown"
+            onPress={() => saveRecipeFunction(recipeData)}
+          ></Button>
+        </View>
       ) : deleteRecipeFunction ? (
-        <Button title="DELETE" color="brown" onPress={() => deleteRecipeFunction(title)}></Button>
+        <View style={styles.buttonView}>
+          <Button
+            title="DELETE"
+            color="brown"
+            onPress={() => deleteRecipeFunction(title)}
+          ></Button>
+        </View>
       ) : null}
     </SafeAreaView>
   );
@@ -127,6 +140,10 @@ const styles = StyleSheet.create({
     borderTopWidth: 10,
     borderLeftWidth: 10,
     borderRightWidth: 10,
+  },
+
+  buttonView: {
+    marginTop: 10,
   },
 });
 

@@ -1,17 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 
-import {
-  getDatabase,
-  onValue,
-  set,
-  get,
-  ref,
-  child,
-  push,
-  update,
-} from "firebase/database";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, get, ref, child } from "firebase/database";
+import { getAuth } from "firebase/auth";
 
 import Achievement from "../Components/Achievment";
 
@@ -46,7 +37,10 @@ const AchievementScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Achievement donationCount={donationCount} recipesCompleted={recipeCount} />
+      <Achievement
+        donationCount={donationCount}
+        recipesCompleted={recipeCount}
+      />
     </View>
   );
 };

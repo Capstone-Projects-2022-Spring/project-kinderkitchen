@@ -4,10 +4,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
-  ScrollView,
   Alert,
-  Button,
   Dimensions,
   Modal,
   Pressable,
@@ -15,12 +12,7 @@ import {
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import * as Location from "expo-location";
-import MapView, {
-  Marker,
-  Callout,
-  AnimatedRegion,
-  Animated,
-} from "react-native-maps";
+import MapView, { Marker, Callout } from "react-native-maps";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -208,11 +200,10 @@ const DonateScreen = ({ navigation }) => {
                   style={[styles.button, styles.buttonSubmit]}
                   onPress={() => {
                     setModalVisible(!modalVisible);
-                    //alert("This will navigate to Donation Page Stay Tuned!");
-                    navigation.navigate("Food Bank", pressedAddress); //Navigate to Donation Selection
+                    navigation.navigate("Donate Items", pressedAddress); //Navigate to Donation Selection
                   }}
                 >
-                  <Text style={styles.textStyle}>Submit</Text>
+                  <Text style={styles.textStyle}>Donate</Text>
                 </Pressable>
               </View>
             </View>
@@ -296,6 +287,7 @@ const styles = StyleSheet.create({
   submissionField: {
     width: "100%",
     flexDirection: "row",
+    justifyContent: "center",
     borderTopColor: "gray",
     borderTopWidth: 1,
   },

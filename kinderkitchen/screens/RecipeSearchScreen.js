@@ -47,6 +47,7 @@ const RecipeSearchScreen = ({ route }) => {
     updates[
       "users/" + getAuth().currentUser.uid + "/savedRecipes/" + recipeData.title
     ] = recipeData;
+    alert("Saved " + recipeData.title);
     return update(ref(getDatabase()), updates);
   }
 

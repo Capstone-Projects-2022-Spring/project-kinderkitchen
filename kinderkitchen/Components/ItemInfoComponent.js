@@ -96,12 +96,15 @@ const styles = StyleSheet.create({
   },
 
   item: {
-    flex: 6.5,
+    flex: 6,
+    alignSelf: "center",
     padding: 10,
   },
 
   expDate: {
-    flex: 2.5,
+    flex: 3,
+    alignSelf: "center",
+    textAlign: "right",
     padding: 10,
   },
 });
