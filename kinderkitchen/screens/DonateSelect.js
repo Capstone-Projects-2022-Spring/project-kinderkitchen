@@ -13,10 +13,11 @@ import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
 import { getDatabase, get, ref, child, remove, update } from "firebase/database";
 
-const DonateSelect = () => {
+const DonateSelect = ({navigation}) => {
   useEffect(() => {
     readDBItems();
     getAllCat();
+    getDonateAchieveData();
   }, []);
 
   const DB = getDatabase();
@@ -24,6 +25,13 @@ const DonateSelect = () => {
 
   const [DBItems, setDBItems] = useState();
   const [allCat, setAllCat] = useState({});
+
+
+
+  const [achievementData, setAchievementData] = useState({});
+  const [numItemsDonated, setNumItemsDonated] = useState();
+  const [numDonationCompleted, setNumDonationCompleted] = useState();
+  //Add Any Other Donation Achieve Constants Here 
 
   function readDBItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
@@ -50,6 +58,25 @@ const DonateSelect = () => {
       } else {
         console.log("No data available");
         // Should Not Get Here
+      }
+    })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+
+  function getDonateAchieveData() {
+    let x;
+    get(
+      child(ref(DB), `users/${currentUserID}/achievementData`)
+    ).then((snapshot) => {
+      if (snapshot.exists()) {
+        setAchievementData(snapshot.val());
+      } else {
+        //No Achievments Ever Set
+        setAchievementData({"donationsCompleted":0, "itemsDonated": 0});
+        setNumItemsDonated(0);
+        setNumDonationCompleted(0);
       }
     })
       .catch((error) => {
@@ -86,7 +113,20 @@ const DonateSelect = () => {
       alert("No Items Selected!");
       return;
     }
-    var itemDonateCount = 0;// if we want to add #ItemsDonated Achievement
+
+    var itemDonateCount = 0;
+    var donationsCompleted = 0;
+
+    if ("donationsCompleted" in achievementData) {
+      donationsCompleted = achievementData["donationsCompleted"];
+    }
+
+    if ("itemsDonated" in achievementData) {
+      itemDonateCount = achievementData["itemsDonated"];
+    }
+
+    let achievementTemp = achievementData;
+
     let itemObj = {}; //stores a temp object with itemName and CategoryName
     let tempDBItems = DBItems;
     let categoryDBItem = {}; //will hold the all items from specific categoryfrom DB items
@@ -105,6 +145,7 @@ const DonateSelect = () => {
         )
       );
       itemDonateCount++;
+      console.log(itemDonateCount);
 
       //Remove Locally (Used for Category Emptying)
       delete categoryDBItem[itemObj["itemName"]];
@@ -115,15 +156,22 @@ const DonateSelect = () => {
         tempAllCat[itemObj["categoryName"]] = false;
         updates["users/" + currentUserID + "/categories/"] = tempAllCat;
       }
-
-      //Achievement For Donation # HERE
-      
-      //Achievement For Item # HERE
-
       // console.log(categoryDBItem[itemObj["itemName"]]);
       // console.log(tempDBItems[itemObj["categoryName"]]);
       // console.log(tempDBItems);
     }
+    donationsCompleted++;
+    //Achievement For Donation # HERE
+    achievementTemp["donationsCompleted"] = donationsCompleted;
+
+    //Achievement For Item # HERE
+    achievementTemp["itemsDonated"] = itemDonateCount;
+
+    //Additional Achievements Here
+
+    console.log(achievementTemp);
+    updates["users/" + currentUserID + "/achievementData/"] = achievementTemp;
+
     return update(ref(DB), updates);
   }
 
@@ -187,7 +235,10 @@ const DonateSelect = () => {
           style={styles.customBtn}
           onPress={() => {
             donationConfirm(itemList);
-            // finalizeUpdates();
+            console.log(itemList.length);
+            if (itemList.length >= 1){
+              navigation.navigate("Search Food Banks");
+            }
           }}
         >
           <Text>Donate</Text>
