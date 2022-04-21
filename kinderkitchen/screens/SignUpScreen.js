@@ -23,6 +23,10 @@ const SignUpScreen = ({ navigation }) => {
       Fridge: false,
       Pantry: false,
     }); //On New Item Add, Set to true
+    set(ref(database, "users/" + userId + "/achievementData/"), {
+      recipesCompleted: 0,
+      donationsCompleted: 0,
+    });
   }
 
   const createUserHandler = () => {
