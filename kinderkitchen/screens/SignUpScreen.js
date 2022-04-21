@@ -7,8 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import auth from "../firebase";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, set, ref, child, push, update } from "firebase/database";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, set, ref } from "firebase/database";
 
 const SignUpScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
@@ -37,7 +37,6 @@ const SignUpScreen = ({ navigation }) => {
           index: 0,
           routes: [{ name: "Category" }],
         });
-        //navigation.navigate("Category"); //Navigate to AccountScreen? or WelcomeIntro?
       })
       .catch((error) => {
         const errorCode = error.code;

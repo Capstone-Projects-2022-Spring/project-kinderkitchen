@@ -5,15 +5,23 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { format } from "date-fns";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemSelect from "../Components/ItemSelect";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, ref, child, remove, update } from "firebase/database";
+import {
+  getDatabase,
+  get,
+  ref,
+  child,
+  remove,
+  update,
+} from "firebase/database";
 
-const DonateSelect = ({navigation}) => {
+const DonateSelect = ({ navigation, route }) => {
   useEffect(() => {
     readDBItems();
     getAllCat();
@@ -26,12 +34,10 @@ const DonateSelect = ({navigation}) => {
   const [DBItems, setDBItems] = useState();
   const [allCat, setAllCat] = useState({});
 
-
-
   const [achievementData, setAchievementData] = useState({});
   const [numItemsDonated, setNumItemsDonated] = useState();
   const [numDonationCompleted, setNumDonationCompleted] = useState();
-  //Add Any Other Donation Achieve Constants Here 
+  //Add Any Other Donation Achieve Constants Here
 
   function readDBItems() {
     get(child(ref(DB), `users/${currentUserID}/items/`))
@@ -49,17 +55,16 @@ const DonateSelect = ({navigation}) => {
   }
 
   function getAllCat() {
-    get(
-      child(ref(DB), `users/${currentUserID}/categories/`)
-    ).then((snapshot) => {
-      if (snapshot.exists()) {
-        setAllCat(snapshot.val());
-        console.log("CAT");
-      } else {
-        console.log("No data available");
-        // Should Not Get Here
-      }
-    })
+    get(child(ref(DB), `users/${currentUserID}/categories/`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setAllCat(snapshot.val());
+          //console.log("CAT");
+        } else {
+          console.log("No data available");
+          // Should Not Get Here
+        }
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -67,18 +72,17 @@ const DonateSelect = ({navigation}) => {
 
   function getDonateAchieveData() {
     let x;
-    get(
-      child(ref(DB), `users/${currentUserID}/achievementData`)
-    ).then((snapshot) => {
-      if (snapshot.exists()) {
-        setAchievementData(snapshot.val());
-      } else {
-        //No Achievments Ever Set
-        setAchievementData({"donationsCompleted":0, "itemsDonated": 0});
-        setNumItemsDonated(0);
-        setNumDonationCompleted(0);
-      }
-    })
+    get(child(ref(DB), `users/${currentUserID}/achievementData`))
+      .then((snapshot) => {
+        if (snapshot.exists()) {
+          setAchievementData(snapshot.val());
+        } else {
+          //No Achievments Ever Set
+          setAchievementData({ donationsCompleted: 0, itemsDonated: 0 });
+          setNumItemsDonated(0);
+          setNumDonationCompleted(0);
+        }
+      })
       .catch((error) => {
         console.error(error);
       });
@@ -114,68 +118,83 @@ const DonateSelect = ({navigation}) => {
       return;
     }
 
-    var itemDonateCount = 0;
-    var donationsCompleted = 0;
+    Alert.alert(
+      "Donation Confirmation",
+      "Do you wish to donate the selected items?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            var itemDonateCount = 0;
+            var donationsCompleted = 0;
 
-    if ("donationsCompleted" in achievementData) {
-      donationsCompleted = achievementData["donationsCompleted"];
-    }
+            if ("donationsCompleted" in achievementData) {
+              donationsCompleted = achievementData["donationsCompleted"];
+            }
 
-    if ("itemsDonated" in achievementData) {
-      itemDonateCount = achievementData["itemsDonated"];
-    }
+            if ("itemsDonated" in achievementData) {
+              itemDonateCount = achievementData["itemsDonated"];
+            }
 
-    let achievementTemp = achievementData;
+            let achievementTemp = achievementData;
 
-    let itemObj = {}; //stores a temp object with itemName and CategoryName
-    let tempDBItems = DBItems;
-    let categoryDBItem = {}; //will hold the all items from specific categoryfrom DB items
-    let tempAllCat = allCat;
-    const updates = {};
+            let itemObj = {}; //stores a temp object with itemName and CategoryName
+            let tempDBItems = DBItems;
+            let categoryDBItem = {}; //will hold the all items from specific categoryfrom DB items
+            let tempAllCat = allCat;
+            const updates = {};
 
-    //Remove All Donated Items
-    for (var obj in arrayObj) {
-      itemObj = arrayObj[obj]
-      categoryDBItem = tempDBItems[itemObj["categoryName"]];
-      // remove from DB
-      remove(
-        ref(
-          DB,
-          `users/${currentUserID}/items/${itemObj["categoryName"]}/${itemObj["itemName"]}`
-        )
-      );
-      itemDonateCount++;
-      console.log(itemDonateCount);
+            //Remove All Donated Items
+            for (var obj in arrayObj) {
+              itemObj = arrayObj[obj];
+              categoryDBItem = tempDBItems[itemObj["categoryName"]];
+              // remove from DB
+              remove(
+                ref(
+                  DB,
+                  `users/${currentUserID}/items/${itemObj["categoryName"]}/${itemObj["itemName"]}`
+                )
+              );
+              itemDonateCount++;
+              //console.log(itemDonateCount);
 
-      //Remove Locally (Used for Category Emptying)
-      delete categoryDBItem[itemObj["itemName"]];
-      tempDBItems[itemObj["categoryName"]];
+              //Remove Locally (Used for Category Emptying)
+              delete categoryDBItem[itemObj["itemName"]];
+              tempDBItems[itemObj["categoryName"]];
 
-      //Check if Items are still In Category
-      if (Object.keys(categoryDBItem).length === 0) {
-        tempAllCat[itemObj["categoryName"]] = false;
-        updates["users/" + currentUserID + "/categories/"] = tempAllCat;
-      }
-      // console.log(categoryDBItem[itemObj["itemName"]]);
-      // console.log(tempDBItems[itemObj["categoryName"]]);
-      // console.log(tempDBItems);
-    }
-    donationsCompleted++;
-    //Achievement For Donation # HERE
-    achievementTemp["donationsCompleted"] = donationsCompleted;
+              //Check if Items are still In Category
+              if (Object.keys(categoryDBItem).length === 0) {
+                tempAllCat[itemObj["categoryName"]] = false;
+                updates["users/" + currentUserID + "/categories/"] = tempAllCat;
+              }
+              // console.log(categoryDBItem[itemObj["itemName"]]);
+              // console.log(tempDBItems[itemObj["categoryName"]]);
+              // console.log(tempDBItems);
+            }
+            donationsCompleted++;
+            //Achievement For Donation # HERE
+            achievementTemp["donationsCompleted"] = donationsCompleted;
 
-    //Achievement For Item # HERE
-    achievementTemp["itemsDonated"] = itemDonateCount;
+            //Achievement For Item # HERE
+            achievementTemp["itemsDonated"] = itemDonateCount;
 
-    //Additional Achievements Here
+            //Additional Achievements Here
 
-    console.log(achievementTemp);
-    updates["users/" + currentUserID + "/achievementData/"] = achievementTemp;
+            console.log(achievementTemp);
+            updates["users/" + currentUserID + "/achievementData/"] =
+              achievementTemp;
 
-    return update(ref(DB), updates);
+            return update(ref(DB), updates);
+          },
+        },
+      ]
+    );
   }
-
-
 
   //////I did workaround with object handling////////////
   //Asynch call? there is a time conflict Bug here
@@ -197,20 +216,22 @@ const DonateSelect = ({navigation}) => {
   //   }
   // }
 
-
   // Add items to array when checked; remove when unchecked ****
   const _ = require("lodash");
   const itemList = [];
   const addItemToList = (selectItem, itemName, categoryName) => {
     if (selectItem === true) {
-      itemList.push({ "itemName": itemName, "categoryName": categoryName });
+      itemList.push({ itemName: itemName, categoryName: categoryName });
     } else {
       //I found difficulty in doing this - this was the only thing i could come up with
       let innerObj = {};
       var i = 0;
       for (var obj in itemList) {
         innerObj = itemList[obj];
-        if (innerObj["itemName"] === itemName && innerObj["categoryName"] === categoryName) {
+        if (
+          innerObj["itemName"] === itemName &&
+          innerObj["categoryName"] === categoryName
+        ) {
           _.pull(itemList, itemList[i]);
           break;
         }
@@ -223,9 +244,13 @@ const DonateSelect = ({navigation}) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
+        <View style={styles.textBox} adjustsFontSizeToFit>
+          <Text>{route.params}</Text>
+        </View>
+
         <View style={styles.textBox}>
           <Text style={{ fontSize: 20 }} adjustsFontSizeToFit>
-            Select items to Donate
+            Select Items to Donate
           </Text>
         </View>
 
@@ -236,7 +261,7 @@ const DonateSelect = ({navigation}) => {
           onPress={() => {
             donationConfirm(itemList);
             console.log(itemList.length);
-            if (itemList.length >= 1){
+            if (itemList.length >= 1) {
               navigation.navigate("Search Food Banks");
             }
           }}
@@ -265,7 +290,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    height: 50,
+    height: 35,
     width: "100%",
   },
 

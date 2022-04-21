@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
     padding: 15,
     paddingHorizontal: 20,
     backgroundColor: "#E8EAED",
-    //backgroundColor: "coral",
   },
   title: {
     textAlign: "center",

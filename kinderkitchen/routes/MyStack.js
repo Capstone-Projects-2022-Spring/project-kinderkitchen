@@ -10,7 +10,6 @@ import NotificationScreen from "../screens/NotificationScreen";
 import AchievementScreen from "../screens/AchievementScreen";
 
 import DonateScreen from "../screens/DonateScreen";
-import DonateScreen2 from "../screens/DonateScreen2";
 import DonateSelect from "../screens/DonateSelect";
 import BarcodeScreen from "../screens/BarcodeScreen";
 import RecipeScreen from "../screens/RecipeScreen";
@@ -31,7 +30,6 @@ const MyStack = () => {
       <Stack.Screen name="Notifications" component={NotificationScreen} />
       <Stack.Screen name="Achievements" component={AchievementScreen} />
       <Stack.Screen name="Search Food Banks" component={DonateScreen} />
-      <Stack.Screen name="Food Bank" component={DonateScreen2} />
       <Stack.Screen name="Donate Items" component={DonateSelect} />
       <Stack.Screen name="Barcode" component={BarcodeScreen} />
       <Stack.Screen name="Recipe" component={RecipeScreen} />

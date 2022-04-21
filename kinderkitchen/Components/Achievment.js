@@ -1,17 +1,7 @@
-import React, { useCallback } from "react";
-import {
-  StyleSheet,
-  Text,
-  SafeAreaView,
-  Image,
-  Linking,
-  Alert,
-  Button,
-} from "react-native";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import React from "react";
+import { StyleSheet, Text, SafeAreaView, Image } from "react-native";
 
 const Achievement = ({ donationCount, recipesCompleted }) => {
-
   function selectAchievement(count, title) {
     let theTitle = title + count;
     let tier = "Locked";
@@ -23,7 +13,8 @@ const Achievement = ({ donationCount, recipesCompleted }) => {
       tier = "Tier I";
       imageColor = "bronze";
       nextComplete = 5;
-    } else if (count < 15) { //locked
+    } else if (count < 15) {
+      //locked
       tier = "Tier II";
       imageColor = "silver";
       nextComplete = 15;
@@ -41,8 +32,6 @@ const Achievement = ({ donationCount, recipesCompleted }) => {
       </SafeAreaView>
     );
   }
-
-
 
   return (
     <SafeAreaView>

@@ -7,14 +7,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import auth from "../firebase";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [user, setUser] = useState();
 
-  //const auth2 = getAuth();
   const signInHandler = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
@@ -24,8 +23,6 @@ const LoginScreen = ({ navigation }) => {
           index: 0,
           routes: [{ name: "Category" }],
         });
-        //navigation.navigate("Category"); //Pass in User?
-        // ...
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -72,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
           style={styles.userBtn}
           onPress={() => navigation.navigate("Sign Up")}
         >
-          <Text style={styles.btnTxt}> Signup </Text>
+          <Text style={styles.btnTxt}> Sign Up </Text>
         </TouchableOpacity>
       </View>
     </View>

@@ -15,7 +15,6 @@ const AccountScreen = ({ navigation }) => {
   const titleAch = "Achievements";
   const titleNot = "Notifications";
   const titleLog = "Logout";
-  
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -45,7 +44,6 @@ const AccountScreen = ({ navigation }) => {
       <Text style={styles.header}>Settings</Text>
       <View style={styles.body}>
         <ScrollView style={styles.scrollView}>
-
           <TouchableOpacity
             title="Notifications"
             style={styles.notificationButton}
@@ -70,18 +68,20 @@ const AccountScreen = ({ navigation }) => {
         <TouchableOpacity
           title="1"
           style={styles.LogoutButton}
-          //onPress={() => navigation.navigate("Achievements")}
           onPress={() => {
             signOut(auth)
               .then(() => {
                 // Sign-out successful.
-                alert("You Are Now Signed-Out!\n See You Soon: " + user.email);
+                alert("You Are Now Signed-Out!\nSee You Soon: " + user.email);
               })
               .catch((error) => {
                 // An error happened.
                 alert(error.code);
               });
-            navigation.navigate("Login");
+            navigation.reset({
+              index: 0,
+              routes: [{ name: "Login" }],
+            });
           }}
         >
           <Text>{titleLog}</Text>

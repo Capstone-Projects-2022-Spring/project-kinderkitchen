@@ -9,27 +9,15 @@ import {
   Modal,
   SafeAreaView,
   Button,
-  Alert
+  Alert,
 } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import AddCategory from "../Components/AddCategory"; ////MOVed component inside this screen so adding shows update
 
-import {
-  getDatabase,
-  onValue,
-  set,
-  get,
-  ref,
-  child,
-  push,
-  update,
-} from "firebase/database";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getDatabase, get, ref, child, update } from "firebase/database";
+import { getAuth } from "firebase/auth";
 import CategoryItem from "../Components/CategoryItem";
 import { MaterialIcons } from "@expo/vector-icons";
-import { setISODay } from "date-fns/esm/fp";
-import { render } from "react-dom";
 
 const CategoryScreen = () => {
   //May neeed Asynch calls as page renders twice to wait for data collection
@@ -41,11 +29,6 @@ const CategoryScreen = () => {
   const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
   const [categoryData, setCategoryData] = useState(); //similar to placeHolderData
-  const [placeHolderData, setPlaceHolderData] = useState({
-    Fridge: false, //True  ->  Category Has Items
-    Pantry: false, //False ->  Category does not have items
-    Other: false,
-  });
 
   const [text, setText] = useState("");
   const [refresh, setRefresh] = useState(0);
@@ -115,8 +98,8 @@ const CategoryScreen = () => {
     return update(ref(database), updates);
   }
 
-  function getCategoryToDelete(categoryName){
-    setCategoryToDelete(categoryName)
+  function getCategoryToDelete(categoryName) {
+    setCategoryToDelete(categoryName);
     Alert.alert(
       "Deleting Category: " + categoryName,
       "Do You Wish to Continue?",
@@ -124,9 +107,15 @@ const CategoryScreen = () => {
         {
           text: "Cancel",
           onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          style: "cancel",
         },
-        { text: "OK", onPress: () => {deleteCategory(categoryName); setCategoryToDelete();} }
+        {
+          text: "OK",
+          onPress: () => {
+            deleteCategory(categoryName);
+            setCategoryToDelete();
+          },
+        },
       ]
     );
   }
@@ -165,7 +154,7 @@ const CategoryScreen = () => {
     if (newCategoryName in categoryData) {
       alert("Category Already Exists!");
       return;
-    }//Future Bug - CaseSensitive
+    } //Future Bug - CaseSensitive
 
     let localCategoryData = categoryData;
     const updates = {};
@@ -173,14 +162,16 @@ const CategoryScreen = () => {
     alert("Changing " + oldCategoryName + " To " + newCategoryName);
 
     /*Check If Category Has Items*/
-    if (categoryData[oldCategoryName]) { //TRUE
-      get(child(ref(database), `users/${currentUserID}/items/${oldCategoryName}/`))
+    if (categoryData[oldCategoryName]) {
+      //TRUE
+      get(
+        child(ref(database), `users/${currentUserID}/items/${oldCategoryName}/`)
+      )
         .then((snapshot) => {
           if (snapshot.exists()) {
             setItemData(snapshot.val());
           } else {
             console.log("No data available");
-            // ....
           }
         })
         .catch((error) => {
@@ -190,26 +181,27 @@ const CategoryScreen = () => {
       for (var key in itemData) {
         itemData[key].categoryName = newCategoryName;
       }
-      updates['users/' + currentUserID + '/items/' + oldCategoryName + '/'] = null; //Remove All DB Items
+      updates["users/" + currentUserID + "/items/" + oldCategoryName + "/"] =
+        null; //Remove All DB Items
       //remove(ref(db, `users/${currentUserID}/items/${oldCategoryName}`)); //ALT
-      updates['users/' + currentUserID + '/items/' + newCategoryName + '/'] = itemData; //Add Data Back As New Category
+      updates["users/" + currentUserID + "/items/" + newCategoryName + "/"] =
+        itemData; //Add Data Back As New Category
       delete localCategoryData[oldCategoryName]; //delete old
-      localCategoryData[newCategoryName] = true;//add new
+      localCategoryData[newCategoryName] = true; //add new
       updates["users/" + currentUserID + "/categories/"] = localCategoryData;
-
-    } else {  //FALSE
+    } else {
+      //FALSE
       delete localCategoryData[oldCategoryName]; //remove old
-      localCategoryData[newCategoryName] = false;//add new
+      localCategoryData[newCategoryName] = false; //add new
       updates["users/" + currentUserID + "/categories/"] = localCategoryData;
     }
 
     setCategoryData(localCategoryData);
-    setNewCategoryName("");//clearEntry
+    setNewCategoryName(""); //clearEntry
     return update(ref(database), updates);
   }
 
-
-  /******************* 
+  /*******************
    * Display Content *
    *******************/
   return (
@@ -228,15 +220,14 @@ const CategoryScreen = () => {
             onChangeText={(text) => setText(text)}
             placeholderTextColor="#fff"
             underlineColorAndroid="transparent"
-          ></TextInput>
+          />
 
           <Button
             onPress={() => {
               addCategory(text);
-              setRefresh(refresh+1); //- Ugh useStates are weird.
+              setRefresh(refresh + 1); //- Ugh useStates are weird.
             }}
             title="Add Category"
-            style={styles.button2}
           />
         </SafeAreaView>
       </View>
@@ -267,7 +258,6 @@ const CategoryScreen = () => {
               defaultValue={""}
               editable={true}
               multiline={false}
-              e
               maxLength={200}
             />
             <TouchableOpacity
@@ -375,13 +365,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "stretch",
     marginBottom: 10,
-    //borderWidth: 1,
-    // borderColor: '#f2f2f2',
     padding: 8,
     top: 1,
     right: 120,
-    //borderRadius: 10,
-    //alignSelf: 'center',
   },
   modalClose: {
     marginTop: 10,
@@ -395,19 +381,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#252525",
     borderTopWidth: 2,
     borderTopColor: "#ededed",
-  },
-  button2: {
-    position: "absolute",
-    zIndex: 11,
-    right: 20,
-    bottom: 90,
-    backgroundColor: "coral",
-    width: 90,
-    height: 90,
-    borderRadius: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 8,
   },
   addButtonText: {
     backgroundColor: "#2196F3",
