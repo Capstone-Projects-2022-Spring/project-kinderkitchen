@@ -8,7 +8,7 @@ import Recipe from "../Components/Recipe";
 import { getDatabase, ref, update } from "firebase/database";
 import { getAuth } from "firebase/auth";
 
-const RecipeSearchScreen = () => {
+const RecipeSearchScreen = ({ route }) => {
   const APP_ID = ""; //INSERT APP ID HERE!!!!!!!
   const API_KEY = ""; //INSERT API KEY HERE!!!!!!!
 
@@ -16,8 +16,11 @@ const RecipeSearchScreen = () => {
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("fish");
 
+  let itemNames = route.params;
+
   useEffect(() => {
     getRecipeData();
+    fillSearchQuery();
   }, [query]);
 
   const getRecipeData = async () => {
@@ -26,6 +29,11 @@ const RecipeSearchScreen = () => {
     );
     const data = await response.json();
     setRecipeData(data.hits);
+
+    // checks if no recipes were found when user inputs at least one item
+    if (data.hits.length != null && data.hits.length === 0 && query != "") {
+      alert("No recipes found.");
+    }
   };
 
   const getSearch = (e) => {
@@ -40,12 +48,23 @@ const RecipeSearchScreen = () => {
       "users/" + getAuth().currentUser.uid + "/savedRecipes/" + recipeData.title
     ] = recipeData;
     return update(ref(getDatabase()), updates);
-    // set(ref(getDatabase(), 'users/' + auth.currentUser.uid +'/savedRecipes/' + title), {
-    //   title: title,
-    //   calories: calories,
-    //   image: image,
-    //   ingredients: ingredients,
-    //   shareAs: shareAs});
+  }
+
+  // will search using the user selected items if navigated to from RecipeCustomSearchScreen
+  function fillSearchQuery() {
+    if (
+      typeof itemNames != "undefined" &&
+      itemNames != null &&
+      itemNames.length != null &&
+      itemNames.length > 0
+    ) {
+      let items = itemNames[0];
+      for (let i = 1; i < itemNames.length; i++) {
+        items = items + ", " + itemNames[i];
+      }
+      setQuery(items);
+      route.params = null; // clear the params
+    }
   }
 
   return (

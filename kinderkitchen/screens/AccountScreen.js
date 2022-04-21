@@ -15,8 +15,7 @@ const AccountScreen = ({ navigation }) => {
   const titleAch = "Achievements";
   const titleNot = "Notifications";
   const titleLog = "Logout";
-  const titleRecipe = "Recipes";
-  const titleDonation = "Donation";
+  
 
   const auth = getAuth();
   const user = auth.currentUser;
@@ -46,21 +45,6 @@ const AccountScreen = ({ navigation }) => {
       <Text style={styles.header}>Settings</Text>
       <View style={styles.body}>
         <ScrollView style={styles.scrollView}>
-          <TouchableOpacity
-            title="1"
-            style={styles.recipesButton}
-            //onPress={() => navigation.navigate("Recipes")}
-          >
-            <Text>{titleRecipe}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            title="1"
-            style={styles.donatationButton}
-            //onPress={() => navigation.navigate("Recipes")}
-          >
-            <Text>{titleDonation}</Text>
-          </TouchableOpacity>
 
           <TouchableOpacity
             title="Notifications"

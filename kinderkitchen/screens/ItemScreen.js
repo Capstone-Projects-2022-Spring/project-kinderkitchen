@@ -10,6 +10,8 @@ import {
   StyleSheet,
   Button,
   Platform,
+  SafeAreaView,
+  KeyboardAvoidingView
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { format, getHours, parseISO } from "date-fns";
@@ -19,7 +21,16 @@ import { MaterialIcons } from "@expo/vector-icons";
 import MyNavMenu from "../nav-bar/MyNavMenu";
 import ItemInfoComponent from "../Components/ItemInfoComponent";
 import { getAuth } from "firebase/auth";
-import { getDatabase, get, set, ref, child, push, update, remove } from "firebase/database";
+import {
+  getDatabase,
+  get,
+  set,
+  ref,
+  child,
+  push,
+  update,
+  remove,
+} from "firebase/database";
 
 import HeaderComponent from "../Components/HeaderComponent";
 import EditItemModal from "../Components/EditItemModal";
@@ -48,7 +59,19 @@ const ItemScreen = ({ props, route, navigation }) => {
   const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [editItemModalVisable, setEditItemModalVisable] = useState(false)
+  const [editItemModalVisable, setEditItemModalVisable] = useState(false);
+
+  //FUTURE PLANING:
+  //ITEM EDITING Prompt and Alert - We could vote to remove this feature. make user delete then re add.
+  //Item Editing w/ DB
+  //      -> Make Sure on Category Change -> it changes to new Category
+
+  //Item Deleting:
+  //      -> Check If Last Item Deleted
+  //            -> check if category name is in users items category
+  //             => Alternate, Create a counter for each Item added, not True/False?
+
+  //ONPRESS Events for Item Component (DELETE, EDIT,)
 
   const [itemData, setItemData] = useState(readItemData());
   const [itemToEdit, setItemToEdit] = useState({
@@ -56,12 +79,36 @@ const ItemScreen = ({ props, route, navigation }) => {
     itemName: "Milk",
     expirationDate: "2022-03-06",
   });
-  
+
+  //Example Obj
+  const [itemObject, setItemObject] = useState([
+    {
+      categoryName: "Fridge",
+      itemName: "Milk",
+      expirationDate: "2022-03-06",
+    },
+    {
+      categoryName: "Pantry",
+      itemName: "LuckyCharns",
+      expirationDate: "2022-03-06",
+    },
+    {
+      categoryName: "Fridge",
+      itemName: "Eggs",
+      expirationDate: "2022-03-06",
+    },
+    {
+      categoryName: "Pantry",
+      itemName: "Gold Fish",
+      expirationDate: "2022-03-06",
+    },
+  ]);
+
   // Sort by expiration date, soonest first ********************
-  itemData.sort((a, b) => {
-    return parseISO(a.expirationDate) - parseISO(b.expirationDate);
-  });
-  // ***********************************************************
+  // itemData.sort((a, b) => {
+  //   return parseISO(a.expirationDate) - parseISO(b.expirationDate);
+  // });
+  // // ***********************************************************
 
   /* Drop Down */
   const [open, setOpen] = useState(false);
@@ -79,14 +126,15 @@ const ItemScreen = ({ props, route, navigation }) => {
   }
 
   /*Textbox Fields*/
-  const [itemName, setItemName] = useState("");                     //Used for AddingItems, and current ItemSelected
-  const [expirationDate, setExpirationDate] = useState("");         //Used for AddingItems, and current ItemSelected
-  const [newItemName, setNewItemName] = useState("");               //Used for EditItem
-  const [newExpirationDate, setNewExpirationDate] = useState("");   //Used for EditItem
+  const [itemName, setItemName] = useState(""); //Used for AddingItems, and current ItemSelected
+  const [expirationDate, setExpirationDate] = useState(""); //Used for AddingItems, and current ItemSelected
+  const [oldItemName, setOldItemName] = useState(""); //Used for EditItem
 
   /* DB Functions */
   function readItemData() {
-    get(child(ref(database), `users/${currentUserID}/items/${thisCategoryName}/`))
+    get(
+      child(ref(database), `users/${currentUserID}/items/${thisCategoryName}/`)
+    )
       .then((snapshot) => {
         if (snapshot.exists()) {
           setItemData(snapshot.val());
@@ -101,18 +149,29 @@ const ItemScreen = ({ props, route, navigation }) => {
   }
 
   function deleteItem(itemName) {
-    alert("Secondary Confirmation Coming soon!\n Proceeding with deletion of " + itemName);
+    alert(
+      "Secondary Confirmation Coming soon!\n Proceeding with deletion of " +
+        itemName
+    );
 
-    remove(ref(database, `users/${currentUserID}/items/${thisCategoryName}/${itemName}`));
+    remove(
+      ref(
+        database,
+        `users/${currentUserID}/items/${thisCategoryName}/${itemName}`
+      )
+    );
 
     let localData = itemData;
     delete localData[itemName];
     setItemData(localData);
-    if (Object.keys(itemData).length < 1) { //NEW
+    if (Object.keys(itemData).length < 1) {
+      //NEW
       categoryData[thisCategoryName] = false;
       const updates = {};
       updates["users/" + currentUserID + "/categories/"] = categoryData;
-      alert("Last Item Deleted : \n Bug with not removing Last Entry On-screen");
+      alert(
+        "Last Item Deleted : \n Bug with not removing Last Entry On-screen"
+      );
       return update(ref(database), updates);
     }
   }
@@ -120,12 +179,18 @@ const ItemScreen = ({ props, route, navigation }) => {
   //This Function will be called when the Item is pressed
   function beginItemEdit(item) {
     setItemToEdit(item);
+    setOldItemName(item.itemName);
     setEditItemModalVisable(true);
   }
 
   //This Function will process when the submitEdit button is pressed
-  function editItem(thisItemData, oldItemName){
-    remove(ref(database, `users/${currentUserID}/items/${thisCategoryName}/${oldItemName}`));
+  function editItem(thisItemData, oldItemName) {
+    remove(
+      ref(
+        database,
+        `users/${currentUserID}/items/${thisCategoryName}/${oldItemName}`
+      )
+    );
     addItem(thisItemData);
   }
 
@@ -138,13 +203,12 @@ const ItemScreen = ({ props, route, navigation }) => {
             sysDate={format(new Date(), "yyyy-MM-dd")}
             item={itemData[key]}
             deleteItemFunction={deleteItem}
-            editItemFunction={beginItemEdit}//Will show the modal
+            editItemFunction={beginItemEdit} //Will show the modal
           />
         </View>
-      )
+      );
     }
     return items;
-
   }
 
   /* Database Adding Of Item */
@@ -157,8 +221,14 @@ const ItemScreen = ({ props, route, navigation }) => {
     localData[newItemObj.categoryName] = true;
     const updates = {};
     updates[
-      "users/" + auth.currentUser.uid + "/items/" +newItemObj.categoryName + "/" + newItemObj.itemName ] = newItemObj;
-    updates[ "users/" + auth.currentUser.uid + "/categories/" ] = localData;
+      "users/" +
+        auth.currentUser.uid +
+        "/items/" +
+        newItemObj.categoryName +
+        "/" +
+        newItemObj.itemName
+    ] = newItemObj;
+    updates["users/" + auth.currentUser.uid + "/categories/"] = localData; //Bug Fix
     return update(ref(database), updates);
   };
 
@@ -173,7 +243,6 @@ const ItemScreen = ({ props, route, navigation }) => {
           ) /*If no title provided*/
         }
         <ScrollView style={styles.scrollView}>
-
           {displayItemData()}
 
           {/*Add Item Form Pop-Up*/}
@@ -181,11 +250,13 @@ const ItemScreen = ({ props, route, navigation }) => {
             animationType="slide"
             transparent={true}
             visible={modalVisible}
+            
             onRequestClose={() => {
               Alert.alert("Modal has been closed.");
               setModalVisible(!modalVisible);
             }}
           >
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <MaterialIcons
@@ -208,7 +279,7 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <TextInput
                     style={styles.input}
                     onChangeText={(newText) => setItemName(newText)}
-                  /*Make CharacterLimit*/
+                    /*Make CharacterLimit*/
                   />
                 </View>
 
@@ -281,12 +352,12 @@ const ItemScreen = ({ props, route, navigation }) => {
                 {/*END - ButtonField*/}
               </View>
             </View>
+            </KeyboardAvoidingView>
           </Modal>
 
           {/******************
              EDIT ITEM MODAL 
           ********************/}
-
 
           <Modal
             animationType="slide"
@@ -297,6 +368,7 @@ const ItemScreen = ({ props, route, navigation }) => {
               setEditItemModalVisable(!editItemModalVisable);
             }}
           >
+            <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <MaterialIcons
@@ -318,8 +390,10 @@ const ItemScreen = ({ props, route, navigation }) => {
                   </View>
                   <TextInput
                     style={styles.input}
-                    onChangeText={(newText) => setNewItemName(newText)}
+                    onChangeText={(newText) => (itemToEdit.itemName = newText)}
+                    // onEndEditing={(newText) => itemToEdit.itemName = newText}
                     placeholder={itemToEdit.itemName}
+                    defaultValue={itemToEdit.itemName}
                     maxLength={15}
                   />
                 </View>
@@ -333,9 +407,13 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <TextInput
                     style={styles.input}
                     placeholder="YYYY-MM-DD"
-                    onChangeText={(newText) => setNewExpirationDate(newText)}
+                    onChangeText={(newText) =>
+                      (itemToEdit.expirationDate = newText)
+                    }
+                    // onEndEditing={(newText) => itemToEdit.expirationDate = newText}
+                    defaultValue={itemToEdit.expirationDate}
                     maxLength={10}
-                  //Additional User Input Handling - user inputs only #, dashes are put in when user types
+                    //Additional User Input Handling - user inputs only #, dashes are put in when user types
                   />
                 </View>
 
@@ -363,22 +441,25 @@ const ItemScreen = ({ props, route, navigation }) => {
                   <Pressable
                     style={[styles.button, styles.buttonSubmit]}
                     onPress={() => {
-                      let oldItemName = itemToEdit.itemName
                       setEditItemModalVisable(!editItemModalVisable);
                       itemToEdit.categoryName = value;
-                      itemToEdit.expirationDate = newExpirationDate;
-                      itemToEdit.itemName = newItemName;
                       editItem(itemToEdit, oldItemName);
-                      setValue(thisCategoryName);//reset Default Value
+                      //alert(oldItemName);
+                      // alert(
+                      //   `CategoryName: ${itemToEdit.categoryName}\n
+                      // ExpirationDate: ${itemToEdit.expirationDate}\n
+                      // ItemNane: ${itemToEdit.itemName}`
+                      // );
+                      setValue(thisCategoryName); //reset Default Value
                     }}
                   >
                     <Text style={styles.textStyle}>Submit</Text>
                   </Pressable>
                 </View>
                 {/*END - ButtonField*/}
-
               </View>
             </View>
+            </KeyboardAvoidingView>
           </Modal>
 
           {/* I tried to make it its own modal but hit a wall */}
@@ -389,7 +470,6 @@ const ItemScreen = ({ props, route, navigation }) => {
             submitEditItem={editItem}
             showModalFunction
             /> */}
-
         </ScrollView>
 
         <Pressable

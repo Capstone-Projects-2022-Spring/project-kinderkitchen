@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
 
-const DonateScreen2 = () => {
+const DonateScreen2 = ({ navigation, route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
@@ -12,24 +12,22 @@ const DonateScreen2 = () => {
         </View>
 
         <View style={styles.textBox}>
-          <Text>Address that was selected and is displayed on map</Text>
+          <Text>{route.params}</Text>
         </View>
 
         <View style={styles.clickable}>
           <TouchableOpacity
-            style={styles.touchableAddress}
-            onPress={() => alert("This will copy the address.")}
+            style={styles.customBtn}
+            onPress={() =>
+              alert("This will copy the address. Not currently functional.")
+            }
           >
-            <Text style={{ color: "#fff" }}>Copy Address</Text>
+            <Text>Copy Address</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.touchableDonate}
-            onPress={() =>
-              alert(
-                "This will open a page where user can select items to donate from their items."
-              )
-            }
+            style={styles.customBtn}
+            onPress={() => navigation.navigate("Donate Items")}
           >
             <Text>Donate</Text>
           </TouchableOpacity>
@@ -78,7 +76,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
   },
-  touchableAddress: {
+
+  customBtn: {
     backgroundColor: "darkturquoise",
     alignItems: "center",
     justifyContent: "center",
@@ -86,15 +85,7 @@ const styles = StyleSheet.create({
     height: 50,
     width: "90%",
     borderWidth: 0.5,
-  },
-  touchableDonate: {
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: 5,
-    height: 50,
-    width: "90%",
-    borderWidth: 0.5,
+    borderRadius: 4,
   },
 });
 

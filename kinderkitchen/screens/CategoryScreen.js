@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -8,10 +8,12 @@ import {
   TextInput,
   Modal,
   SafeAreaView,
+  Button,
+  Alert
 } from "react-native";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
-import AddCategory from "../Components/AddCategory";
+import AddCategory from "../Components/AddCategory"; ////MOVed component inside this screen so adding shows update
 
 import {
   getDatabase,
@@ -38,12 +40,17 @@ const CategoryScreen = () => {
   const auth = getAuth();
   const [currentUserID, setCurrentUserID] = useState(auth.currentUser.uid);
 
-  const [categoryData, setCategoryData] = useState(ReadCategory); //similar to placeHolderData
+  const [categoryData, setCategoryData] = useState(); //similar to placeHolderData
   const [placeHolderData, setPlaceHolderData] = useState({
     Fridge: false, //True  ->  Category Has Items
     Pantry: false, //False ->  Category does not have items
     Other: false,
   });
+
+  const [text, setText] = useState("");
+  const [refresh, setRefresh] = useState(0);
+
+  const [categoryToDelete, setCategoryToDelete] = useState("");
 
   /*  These are for the edit name func */
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,11 +58,14 @@ const CategoryScreen = () => {
   const [oldCategoryName, setOldCategoryName] = useState("");
   const [itemData, setItemData] = useState([]);
 
-  
+  useEffect(() => {
+    ReadCategory();
+  }, []);
+
   /**********************
    *      Functions     *
    **********************/
-  
+
   function ReadCategory() {
     get(child(ref(database), `users/${currentUserID}/categories`))
       .then((snapshot) => {
@@ -78,7 +88,7 @@ const CategoryScreen = () => {
         <View key={key}>
           <CategoryItem
             categoryName={key}
-            deleteCategoryFunction={deleteCategory}
+            deleteCategoryFunction={getCategoryToDelete}
             passingCategoryData={categoryData}
             editCategoryFunction={editCategory}
           />
@@ -88,7 +98,7 @@ const CategoryScreen = () => {
     return items;
   }
 
-  function addCategory(categoryName, userID) {
+  function addCategory(categoryName) {
     if (categoryName === "") {
       alert("Category Name Cannot Be Blank");
       return;
@@ -101,8 +111,24 @@ const CategoryScreen = () => {
     localData[categoryName] = false;
     setCategoryData(localData);
     const updates = {};
-    updates["users/" + userID + "/categories/"] = categoryData;
+    updates["users/" + currentUserID + "/categories/"] = categoryData;
     return update(ref(database), updates);
+  }
+
+  function getCategoryToDelete(categoryName){
+    setCategoryToDelete(categoryName)
+    Alert.alert(
+      "Deleting Category: " + categoryName,
+      "Do You Wish to Continue?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => {deleteCategory(categoryName); setCategoryToDelete();} }
+      ]
+    );
   }
 
   function deleteCategory(categoryName) {
@@ -112,17 +138,12 @@ const CategoryScreen = () => {
       alert("Cannot Delete, Category has Items! \nOverride comming soon!");
       return;
     }
-    alert("Secondary Confirmation Coming soon!\n Proceeding with Deletion");
-
     let localData = categoryData;
     delete localData[categoryName];
     /* Once Items Have DB Ref. Remove Category From Items DB Table */
     setCategoryData(localData);
     const updates = {};
     updates["users/" + auth.currentUser.uid + "/categories/"] = categoryData;
-    alert(
-      "Deletion Success!\nKnown Bug: Page does not update.\n\nLog out and back in to see change."
-    );
     return update(ref(database), updates);
   }
 
@@ -154,24 +175,24 @@ const CategoryScreen = () => {
     /*Check If Category Has Items*/
     if (categoryData[oldCategoryName]) { //TRUE
       get(child(ref(database), `users/${currentUserID}/items/${oldCategoryName}/`))
-      .then((snapshot) => {
-        if (snapshot.exists()) {
-          setItemData(snapshot.val());
-        } else {
-          console.log("No data available");
-          // ....
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            setItemData(snapshot.val());
+          } else {
+            console.log("No data available");
+            // ....
+          }
+        })
+        .catch((error) => {
+          console.error(error);
+        });
 
-      for (var key in itemData){
+      for (var key in itemData) {
         itemData[key].categoryName = newCategoryName;
       }
-      updates['users/' + currentUserID + '/items/' + oldCategoryName +'/'] = null; //Remove All DB Items
+      updates['users/' + currentUserID + '/items/' + oldCategoryName + '/'] = null; //Remove All DB Items
       //remove(ref(db, `users/${currentUserID}/items/${oldCategoryName}`)); //ALT
-      updates['users/' +currentUserID + '/items/' + newCategoryName +'/'] = itemData; //Add Data Back As New Category
+      updates['users/' + currentUserID + '/items/' + newCategoryName + '/'] = itemData; //Add Data Back As New Category
       delete localCategoryData[oldCategoryName]; //delete old
       localCategoryData[newCategoryName] = true;//add new
       updates["users/" + currentUserID + "/categories/"] = localCategoryData;
@@ -200,7 +221,24 @@ const CategoryScreen = () => {
         </ScrollView>
 
         {/*   Add Category Field   */}
-        <AddCategory submitHandler={addCategory} userID={currentUserID} />
+        <SafeAreaView style={styles.footer}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Enter Category Name"
+            onChangeText={(text) => setText(text)}
+            placeholderTextColor="#fff"
+            underlineColorAndroid="transparent"
+          ></TextInput>
+
+          <Button
+            onPress={() => {
+              addCategory(text);
+              setRefresh(refresh+1); //- Ugh useStates are weird.
+            }}
+            title="Add Category"
+            style={styles.button2}
+          />
+        </SafeAreaView>
       </View>
 
       {/* Edit Item Modal */}
@@ -348,6 +386,31 @@ const styles = StyleSheet.create({
   modalClose: {
     marginTop: 10,
     marginBottom: 0,
+  },
+
+  TextInput: {
+    alignSelf: "stretch",
+    color: "#fff",
+    padding: 10,
+    backgroundColor: "#252525",
+    borderTopWidth: 2,
+    borderTopColor: "#ededed",
+  },
+  button2: {
+    position: "absolute",
+    zIndex: 11,
+    right: 20,
+    bottom: 90,
+    backgroundColor: "coral",
+    width: 90,
+    height: 90,
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 8,
+  },
+  addButtonText: {
+    backgroundColor: "#2196F3",
   },
 });
 
