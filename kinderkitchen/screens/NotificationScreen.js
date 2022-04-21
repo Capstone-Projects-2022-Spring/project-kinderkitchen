@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Switch } from "react-native";
+import { StyleSheet, Text, View, Switch, Alert } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 
 import MyNavMenu from "../nav-bar/MyNavMenu";
@@ -30,6 +30,7 @@ const NotificationScreen = () => {
             thumbColor={isEnabled ? "#fff" : "#fff"}
             onValueChange={toggleSwitch}
             value={isEnabled}
+            //onToggle={isOn => alert("Notification has been enabled", isOn)}
           />
         </View>
 
@@ -42,7 +43,7 @@ const NotificationScreen = () => {
               value={value}
               items={items}
               setOpen={setOpen}
-              setValue={setValue}
+              setValue={setValue => alert("Notification has been enabled to two days prior expiration date")}
               setItems={setItems}
             />
           </View>

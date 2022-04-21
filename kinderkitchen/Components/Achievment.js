@@ -89,7 +89,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     paddingTop: 5,
   },
-  safeView: {
+    safeView: {
+    bottom: 261,
     borderColor: "#C4A484",
     borderBottomWidth: 2.5,
     borderTopWidth: 10,
